@@ -2,91 +2,132 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
-appVersion: master-latest
+## Provide the amount of pods if HPA is not enabled
+##
+replicaCount: 2
 
+## Provide the image docker tag default: latest
+##
+appVersion: latest
+
+## Manage docker image properties
+##
 image:
-  repository: frontegg/team-management-service
+  ## Provide docker repository hub
+  ##
+  repository: frontegg/hybrid-team-management-service
+  ## Provide image pull policy
+  ##
   pullPolicy: Always
 
+## Provide secret name for frontegg's repository
+##
 imagePullSecrets:
   - name: regcred
 
+## Provide a name in place of team-management-service for `app:` labels
+##
 nameOverride: ""
+## Provide a name in place of {releaseName}-team-management-service
+##
 fullnameOverride: ""
 
-podAnnotations: {}
-
-podSecurityContext: {}
-# fsGroup: 2000
-
+## Setup Service properties for team-management-service (open only one port)
+##
 service:
+  ## Set service type
+  ##
   type: ClusterIP
+  ## Set service port
+  ##
   port: 80
+  ## Set service target port to map
+  ##
   targetPort: 3003
+  ## Set port protocol default: TCP
+  ##
   protocol: TCP
+  ## Set port name
+  ##
   name: http
 
+## Set team-management-service resources
+##
 resources:
   requests:
-    cpu: 100m
-    memory: 256Mi
+    cpu: 250m
+    memory: 512Mi
   limits:
-    cpu: 100m
+    cpu: 250m
     memory: 512Mi
 
+## HPA properties for team-management-service
+## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
+## If autoscaling is disabled team-management-service will be managed by replicaset with `replicaCount` determine pod amount
+##
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 2
-  maxReplicas: 4
+  maxReplicas: 3
   targetCPUUtilizationPercentage: 75
   targetMemoryUtilizationPercentage: 75
+
 
 nodeSelector:
   "beta.kubernetes.io/os": linux
 
+## Provide deployment tolerations
+##
 tolerations: []
 
+## Provide deployment affinity
+##
 affinity: {}
 
-configmap:
-  data:
-    CLOUD_ENVIRONMENT: dev
-    FRONTEGG_SERVICE_NAME: team-management-service
-    NODE_ENV: production
-
-secret:
-  data: {}
-
 configuration:
-  secrets:
-    cluster-secret:
-      LOGZIO_TOKEN: logzio-token
-      FRONTEGG_METADATA_SERVICE_API_KEY: metadata-service-api-key
-      FRONTEGG_TEAM_MANAGEMENT_SERVICE_API_KEY: team-management-service-api-key
-      FRONTEGG_VENDORS_SERVICE_API_KEY: vendors-service-api-key
-      FRONTEGG_TEAM_MANAGEMENT_SERVICE_DB_HOST: team-management-service-db-host
-      FRONTEGG_TEAM_MANAGEMENT_SERVICE_DB_USERNAME: team-management-service-db-username
-      FRONTEGG_TEAM_MANAGEMENT_SERVICE_DB_PASSWORD: team-management-service-db-password
-      FRONTEGG_TEAM_MANAGEMENT_SERVICE_DB_NAME: team-management-service-db-name
-      FRONTEGG_TEAM_MANAGEMENT_SERVICE_DB_USE_SSL: team-management-service-db-use-ssl
-      FRONTEGG_TEAM_MANAGEMENT_SERVICE_VAULT_URL: team-management-service-vault-url
-      AZURE_CLIENT_ID: azure-client-id
-      AZURE_CLIENT_SECRET: azure-client-secret
-      AZURE_TENANT_ID: azure-tenant-id
-      FRONTEGG_ASSET_BLOB_STORAGE_CONNECTION_STRING: asset-blob-storage-connection-string
-      FRONTEGG_ASSET_BLOB_STORAGE_CONTAINER_NAME: asset-blob-storage-container-name
-      FRONTEGG_TEAM_MANAGEMENT_SERVICE_REDIS_HOST: team-management-service-redis-host
-      FRONTEGG_TEAM_MANAGEMENT_SERVICE_REDIS_PORT: team-management-service-redis-port
-      FRONTEGG_TEAM_MANAGEMENT_SERVICE_REDIS_PASSWORD: team-management-service-redis-password
-      FRONTEGG_TEAM_MANAGEMENT_SERVICE_REDIS_DB_INDEX: team-management-service-redis-db-index
-      FRONTEGG_TEAM_MANAGEMENT_SERVICE_REDIS_TLS: team-management-service-redis-tls
-      FRONTEGG_ADMINS_SERVICE_API_KEY: admins-service-api-key
-      FRONTEGG_IDENTITY_SERVICE_API_KEY: identity-service-api-key
+  secret: {}
+  map: {}
 
-  map:
-    cluster-config-map:
-      FRONTEGG_METADATA_SERVICE_URL: metadata-service-url
-      FRONTEGG_VENDORS_SERVICE_URL: vendors-service-url
-      FRONTEGG_IDENTITY_SERVICE_URL: identity-service-url
-      FRONTEGG_ADMINS_SERVICE_URL: admins-service-url
+## Set could environment managed by team-management-service
+## Possible values (prod | dev)
+##
+cloudEnvironment: prod
+
+## Set database connection string values
+##
+database:
+  ssl: "true"
+  host: ""
+  userName: ""
+  password: ""
+  name: "frontegg_team_management"
+
+## Set Redis connection string values
+##
+redis:
+  host: ""
+  port: "6379"
+  password: ""
+  index: "1"
+  tls: "true"
+
+## Frontegg's services url for inner communications
+## Provide an alternate url for a service if a service name was changed
+##
+network:
+  adminsServiceUrl: http://frontegg-admins-service
+  auditsServiceUrl: http://frontegg-audits-service
+  authenticationServiceUrl: http://frontegg-authentication-service
+  metadataServiceUrl: http://frontegg-metadata-service
+  notificationServiceUrl: http://frontegg-notification-service
+  reportsEngineUrl: http://frontegg-reporting-engine
+  reportsServiceUrl: http://frontegg-reporting-service
+  teamServiceUrl: http://frontegg-team-management-service
+  vendorsServiceUrl: http://frontegg-vendors-service
+  tenantsServiceUrl: http://frontegg-tenants-service
+  webpushServiceUrl: http://frontegg-webpush-service
+  featureFlagsServiceUrl: http://frontegg-feature-flags-service
+  webhookServiceUrl: http://frontegg-webhook-service
+  eventsServiceUrl: http://frontegg-event-service
+  identityServiceUrl: http://frontegg-identity-service
+  integrationsServiceUrl: http://frontegg-integrations-service
