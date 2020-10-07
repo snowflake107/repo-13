@@ -1,0 +1,18 @@
+<DocsViewer as |viewer|>
+  <viewer.nav as |nav|>
+    {{nav.section "Introduction"}}
+    {{nav.item "Introduction" "docs.index"}}
+    {{nav.item "Usage" "docs.usage"}}
+
+    {{nav.section "Components"}}
+    {{nav.item "ember-tagify" "docs.components.ember-tagify"}}
+  </viewer.nav>
+
+  <viewer.main>
+    <div class="docs-container">
+      <div class="docs-section">
+        {{outlet}}
+      </div>
+    </div>
+  </viewer.main>
+</DocsViewer>

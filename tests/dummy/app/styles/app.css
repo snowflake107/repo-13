@@ -1,0 +1,11 @@
+:root {
+    --brand-primary: #EF898B;
+  }
+  
+  body {
+    background-color: white !important;
+  }
+  
+  .hero {
+    padding: 0 2rem;
+  }

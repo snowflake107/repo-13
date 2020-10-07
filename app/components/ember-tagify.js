@@ -1,0 +1,1 @@
+export { default } from 'ember-tagify/components/ember-tagify';
