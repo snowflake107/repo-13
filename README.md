@@ -1,24 +1,16 @@
-ember-tagify
-==============================================================================
+# ember-tagify
 
 **WARNING - This addon in alpha state and still until active development!**
 
+[![Build Status](https://travis-ci.org/vitebski/ember-tagify.svg?branch=master)](https://travis-ci.org/vitebski/ember-tagify)
+[![Ember Observer Score](https://emberobserver.com/badges/ember-tagify.svg)](https://emberobserver.com/addons/ember-tagify)
+[![npm version](https://badge.fury.io/js/ember-tagify.png)](http://badge.fury.io/js/ember-tagify)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+[![Downloads](http://img.shields.io/npm/dm/ember-tagify.svg)](https://www.npmjs.com/package/ember-tagify)
 
 Ember-tagify is an addon that wraps [Tagify](https://github.com/yairEO/tagify) - tags input component.
 
-<p align="center">
-  <a href='https://www.npmjs.com/package/ember-tagify'>
-      <img src="https://img.shields.io/npm/v/@yaireo/tagify.svg" />
-  </a>
-  <a href='https://simple.wikipedia.org/wiki/MIT_License'>
-      <img src="https://img.shields.io/badge/license-MIT-lightgrey" />
-  </a>
-  <img src="https://img.shields.io/bundlephobia/minzip/@yaireo/tagify" />
-  <img src="https://img.shields.io/npm/dw/@yaireo/tagify" />
-</p>
-
-
-Compatibility
+## Compatibility
 ------------------------------------------------------------------------------
 
 * Ember.js v3.16 or above
@@ -26,7 +18,7 @@ Compatibility
 * Node.js v10 or above
 
 
-Installation
+## Installation
 ------------------------------------------------------------------------------
 
 ```
@@ -34,19 +26,19 @@ ember install ember-tagify
 ```
 
 
-Documentation
+## Documentation
 ------------------------------------------------------------------------------
 
 For detrailed usage and documention view [Docs](https://vitebski.github.io/ember-tagify/)
 
 
-Contributing
+## Contributing
 ------------------------------------------------------------------------------
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
 
 
-License
+## License
 ------------------------------------------------------------------------------
 
 This project is licensed under the [MIT License](LICENSE.md).
