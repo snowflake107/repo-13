@@ -1,0 +1,121 @@
+# Default values for identity-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Provide the amount of pods if HPA is not enabled
+##
+replicaCount: 2
+
+## Provide the image docker tag default: latest
+##
+appVersion: latest
+
+## Manage docker image properties
+##
+image:
+  ## Provide docker repository hub
+  ##
+  repository: frontegg/hybrid-identity-service
+  ## Provide image pull policy
+  ##
+  pullPolicy: Always
+
+## Provide secret name for frontegg's repository
+##
+imagePullSecrets:
+  - name: regcred
+
+## Provide a name in place of identity-service for `app:` labels
+##
+nameOverride: ""
+## Provide a name in place of {releaseName}-identity-service
+##
+fullnameOverride: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+# fsGroup: 2000
+
+## Setup Service properties for identity-service (open only one port)
+##
+service:
+  ## Set service type
+  ##
+  type: ClusterIP
+  ## Set service port
+  ##
+  protocol: TCP
+  ## Set service target port to map
+  ##
+  port: 80
+  ## Set port protocol default: TCP
+  ##
+  targetPort: 9090
+  ## Set port name
+  ##
+  name: access-port
+
+## HPA properties for identity-service
+## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
+## If autoscaling is disabled identity-service will be managed by replicaset with `replicaCount` determine pod amount
+##
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 75
+  targetMemoryUtilizationPercentage: 75
+
+## Set identity-service resources
+##
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 250m
+    memory: 512Mi
+
+
+nodeSelector:
+  "beta.kubernetes.io/os": linux
+
+## Provide deployment tolerations
+##
+tolerations: []
+
+## Provide deployment affinity
+##
+affinity: {}
+
+configuration:
+  secrets: {}
+  map: {}
+
+## Set database connection string values
+##
+database:
+  host: ""
+  username: ""
+  password: ""
+  ssl: "true"
+
+## Set Redis connection string values
+##
+redis:
+  host: ""
+  password: ""
+  port: "3679"
+  tls: "true"
+
+## Frontegg's services url for inner communications
+## Provide an alternate url for a service if a service name was changed
+##
+network:
+  teamServiceUrl: http://frontegg-team-management-service
+
+## Set frontegg's api key for emails
+##
+email:
+  apiKey: ""

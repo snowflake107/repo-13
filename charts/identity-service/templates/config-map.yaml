@@ -1,0 +1,15 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "identity-service.fullname" . }}-configmap
+  labels:
+  {{- include "identity-service.labels" . | nindent 4 }}
+data:
+  CLOUD_ENVIRONMENT: prod
+  FRONTEGG_SERVICE_NAME: identity-service
+  NODE_ENV: production
+  {{- with .Values.network }}
+  FRONTEGG_TEAM_SERVICE_URL: {{ required "A valid .Values.network.teamServiceUrl entry required!" .teamServiceUrl }}
+  {{- end}}
+  FRONTEGG_TEAM_SERVICE_API_KEY: "frontegg-api-key"
+  FRONTEGG_IDENTITY_SERVICE_API_KEY: "frontegg-api-key"
