@@ -25,13 +25,13 @@ export default class EmberTagifyComponent extends Component {
 
         // Require that users pass a date
         assert(
-          '<ImportTagify> requires a `value` to be passed as the tagTextProp for tagify.',
+          '<EmberTagify> requires a `value` to be passed as the tagTextProp for tagify.',
           value !== undefined
         );
     
         // Require that users pass an onChange
         assert(
-          '<ImportTagify> requires an `onChange` action or null for no action.',
+          '<EmberTagify> requires an `onChange` action or null for no action.',
           onChange !== undefined
         );
     

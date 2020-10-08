@@ -1,7 +1,21 @@
 ember-tagify
 ==============================================================================
 
-[Short description of the addon.]
+**WARNING - This addon in alpha state and still until active development!**
+
+
+Ember-tagify is an addon that wraps [Tagify](https://github.com/yairEO/tagify) - tags input component.
+
+<p align="center">
+  <a href='https://www.npmjs.com/package/ember-tagify'>
+      <img src="https://img.shields.io/npm/v/@yaireo/tagify.svg" />
+  </a>
+  <a href='https://simple.wikipedia.org/wiki/MIT_License'>
+      <img src="https://img.shields.io/badge/license-MIT-lightgrey" />
+  </a>
+  <img src="https://img.shields.io/bundlephobia/minzip/@yaireo/tagify" />
+  <img src="https://img.shields.io/npm/dw/@yaireo/tagify" />
+</p>
 
 
 Compatibility
@@ -20,10 +34,10 @@ ember install ember-tagify
 ```
 
 
-Usage
+Documentation
 ------------------------------------------------------------------------------
 
-[Longer description of how to use the addon in apps.]
+For detrailed usage and documention view [Docs](https://vitebski.github.io/ember-tagify/)
 
 
 Contributing
