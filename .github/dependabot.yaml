@@ -9,5 +9,5 @@ updates:
       - "dependencies"
     ignore:
       - dependency-name: "ember-cli"
-    versioning-strategy: "auto"
+    versioning-strategy: "widen"
     open-pull-requests-limit: 2
