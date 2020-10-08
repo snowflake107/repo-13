@@ -90,7 +90,8 @@
     "edition": "octane"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "demoURL": "https://vitebski.github.io/ember-tagify/#/docs/components/ember-tagify"
   },
   "release-it": {
     "plugins": {
