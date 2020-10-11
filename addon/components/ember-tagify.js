@@ -5,10 +5,13 @@ import { action } from '@ember/object';
 import { assert } from '@ember/debug';
 import { run } from '@ember/runloop';
 import { getOwner } from '@ember/application';
+import { tracked } from '@glimmer/tracking';
 import Tagify from '@yaireo/tagify';
 
 export default class EmberTagifyComponent extends Component {
     tagifyRef = null;
+
+    @tracked value;
 
     @action
     onInsert(element) {
@@ -46,7 +49,6 @@ export default class EmberTagifyComponent extends Component {
         }
 
         const {
-            value,
             onChange,
             placeholder = '',
             delimiters,
@@ -64,7 +66,6 @@ export default class EmberTagifyComponent extends Component {
         } = this.args;
         
         this.tagifyRef = new Tagify(element, {
-            value: value,
             onChange,
             ...rest
           });

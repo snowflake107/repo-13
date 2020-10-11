@@ -10,8 +10,15 @@ module('Integration | Component | ember-tagify', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`<EmberTagify />`);
+    this.value = '[{"value":"foo"},{"value":"bar"}]';
+    this.onTagChange = () => {};
 
-    assert.equal(this.element.textContent.trim(), '');
+    await render(hbs`<EmberTagify 
+                        placeholder='Please enter the tag'
+                        @value={{this.value}}
+                        @onChange={{this.onTagChange}}
+                    />`);
+
+    assert.equal(this.element.querySelector('input').value, this.value);
   });
 });
