@@ -9,7 +9,7 @@ module.exports = function(defaults) {
   });
 
   if (project.findAddonByName('ember-native-dom-event-dispatcher') && process.env.DEPLOY_TARGET === undefined) {
-    options.vendorFiles = { 'jquery.js': null };
+    defaults.vendorFiles = { 'jquery.js': null };
   }
 
   /*

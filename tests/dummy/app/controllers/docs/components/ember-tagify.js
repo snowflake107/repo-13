@@ -27,7 +27,7 @@ export default class EmberTagify extends Controller {
 
   @action
   onTagChange(tagStr) {
-    this.tagsStr = tagsStr;
+    this.tagsStr = tagStr;
     console.log('onTagChange called');
   }
 }

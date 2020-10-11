@@ -50,18 +50,6 @@ export default class EmberTagifyComponent extends Component {
 
         const {
             onChange,
-            placeholder = '',
-            delimiters,
-            validatePattern,
-            mode = 'mix',
-            duplicates = false,
-            trim = true,
-            autoComplete = true,
-            whitelist = [],
-            blacklist = [],
-            maxTags = Infinity,
-            editTags = 2,
-            backspace = true,
             ...rest
         } = this.args;
         
