@@ -1,6 +1,6 @@
 {
   "name": "ember-tagify",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An Ember addon that wraps the Tagify component.",
   "keywords": [
     "ember-addon",
