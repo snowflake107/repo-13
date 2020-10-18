@@ -106,7 +106,7 @@ database:
 redis:
   host: ""
   password: ""
-  port: "3679"
+  port: "6379"
   tls: "true"
 
 ## Frontegg's services url for inner communications
