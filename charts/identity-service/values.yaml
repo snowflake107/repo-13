@@ -54,7 +54,7 @@ service:
   targetPort: 3016
   ## Set port name
   ##
-  name: http
+  name: access-port
 
 ## HPA properties for identity-service
 ## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
