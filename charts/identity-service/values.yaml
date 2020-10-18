@@ -100,7 +100,7 @@ database:
   username: ""
   password: ""
   ssl: "true"
-
+  name: "frontegg_identity"
 ## Set Redis connection string values
 ##
 redis:
