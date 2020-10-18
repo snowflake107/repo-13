@@ -51,7 +51,7 @@ service:
   port: 80
   ## Set port protocol default: TCP
   ##
-  targetPort: 9090
+  targetPort: 3016
   ## Set port name
   ##
   name: access-port
