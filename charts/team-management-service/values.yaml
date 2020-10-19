@@ -131,3 +131,11 @@ network:
   eventsServiceUrl: http://frontegg-event-service
   identityServiceUrl: http://frontegg-identity-service
   integrationsServiceUrl: http://frontegg-integrations-service
+
+## Set saml properties
+##
+##
+saml:
+  private-key: ""
+  public-key: ""
+  certificate: ""
