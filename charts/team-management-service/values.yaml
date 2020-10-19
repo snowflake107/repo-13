@@ -134,8 +134,12 @@ network:
 
 ## Set saml properties
 ##
-##
 saml:
   privateKey: ""
   publicKey: ""
   certificate: ""
+
+## Set frontegg properties
+##
+frontegg:
+  clientId: ""
