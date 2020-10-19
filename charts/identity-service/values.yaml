@@ -119,3 +119,30 @@ network:
 ##
 email:
   apiKey: ""
+
+## Set Frontegg's api key for emails
+##
+frontegg:
+  ## Set Frontegg provided in frontegg's portal administration
+  ##
+  clientId: ""
+  apiKey: ""
+  ## Set Frontegg's Authentication Url
+  ##
+  authenticationUrl: "https://api.frontegg.com/vendors/auth/token"
+  ## Set Frontegg's identity service url
+  ##
+  managedIdentityServiceUrl: "https://api.frontegg.com/identity"
+  sync:
+    ## Enable Configuration sync process with Frontegg's managed cloud
+    ##
+    enabled: "true"
+    ## Set authentication failure retry delay in milliseconds.
+    ##
+    authenticationRetryDelay: "5000"
+    ## Set sync time interval (minutes) with Frontegg's managed cloud.
+    ##
+    intervalTime: "15"
+    ## Set true to shutdown secure access in case of authentication failure on pod startup.
+    ##
+    shutdownOnAuthenticationFailure: "true"
