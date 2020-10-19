@@ -15,8 +15,11 @@ spec:
         app.frontegg.com/appVersion: "{{ .Values.appVersion }}"
         {{- include "api-gateway.selectorLabels" . | nindent 8 }}
       annotations:
-        checksum/secret: {{ (print .Values.secret) | sha256sum }}
-        checksum/config: {{ (print .Values.configmap) | sha256sum }}
+        checksum/congiguration/secret: {{ (print .Values.configuration.secrets) | sha256sum }}
+        checksum/congiguration/map: {{ (print .Values.configuration.map) | sha256sum }}
+        checksum/configmap: {{ (print .Values.configmap) | sha256sum }}
+        checksum//config-map: {{ include (print $.Template.BasePath "/config-map.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
