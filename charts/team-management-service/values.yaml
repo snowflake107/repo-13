@@ -136,6 +136,6 @@ network:
 ##
 ##
 saml:
-  private-key: ""
-  public-key: ""
+  privateKey: ""
+  publicKey: ""
   certificate: ""
