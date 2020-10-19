@@ -20,8 +20,8 @@ data:
   FRONTEGG_FEATURE_FLAGS_SERVICE_URL: {{ required "A valid .Values.network.featureFlagsServiceUrl entry required!" .featureFlagsServiceUrl }}
   FRONTEGG_WEBHOOK_SERVICE_URL: {{ required "A valid .Values.network.webhookServiceUrl entry required!" .webhookServiceUrl }}
   FRONTEGG_EVENT_SERVICE_URL: {{ required "A valid .Values.network.eventsServiceUrl entry required!" .eventsServiceUrl }}
-  FRONTEGG_INTEGRATIONS_SERVICE_URL: {{ required "A valid .Values.network.identityServiceUrl entry required!" .identityServiceUrl }}
-  FRONTEGG_IDENTITY_SERVICE_URL: {{ required "A valid .Values.network.integrationsServiceUrl entry required!" .integrationsServiceUrl }}
+  FRONTEGG_IDENTITY_SERVICE_URL: {{ required "A valid .Values.network.identityServiceUrl entry required!" .identityServiceUrl }}
+  FRONTEGG_INTEGRATIONS_SERVICE_URL: {{ required "A valid .Values.network.integrationsServiceUrl entry required!" .integrationsServiceUrl }}
   {{- end}}
   FRONTEGG_AUTH_PUBLIC_KEY: "frontegg-api-key"
   FRONTEGG_ADMINS_SERVICE_API_KEY: "frontegg-api-key"
