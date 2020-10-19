@@ -10,7 +10,6 @@ data:
   FRONTEGG_ADMINS_SERVICE_URL: {{ required "A valid .Values.network.adminsServiceUrl entry required!" .adminsServiceUrl }}
   FRONTEGG_AUDITS_SERVICE_URL: {{ required "A valid .Values.network.auditsServiceUrl entry required!" .auditsServiceUrl }}
   FRONTEGG_AUTHENTICATION_SERVICE_URL: {{ required "A valid .Values.network.authenticationServiceUrl entry required!" .authenticationServiceUrl }}
-  FRONTEGG_METADATA_SERVICE_URL: {{ required "A valid .Values.network.metadataServiceUrl entry required!" .metadataServiceUrl }}
   FRONTEGG_NOTIFICATION_SERVICE_URL: {{ required "A valid .Values.network.notificationServiceUrl entry required!" .notificationServiceUrl }}
   FRONTEGG_REPORTS_ENGINE_URL: {{ required "A valid .Values.network.reportsEngineUrl entry required!" .reportsEngineUrl }}
   FRONTEGG_REPORTS_SERVICE_URL: {{ required "A valid .Values.network.reportsServiceUrl entry required!" .reportsServiceUrl }}
