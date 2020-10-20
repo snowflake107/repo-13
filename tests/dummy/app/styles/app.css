@@ -9,3 +9,7 @@
   .hero {
     padding: 0 2rem;
   }
+
+  .tagify {
+    --tag--max-width: 5ch
+  }

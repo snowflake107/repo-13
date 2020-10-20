@@ -34,14 +34,14 @@
     "broccoli-merge-trees": "^4.2.0",
     "broccoli-stew": "^3.0.0",
     "ember-auto-import": "^1.6.0",
-    "ember-cli-babel": "^7.22.1",
-    "ember-cli-htmlbars": "^5.3.1"
+    "ember-cli-babel": "^7.23.0",
+    "ember-cli-htmlbars": "^5.3.1",
+    "@glimmer/tracking": "^1.0.2",
+    "@glimmer/component": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.6",
+    "@babel/core": "^7.12.3",
     "@ember/optional-features": "^2.0.0",
-    "@glimmer/component": "^1.0.2",
-    "@glimmer/tracking": "^1.0.2",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "codeclimate-test-reporter": "^0.5.1",
@@ -71,6 +71,7 @@
     "ember-svg-jar": "^2.2.3",
     "ember-template-lint": "^2.13.0",
     "ember-try": "^1.4.0",
+    "ember-decorators": "^6.1.1",
     "eslint": "^7.11.0",
     "eslint-plugin-ember": "^9.3.0",
     "eslint-plugin-node": "^11.1.0",

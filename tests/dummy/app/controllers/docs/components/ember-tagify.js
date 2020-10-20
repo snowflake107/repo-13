@@ -4,11 +4,10 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class EmberTagify extends Controller {
-  @tracked value = null;
-  @tracked tagsStr = null;
+  @tracked tags = [];
 
   get classString() {
-    return `docs-transition
+    return `tagify docs-transition
     focus:docs-outline-0
     docs-border docs-border-transparent
     focus:docs-bg-white
@@ -16,18 +15,15 @@ export default class EmberTagify extends Controller {
     docs-placeholder-grey-darkest
     docs-rounded
     docs-bg-grey-lighter
-    docs-py-2 docs-pr-4
     docs-pl-10
     docs-block
-    docs-w-2/3
     docs-appearance-none
-    docs-leading-normal
     docs-ds-input`;
   }
 
   @action
-  onTagChange(tagStr) {
-    this.tagsStr = tagStr;
-    console.log('onTagChange called');
+  onTagChange(e) {
+    this.tags = e.target.value;
+    console.log(`onTagChange: ${this.tags}`);
   }
 }
