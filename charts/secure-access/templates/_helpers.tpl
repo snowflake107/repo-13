@@ -6,8 +6,8 @@ Expand the name of the chart.
 {{- end }}
 
 {{- define "imagePullSecret" }}
-{{- $name := required "A valid .Values.database.host entry required!" .Values.frontegg.images.username -}}
-{{- $password := required "A valid .Values.database.host entry required!" .Values.frontegg.images.password -}}
+{{- $name := required "A valid .Values.frontegg.images.username entry required!" .Values.frontegg.images.username -}}
+{{- $password := required "A valid .Values.frontegg.images.password entry required!" .Values.frontegg.images.password -}}
 {{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" .Values.frontegg.images.registry (printf "%s:%s" $name $password | b64enc) | b64enc }}
 {{- end }}
 
