@@ -1,4 +1,24 @@
 
+## Set frontegg's configurations
+##
+frontegg:
+  ## Images registry properties
+  ##
+  images:
+    ## Set enabled to create a secret with Frontegg's registry properties
+    ##
+    enabled: true
+    ## Set registry name
+    ##
+    registry: docker.io
+    ## Set username for docker registry provided by Frontegg'
+    ##
+    username: ""
+    ## Set password for docker registry provided by Frontegg'
+    ##
+    password: ""
+
+
 api-gateway:
   ## Provide the amount of pods if HPA is not enabled
   ##
