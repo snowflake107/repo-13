@@ -1,11 +1,12 @@
 # See https://github.com/helm/chart-testing#configuration
-remote: origin
 target-branch: main
 chart-dirs:
   - charts
 chart-repos:
-  - stable=https://kubernetes-charts.storage.googleapis.com/
-helm-extra-args: --timeout 600s
+  - frontegg=https://frontegg.github.io/helm-charts/
 check-version-increment: true
+validate-yaml: true
 debug: true
+validate-maintainers: true
+remote: origin
 excluded-charts: {}
