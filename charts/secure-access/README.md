@@ -8,7 +8,7 @@ Helm 3 chart deployment for Frontegg Secure Access experience.
 ## Installation (helm 3)
 ```console
 helm repo add frontegg https://frontegg.github.io/helm-charts/
-helm repoo update
+helm repo update
 helm update --install <release> frontegg/secure-access ./
 ```
 
