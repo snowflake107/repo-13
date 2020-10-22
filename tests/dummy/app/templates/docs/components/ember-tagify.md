@@ -14,9 +14,8 @@
 
   <div class="docs-m-4">
     <p class="selectedValue">
-      You selected: {{this.value}}
+      Your tags: {{this.tags}}
     </p>
-  
   </div>
   
   <demo.snippet @name="ember-tagify.hbs"/>

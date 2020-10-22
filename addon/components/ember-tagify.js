@@ -15,9 +15,9 @@ export default class EmberTagifyComponent extends Component {
 
     @action
     onInsert(element) {
-        this.setupTagify(element);
+      this.setupTagify(element);
     }
-
+    
     @action
     onWillDestroy() {
       this.tagifyRef.destroy();
@@ -48,15 +48,8 @@ export default class EmberTagifyComponent extends Component {
           return;
         }
 
-        const {
-            onChange,
-            ...rest
-        } = this.args;
-        
         this.tagifyRef = new Tagify(element, {
-            onChange,
-            ...rest
-          });
-
+            ...this.args
+        });
     }
 }
