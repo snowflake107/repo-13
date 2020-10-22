@@ -1,78 +1,55 @@
 
-## Set frontegg's configurations
-##
+# -- Set frontegg's configurations
 frontegg:
-  ## Images registry properties
-  ##
+  # -- Docker Images registry properties
   images:
-    ## Set enabled to create a secret with Frontegg's registry properties
-    ##
+    # -- Set enabled to create a secret with Frontegg's registry properties
     enabled: true
-    ## Set registry name
-    ##
+    # -- Set registry name
     registry: docker.io
-    ## Set username for docker registry provided by Frontegg'
-    ##
+    # -- Set username for docker registry provided by Frontegg
     username: ""
-    ## Set password for docker registry provided by Frontegg'
-    ##
+    # -- Set password for docker registry provided by Frontegg
     password: ""
 
 
 api-gateway:
-  ## Provide the amount of pods if HPA is not enabled
-  ##
+  # -- Provide the amount of pods if HPA is not enabled
   replicaCount: 2
-
-  ## Provide the image docker tag default: latest
-  ##
+  # -- Provide the image docker tag default: latest
   appVersion: latest
-
-  ## Manage docker image properties
-  ##
+  # -- Manage docker image properties
   image:
-    ## Provide docker repository hub
-    ##
+    # -- Provide docker image repository
     repository: frontegg/hybrid-api-gateway
-    ## Provide image pull policy
-    ##
+    # -- Provide image pull policy
     pullPolicy: Always
 
-  ## Provide secret name for frontegg's repository
-  ##
+  # -- Provide secret name for Frontegg's docker image repository.
   imagePullSecrets:
     - name: regcred
 
-  ## Provide a name in place of api-gateway for `app:` labels
-  ##
+  # -- override application name instead of api-gateway for `app:` labels
   nameOverride: ""
-  ## Provide a name in place of {releaseName}-api-gateway
-  ##
+  # -- Provide a name instead of {releaseName}-api-gateway
   fullnameOverride: ""
 
-  ## Setup Service properties for team-management-service (open only one port)
-  ##
+  # - Setup Service properties for team-management-service (open only one port)
   service:
-    ## Set service type
-    ##
+    # -- Set service type
     type: ClusterIP
-    ## Set service port
-    ##
+    # -- Set service port
     protocol: TCP
-    ## Set service target port to map
-    ##
+    # - Set service target port to map
     port: 80
-    ## Set port protocol default: TCP
-    ##
+    # -- Set port protocol default: TCP
     targetPort: 9090
-    ## Set port name
-    ##
+    # - Set port name
     name: access-port
 
-  ## HPA properties for team-management-service
-  ## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
-  ## If autoscaling is disabled team-management-service will be managed by replicaset with `replicaCount` determine pod amount
-  ##
+  # -- HPA properties for team-management-service
+  # -- If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
+  # -- If autoscaling is disabled team-management-service will be managed by replicaset with `replicaCount` determine pod amount
   autoscaling:
     enabled: true
     minReplicas: 2
@@ -80,32 +57,29 @@ api-gateway:
     targetCPUUtilizationPercentage: 75
     targetMemoryUtilizationPercentage: 75
 
-  ## Enable Ingress if access from the internet is needed
-  ##
+  # -- Enable Ingress if access from the internet is needed
   ingress:
     enabled: false
-    ## provide a different name for the host path example: api.acme.com
-    ##
+    # -- provide a different name for the host path example: api.acme.com
+
     hostnameOverride: ""
-    ## provide the needed ingress annotation
-    # example:
-    #  kubernetes.io/tls-acme: "true"
-    #  kubernetes.io/ingress.class: "nginx"
-    #  ingress.kubernetes.io/force-ssl-redirect: "true"
-    #  nginx.ingress.kubernetes.io/server-snippet: |
-    #    location ~* ^/(metrics|healthcheck) {
-    #      deny all;
-    #      return 403;
-    #    }
+    # -- provide the needed ingress annotation
+    # -- example:
+    # --  kubernetes.io/tls-acme: "true"
+    # --  kubernetes.io/ingress.class: "nginx"
+    # --  ingress.kubernetes.io/force-ssl-redirect: "true"
+    # --  nginx.ingress.kubernetes.io/server-snippet: |
+    # --    location ~* ^/(metrics|healthcheck) {
+    # --      deny all;
+    # --      return 403;
+    # --    }
     annotations: {}
-    ## If enabled ingress will search for secret to enable TLS
-    ##
+    # -- If enabled ingress will search for secret to enable TLS
     tls:
       enabled: false
       secretName: ""
 
-  ## Set api-gateway resources
-  ##
+  # -- Set api-gateway resources
   resources:
     requests:
       cpu: 250m
@@ -117,21 +91,18 @@ api-gateway:
   nodeSelector:
     "beta.kubernetes.io/os": linux
 
-  ## Provide deployment tolerations
-  ##
+  # -- Provide deployment tolerations
   tolerations: []
 
-  ## Provide deployment affinity
-  ##
+  # -- Provide deployment affinity
   affinity: {}
 
   configuration:
     secrets: {}
     map: {}
 
-  ## Frontegg's services url for inner communications
-  ## Provide an alternate url for a service if a service name was changed
-  ##
+  # -- Frontegg's services url for inner communications
+  # -- Provide an alternate url for a service if a service name was changed
   network:
     adminsServiceUrl: http://frontegg-admins-service
     auditsServiceUrl: http://frontegg-audits-service
@@ -150,42 +121,39 @@ api-gateway:
     identityServiceUrl: http://frontegg-identity-service
     integrationsServiceUrl: http://frontegg-integrations-service
 
+  # - Frontegg configuration properties
   frontegg:
+    # Frontegg authentication key, provided by frontegg
     authenticationPublicKey: ""
+    # Frontegg api entry point.
     apiGatewayUrl: https://api.frontegg.com
+    # Frontegg authentication url.
     authenticationServiceUrl: "https://api.frontegg.com/auth/vendor"
+    # Frontegg configration url.
     metadataServiceUrl: https://api.frontegg.com/metadata
     hybridServices: "identity,team"
 
 identity-service:
-  ## Provide the amount of pods if HPA is not enabled
-  ##
+  # -- Provide the amount of pods if HPA is not enabled
   replicaCount: 2
 
-  ## Provide the image docker tag default: latest
-  ##
+  # -- Provide the image docker tag default: latest
   appVersion: latest
 
-  ## Manage docker image properties
-  ##
+  # -- Manage docker image properties
   image:
-    ## Provide docker repository hub
-    ##
+    # -- Provide docker repository hub
     repository: frontegg/hybrid-identity-service
-    ## Provide image pull policy
-    ##
+    # -- Provide image pull policy
     pullPolicy: Always
 
-  ## Provide secret name for frontegg's repository
-  ##
+  # -- Provide secret name for frontegg's repository
   imagePullSecrets:
     - name: regcred
 
-  ## Provide a name in place of identity-service for `app:` labels
-  ##
+  # -- Provide a name in place of identity-service for `app:` labels
   nameOverride: ""
-  ## Provide a name in place of {releaseName}-identity-service
-  ##
+  # -- Provide a name in place of {releaseName}-identity-service
   fullnameOverride: ""
 
   podAnnotations: {}
@@ -193,29 +161,22 @@ identity-service:
   podSecurityContext: {}
   # fsGroup: 2000
 
-  ## Setup Service properties for identity-service (open only one port)
-  ##
+  # -- Setup Service properties for identity-service (open only one port)
   service:
-    ## Set service type
-    ##
+    # -- Set service type
     type: ClusterIP
-    ## Set service port
-    ##
+    # -- Set service port
     protocol: TCP
-    ## Set service target port to map
-    ##
+    # -- Set service target port to map
     port: 80
-    ## Set port protocol default: TCP
-    ##
+    # -- Set port protocol default: TCP
     targetPort: 3016
-    ## Set port name
-    ##
+    # -- Set port name
     name: access-port
 
-  ## HPA properties for identity-service
-  ## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
-  ## If autoscaling is disabled identity-service will be managed by replicaset with `replicaCount` determine pod amount
-  ##
+  # -- HPA properties for identity-service
+  # -- If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
+  # -- If autoscaling is disabled identity-service will be managed by replicaset with `replicaCount` determine pod amount
   autoscaling:
     enabled: true
     minReplicas: 2
@@ -223,8 +184,7 @@ identity-service:
     targetCPUUtilizationPercentage: 75
     targetMemoryUtilizationPercentage: 75
 
-  ## Set identity-service resources
-  ##
+  # -- Set identity-service resources
   resources:
     requests:
       cpu: 250m
@@ -237,124 +197,95 @@ identity-service:
   nodeSelector:
     "beta.kubernetes.io/os": linux
 
-  ## Provide deployment tolerations
-  ##
+  # -- Provide deployment tolerations
   tolerations: []
 
-  ## Provide deployment affinity
-  ##
+  # -- Provide deployment affinity
   affinity: {}
 
   configuration:
     secrets: {}
     map: {}
 
-  ## Set database connection string values
-  ##
+  # -- Set database connection string values
   database:
     host: ""
     username: ""
     password: ""
     ssl: "true"
     name: "frontegg_identity"
-  ## Set Redis connection string values
-  ##
+  # -- Set Redis connection string values
   redis:
     host: ""
     password: ""
     port: "6379"
     tls: "true"
 
-  ## Frontegg's services url for inner communications
-  ## Provide an alternate url for a service if a service name was changed
-  ##
+  # -- Frontegg's services url for inner communications
+  # -- Provide an alternate url for a service if a service name was changed
   network:
     teamServiceUrl: http://frontegg-team-management-service
 
-  ## Set frontegg's api key for emails
-  ##
+  # -- Set frontegg's api key for emails
   email:
     apiKey: ""
 
-  ## Set Frontegg's api key for emails
-  ##
+  # -- Set Frontegg's api key for emails
   frontegg:
-    ## Set Frontegg provided in frontegg's portal administration
-    ##
+    # -- Set Frontegg provided in frontegg's portal administration
     clientId: ""
     apiKey: ""
-    ## Set Frontegg's Authentication Url
-    ##
+    # -- Set Frontegg's Authentication Url
     authenticationUrl: "https://api.frontegg.com/vendors/auth/token"
-    ## Set Frontegg's identity service url
-    ##
+    # -- Set Frontegg's identity service url
     managedIdentityServiceUrl: "https://api.frontegg.com/identity"
     sync:
-      ## Enable Configuration sync process with Frontegg's managed cloud
-      ##
+      # -- Enable Configuration sync process with Frontegg's managed cloud
       enabled: "true"
-      ## Set authentication failure retry delay in milliseconds.
-      ##
+      # -- Set authentication failure retry delay in milliseconds.
       authenticationRetryDelay: "5000"
-      ## Set sync time interval (minutes) with Frontegg's managed cloud.
-      ##
+      # -- Set sync time interval (minutes) with Frontegg's managed cloud.
       intervalTime: "15"
-      ## Set true to shutdown secure access in case of authentication failure on pod startup.
-      ##
+      # -- Set true to shutdown secure access in case of authentication failure on pod startup.
       shutdownOnAuthenticationFailure: "true"
 
 team-management-service:
-  ## Provide the amount of pods if HPA is not enabled
-  ##
+  # -- Provide the amount of pods if HPA is not enabled
   replicaCount: 2
 
-  ## Provide the image docker tag default: latest
-  ##
+  # -- Provide the image docker tag default: latest
   appVersion: latest
 
-  ## Manage docker image properties
-  ##
+  # -- Manage docker image properties
   image:
-    ## Provide docker repository hub
-    ##
+    # -- Provide docker repository hub
     repository: frontegg/hybrid-team-management-service
-    ## Provide image pull policy
-    ##
+    # -- Provide image pull policy
     pullPolicy: Always
 
-  ## Provide secret name for frontegg's repository
-  ##
+  # -- Provide secret name for frontegg's repository
   imagePullSecrets:
     - name: regcred
 
-  ## Provide a name in place of team-management-service for `app:` labels
-  ##
+  # -- Provide a name in place of team-management-service for `app:` labels
   nameOverride: ""
-  ## Provide a name in place of {releaseName}-team-management-service
-  ##
+  # -- Provide a name in place of {releaseName}-team-management-service
   fullnameOverride: ""
 
-  ## Setup Service properties for team-management-service (open only one port)
-  ##
+  # -- Setup Service properties for team-management-service (open only one port)
   service:
-    ## Set service type
-    ##
+    # -- Set service type
     type: ClusterIP
-    ## Set service port
-    ##
+    # -- Set service port
     port: 80
-    ## Set service target port to map
-    ##
+    # -- Set service target port to map
     targetPort: 3003
-    ## Set port protocol default: TCP
-    ##
+    # -- Set port protocol default: TCP
     protocol: TCP
-    ## Set port name
-    ##
+    # -- Set port name
     name: http
+  # -- Set team-management-service resources
 
-  ## Set team-management-service resources
-  ##
   resources:
     requests:
       cpu: 250m
@@ -363,10 +294,9 @@ team-management-service:
       cpu: 250m
       memory: 512Mi
 
-  ## HPA properties for team-management-service
-  ## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
-  ## If autoscaling is disabled team-management-service will be managed by replicaset with `replicaCount` determine pod amount
-  ##
+  # -- HPA properties for team-management-service
+  # -- If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
+  # -- If autoscaling is disabled team-management-service will be managed by replicaset with `replicaCount` determine pod amount
   autoscaling:
     enabled: true
     minReplicas: 2
@@ -374,29 +304,24 @@ team-management-service:
     targetCPUUtilizationPercentage: 75
     targetMemoryUtilizationPercentage: 75
 
-
   nodeSelector:
     "beta.kubernetes.io/os": linux
 
-  ## Provide deployment tolerations
-  ##
+  # -- Provide deployment tolerations
   tolerations: []
 
-  ## Provide deployment affinity
-  ##
+  # -- Provide deployment affinity
   affinity: {}
 
   configuration:
     secret: {}
     map: {}
 
-  ## Set could environment managed by team-management-service
-  ## Possible values (prod | dev)
-  ##
+  # -- Set could environment managed by team-management-service
+  # -- Possible values (prod | dev)
   cloudEnvironment: prod
 
-  ## Set database connection string values
-  ##
+  # -- Set database connection string values
   database:
     ssl: "true"
     host: ""
@@ -404,8 +329,7 @@ team-management-service:
     password: ""
     name: "frontegg_team_management"
 
-  ## Set Redis connection string values
-  ##
+  # -- Set Redis connection string values
   redis:
     host: ""
     port: "6379"
@@ -413,9 +337,8 @@ team-management-service:
     index: "1"
     tls: "true"
 
-  ## Frontegg's services url for inner communications
-  ## Provide an alternate url for a service if a service name was changed
-  ##
+  # -- Frontegg's services url for inner communications
+  # -- Provide an alternate url for a service if a service name was changed
   network:
     adminsServiceUrl: http://frontegg-admins-service
     auditsServiceUrl: http://frontegg-audits-service
@@ -434,14 +357,12 @@ team-management-service:
     identityServiceUrl: http://frontegg-identity-service
     integrationsServiceUrl: http://frontegg-integrations-service
 
-  ## Set saml properties, values should be provided by Frontegg.
-  ##
+  # -- Set saml properties, values should be provided by Frontegg.
   saml:
     privateKey: ""
     publicKey: ""
     certificate: ""
 
-  ## Set frontegg properties
-  ##
+  # -- Set frontegg properties
   frontegg:
     clientId: ""
