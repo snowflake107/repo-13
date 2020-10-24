@@ -239,6 +239,8 @@ identity-service:
     authenticationUrl: "https://api.frontegg.com/vendors/auth/token"
     # -- Set Frontegg's identity service url
     managedIdentityServiceUrl: "https://api.frontegg.com/identity"
+    # -- Set Frontegg's identity service url
+    emailTemplateRedirectUrl: ""
     sync:
       # -- Enable Configuration sync process with Frontegg's managed cloud
       enabled: "true"
