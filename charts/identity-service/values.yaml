@@ -133,6 +133,9 @@ frontegg:
   ## Set Frontegg's identity service url
   ##
   managedIdentityServiceUrl: "https://api.frontegg.com/identity"
+  ## override email template redirection url
+  ##
+  emailTemplateRedirectUrl: ""
   sync:
     ## Enable Configuration sync process with Frontegg's managed cloud
     ##
