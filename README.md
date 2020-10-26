@@ -2,7 +2,7 @@
 
 **WARNING - This addon in alpha state and still until active development!**
 
-[![Build Status](https://travis-ci.org/vitebski/ember-tagify.svg?branch=master)](https://travis-ci.org/vitebski/ember-tagify)
+[![Build Status](https://travis-ci.org/RedisLabs/ember-tagify.svg?branch=master)](https://travis-ci.org/RedisLabs/ember-tagify)
 [![Ember Observer Score](https://emberobserver.com/badges/ember-tagify.svg)](https://emberobserver.com/addons/ember-tagify)
 [![npm version](https://badge.fury.io/js/ember-tagify.png)](http://badge.fury.io/js/ember-tagify)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
@@ -29,7 +29,7 @@ ember install ember-tagify
 ## Documentation
 ------------------------------------------------------------------------------
 
-For detrailed usage and documention view [Docs](https://vitebski.github.io/ember-tagify/)
+For detrailed usage and documention view [Docs](https://RedisLabs.github.io/ember-tagify/)
 
 
 ## Contributing

@@ -7,7 +7,7 @@
     "tagify",
     "tag input"
   ],
-  "repository": "https://github.com/vitebski/ember-tagify",
+  "repository": "https://github.com/redislabs/ember-tagify",
   "license": "MIT",
   "author": {
     "name": "Slava Vitebski",
@@ -92,7 +92,7 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "demoURL": "https://vitebski.github.io/ember-tagify/#/docs/components/ember-tagify"
+    "demoURL": "https://redislabs.github.io/ember-tagify/#/docs/components/ember-tagify"
   },
   "release-it": {
     "plugins": {

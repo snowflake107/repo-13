@@ -1,8 +1,8 @@
 # ember-tagify
 
-<a href="https://github.com/vitebski/"><img src="https://redislabs.com/wp-content/themes/wpx/assets/images/logo-redis.svg" alt="Redis Labs" width="100" height="100"/></a>
+<a href="https://github.com/RedisLabs/"><img src="https://redislabs.com/wp-content/themes/wpx/assets/images/logo-redis.svg" alt="Redis Labs" width="100" height="100"/></a>
 
-**[ember-tagify is built and maintained by Slava Vitebski.](https://github.com/vitebski/)**.
+**[ember-tagify is built and maintained by Slava Vitebski from RedisLabs.](https://github.com/vitebski/)**.
 
 [![npm version](https://badge.fury.io/js/ember-tagify.svg)](http://badge.fury.io/js/ember-tagify)
 [![npm](https://img.shields.io/npm/dm/ember-tagify.svg)]()
