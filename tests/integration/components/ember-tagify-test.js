@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, fillIn, typeIn, triggerKeyEvent, settled } from '@ember/test-helpers';
-import { get } from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | ember-tagify', function(hooks) {
@@ -51,7 +50,7 @@ module('Integration | Component | ember-tagify', function(hooks) {
       this.tagAdded = true;
     };
 
-    this.set('value', '[{"value":"foo"},{"value":"bar"}]');
+    this.value = '[{"value":"foo"},{"value":"bar"}]';
     await render(hbs`<EmberTagify 
                         placeholder='Please enter the tag'
                         @value={{this.value}}
@@ -69,18 +68,15 @@ module('Integration | Component | ember-tagify', function(hooks) {
   });
 
   test('setting value affects tagify', async function(assert) {
-    this.changedValue = [];
-
     this.set('value', '[{"value":"foo"},{"value":"bar"}]');
     await render(hbs`<EmberTagify 
                         placeholder='Please enter the tag'
                         @value={{this.value}}
                     />`);
     // change value  
-    this.set('value', '[{"value":"foo"},{"value":"bar"},{"value":"kuku"}]');
-
+    this.set('value','[{"value":"foo"},{"value":"bar"},{"value":"kuku"}]');
     await settled();
     // validate onChange event fired
-    assert.equal(this.element.querySelector('input').value, get(this, 'value'));
+    assert.equal(this.element.querySelector('input').value, this.value);
   });
 });
