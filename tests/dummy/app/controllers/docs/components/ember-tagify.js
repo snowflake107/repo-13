@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class EmberTagify extends Controller {
+  @tracked value = '';
   @tracked tags = [];
 
   get classString() {
@@ -23,7 +24,17 @@ export default class EmberTagify extends Controller {
 
   @action
   onTagChange(e) {
-    this.tags = e.target.value;
+    this.tags = e.detail.value;
     console.log(`onTagChange: ${this.tags}`);
+  }
+
+  @action
+  onTagAdded(e) {
+    console.log(`onTagAdded, tag value: ${e.detail.data.value}, index: ${e.detail.index}`);
+  }
+
+  @action
+  onTagRemoved(e) {
+    console.log(`onTagRemoved, tag value: ${e.detail.data.value}, index: ${e.detail.index}`);
   }
 }

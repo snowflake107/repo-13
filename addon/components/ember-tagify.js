@@ -20,7 +20,18 @@ export default class EmberTagifyComponent extends Component {
     
     @action
     onWillDestroy() {
-      this.tagifyRef.destroy();
+      if (this.tagifyRef) {
+        this.tagifyRef.destroy();
+      }
+    }
+
+    @action
+    onValueUpdated() {
+      const new_value = this.args.value;
+  
+      if (typeof new_value !== 'undefined') {
+        this.value = new_value;
+      }
     }
 
     setupTagify(element) {
@@ -28,18 +39,12 @@ export default class EmberTagifyComponent extends Component {
 
         // Require that users pass a date
         assert(
-          '<EmberTagify> requires a `value` to be passed as the tagTextProp for tagify.',
+          '<EmberTagify> requires a `value` to be passed for tagify input.',
           value !== undefined
         );
     
-        // Require that users pass an onChange
-        assert(
-          '<EmberTagify> requires an `onChange` action or null for no action.',
-          onChange !== undefined
-        );
-    
         // Pass all values and setup tagify
-        run.scheduleOnce('afterRender', this, this._setTagifyOptions, element);    
+        run.scheduleOnce('afterRender', this, this._setTagifyOptions, element);
     }
 
     _setTagifyOptions(element) {
@@ -48,8 +53,29 @@ export default class EmberTagifyComponent extends Component {
           return;
         }
 
+        const { 
+          onChange,
+          onAddTag,
+          onRemoveTag, 
+          ...rest 
+        } = this.args;
+
         this.tagifyRef = new Tagify(element, {
-            ...this.args
+          callbacks: {
+            "change": onChange || this.onChange,
+            "add": onAddTag || this.onAddTag,
+            "remove": onRemoveTag || this.onRemoveTag,
+          },
+          ...rest
         });
     }
+
+    @action
+    onChange() {}
+
+    @action
+    onAddTag() {}
+
+    @action
+    onRemoveTag() {}
 }

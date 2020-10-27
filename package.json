@@ -30,6 +30,7 @@
     "deploy": "ember build --environment production && ember github-pages:commit --message \"Deploy gh-pages from commit $(git rev-parse HEAD)\" && git push origin gh-pages:gh-pages"
   },
   "dependencies": {
+    "@ember/render-modifiers": "^1.0.2",
     "@yaireo/tagify": "^3.20.0",
     "broccoli-funnel": "^3.0.3",
     "broccoli-merge-trees": "^4.2.0",
@@ -65,7 +66,9 @@
     "ember-fetch": "^8.0.2",
     "ember-load-initializers": "^2.1.1",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-qunit": "^4.6.0",
+    "ember-qunit": "v5.0.0-beta.4",
+    "@ember/test-helpers": "^2.0.0",
+    "qunit": "^2.11.0",
     "ember-resolver": "^8.0.2",
     "ember-source": "~3.21.1",
     "ember-source-channel-url": "^3.0.0",
@@ -78,7 +81,7 @@
     "eslint-plugin-node": "^11.1.0",
     "loader.js": "^4.7.0",
     "npm-run-all": "^4.1.5",
-    "qunit-dom": "^1.5.0",
+    "qunit-dom": "^v1.6.0-beta.1",
     "release-it": "^14.0.4",
     "release-it-lerna-changelog": "^2.4.0"
   },

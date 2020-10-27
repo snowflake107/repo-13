@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import { pauseTest, render, fillIn, typeIn, triggerKeyEvent, settled } from '@ember/test-helpers';
+import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | ember-tagify', function(hooks) {
   setupRenderingTest(hooks);
@@ -23,10 +23,10 @@ module('Integration | Component | ember-tagify', function(hooks) {
     assert.equal(this.element.querySelector('input').value, this.value);
   });
 
-  test('onchage event fires', async function(assert) {
+  test('onChange event fires', async function(assert) {
     this.changedValue = [];
     this.onTagChange = (e) => { 
-      this.changedValue = e.target.value; 
+      this.changedValue = e.detail.value; 
     };
 
     this.set('value', '[{"value":"foo"},{"value":"bar"}]');
@@ -36,11 +36,53 @@ module('Integration | Component | ember-tagify', function(hooks) {
                         @onChange={{this.onTagChange}}
                     />`);
                 
-    // change value  
-    await fillIn(this.element.querySelector('input'), '[{"value":"foo"},{"value":"bar"},{"value":"kuku"}]');
+    let tagifyInputElement = this.element.querySelector('.tagify__input');
+    // change value
+    await fillIn(tagifyInputElement, '[{"value":"foo"},{"value":"bar"},{"value":"kuku"}]');
     
-    // validate onChange event fired
+    // validate onChange event fired by comparing to the value on input element
     assert.equal(this.element.querySelector('input').value, this.changedValue);
+  });
+
+  test('onAdd event fires', async function(assert) {
+    this.tagAdded = false;
+    this.onAddTag = (e) => { 
+      this.tagAdded = true;
+    };
+
+    this.set('value', '[{"value":"foo"},{"value":"bar"}]');
+    await render(hbs`<EmberTagify 
+                        placeholder='Please enter the tag'
+                        @value={{this.value}}
+                        @onAddTag={{this.onAddTag}}
+                        autofocus
+                    />`);
+
+    await pauseTest();
+
+    let tagifyInputElement = this.element.querySelector('.tagify__input');
+    // mimic user adding new tag  
+    await typeIn(tagifyInputElement, 'kuku');
+    await triggerKeyEvent(tagifyInputElement, 'keydown', 'Enter');
+
+    // validate onAdd event fired
+    assert.ok(this.tagAdded);
+  });
+
+  test('setting value affects tagify', async function(assert) {
+    this.changedValue = [];
+
+    this.set('value', '[{"value":"foo"},{"value":"bar"}]');
+    await render(hbs`<EmberTagify 
+                        placeholder='Please enter the tag'
+                        @value={{this.value}}
+                    />`);
+    // change value  
+    this.set('value', '[{"value":"foo"},{"value":"bar"},{"value":"kuku"}]');
+
+    await settled();
+    // validate onChange event fired
+    assert.equal(this.element.querySelector('input').value, this.get('value'));
   });
 
 });

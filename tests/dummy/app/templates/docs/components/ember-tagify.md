@@ -9,6 +9,8 @@
       placeholder="Type a tag"
       @value={{this.value}}
       @onChange={{this.onTagChange}}
+      @onAddTag={{this.onTagAdded}}
+      @onRemoveTag={{this.onTagRemoved}}
     />
   </demo.example>
 
