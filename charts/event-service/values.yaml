@@ -15,7 +15,7 @@ appVersion: latest
 image:
   ## Provide docker repository hub
   ##
-  repository: frontegg/event-service
+  repository: frontegg/hybrid-event-service
   ## Provide image pull policy
   ##
   pullPolicy: Always
