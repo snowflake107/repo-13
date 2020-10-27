@@ -15,7 +15,7 @@ appVersion: latest
 image:
   ## Provide docker repository hub
   ##
-  repository: frontegg/connectors-worker
+  repository: frontegg/hybrid-connectors-worker
   ## Provide image pull policy
   ##
   pullPolicy: Always
