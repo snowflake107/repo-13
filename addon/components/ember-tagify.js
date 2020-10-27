@@ -5,7 +5,6 @@ import { action } from '@ember/object';
 import { assert } from '@ember/debug';
 import { run } from '@ember/runloop';
 import { getOwner } from '@ember/application';
-import { tracked } from '@glimmer/tracking';
 import Tagify from '@yaireo/tagify';
 
 export default class EmberTagifyComponent extends Component {
@@ -28,7 +27,8 @@ export default class EmberTagifyComponent extends Component {
       const new_value = this.args.value;
   
       if (typeof new_value !== 'undefined') {
-        this.tagifyRef.value = new_value;
+        this.tagifyRef.removeAllTags();
+        this.tagifyRef.addTags(new_value);
       }
     }
 
@@ -55,6 +55,7 @@ export default class EmberTagifyComponent extends Component {
           onChange,
           onAddTag,
           onRemoveTag, 
+          value,
           ...rest 
         } = this.args;
 
@@ -66,6 +67,7 @@ export default class EmberTagifyComponent extends Component {
           },
           ...rest
         });
+        this.tagifyRef.addTags(value);
     }
 
     @action
