@@ -35,7 +35,7 @@ export default class EmberTagifyComponent extends Component {
     }
 
     setupTagify(element) {
-        const { value, onChange } = this.args;
+        const { value } = this.args;
 
         // Require that users pass a date
         assert(

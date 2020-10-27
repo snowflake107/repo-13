@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { pauseTest, render, fillIn, typeIn, triggerKeyEvent, settled } from '@ember/test-helpers';
+import { render, fillIn, typeIn, triggerKeyEvent, settled } from '@ember/test-helpers';
+import { get } from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | ember-tagify', function(hooks) {
@@ -46,7 +47,7 @@ module('Integration | Component | ember-tagify', function(hooks) {
 
   test('onAdd event fires', async function(assert) {
     this.tagAdded = false;
-    this.onAddTag = (e) => { 
+    this.onAddTag = () => { 
       this.tagAdded = true;
     };
 
@@ -57,8 +58,6 @@ module('Integration | Component | ember-tagify', function(hooks) {
                         @onAddTag={{this.onAddTag}}
                         autofocus
                     />`);
-
-    await pauseTest();
 
     let tagifyInputElement = this.element.querySelector('.tagify__input');
     // mimic user adding new tag  
@@ -82,7 +81,6 @@ module('Integration | Component | ember-tagify', function(hooks) {
 
     await settled();
     // validate onChange event fired
-    assert.equal(this.element.querySelector('input').value, this.get('value'));
+    assert.equal(this.element.querySelector('input').value, get(this, 'value'));
   });
-
 });
