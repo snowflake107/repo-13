@@ -15,7 +15,7 @@ appVersion: latest
 image:
   ## Provide docker repository hub
   ##
-  repository: frontegg/connectors-worker
+  repository: frontegg/event-service
   ## Provide image pull policy
   ##
   pullPolicy: Always
@@ -25,10 +25,10 @@ image:
 imagePullSecrets:
   - name: regcred
 
-## Provide a name in place of connectors-worker for `app:` labels
+## Provide a name in place of event-service for `app:` labels
 ##
 nameOverride: ""
-## Provide a name in place of {releaseName}-connectors-worker
+## Provide a name in place of {releaseName}-event-service
 ##
 fullnameOverride: ""
 
@@ -51,7 +51,7 @@ service:
   ##
   name: http
 
-## HPA properties for connectors-worker
+## HPA properties for event-service
 ## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
 ## If autoscaling is disabled team-management-service will be managed by replicaset with `replicaCount` determine pod amount
 ##
@@ -62,7 +62,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 75
   targetMemoryUtilizationPercentage: 75
 
-## Set connectors-worker resources
+## Set event-service resources
 ##
 resources:
   requests:
@@ -87,6 +87,17 @@ configuration:
   secrets: {}
   map: {}
 
+# -- Set database properties
+database:
+  # -- Set database name
+  name: frontegg_events
+  # -- Set database host url
+  host: ""
+  # -- Set database username
+  username: ""
+  # -- Set database password
+  password: ""
+
 # -- Set Message Broker (Kafka) properties.
 messageBroker:
   # -- Set broker list (host)
@@ -106,15 +117,3 @@ redis:
   index: "7"
   # -- Set tls value (true|false)
   tls: "true"
-
-# -- Set Frontegg's properties
-frontegg:
-  # -- Set frontegg's email key, given by frontegg
-  emailKey: ""
-  twilio:
-    # -- Set twilio sender number
-    sender: ""
-    # -- Set twilio token, given buy
-    token: ""
-    # -- Set twilio account Id given by Frontegg
-    accountId: ""
