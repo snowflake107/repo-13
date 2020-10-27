@@ -11,8 +11,6 @@ import Tagify from '@yaireo/tagify';
 export default class EmberTagifyComponent extends Component {
     tagifyRef = null;
 
-    @tracked value;
-
     @action
     onInsert(element) {
       this.setupTagify(element);
@@ -30,7 +28,7 @@ export default class EmberTagifyComponent extends Component {
       const new_value = this.args.value;
   
       if (typeof new_value !== 'undefined') {
-        this.value = new_value;
+        this.tagifyRef.value = new_value;
       }
     }
 

@@ -68,15 +68,15 @@ module('Integration | Component | ember-tagify', function(hooks) {
   });
 
   test('setting value affects tagify', async function(assert) {
-    this.set('value', '[{"value":"foo"},{"value":"bar"}]');
+    this.set('tags_value', '[{"value":"foo"},{"value":"bar"}]');
     await render(hbs`<EmberTagify 
                         placeholder='Please enter the tag'
-                        @value={{this.value}}
+                        @value={{this.tags_value}}
                     />`);
     // change value  
-    this.set('value','[{"value":"foo"},{"value":"bar"},{"value":"kuku"}]');
+    this.set('tags_value','[{"value":"foo"},{"value":"bar"},{"value":"kuku"}]');
     await settled();
     // validate onChange event fired
-    assert.equal(this.element.querySelector('input').value, this.value);
+    assert.equal(this.element.querySelector('input').value, this.tags_value);
   });
 });
