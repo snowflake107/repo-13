@@ -1,0 +1,103 @@
+# Default values for notification-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Provide the amount of pods if HPA is not enabled
+##
+replicaCount: 2
+
+## Provide the image docker tag default: latest
+##
+appVersion: latest
+
+## Manage docker image properties
+##
+image:
+  ## Provide docker repository hub
+  ##
+  repository: frontegg/hybrid-notification-service
+  ## Provide image pull policy
+  ##
+  pullPolicy: Always
+
+## Provide secret name for frontegg's repository
+##
+imagePullSecrets:
+  - name: regcred
+
+## Provide a name in place of notification-service for `app:` labels
+##
+nameOverride: ""
+## Provide a name in place of {releaseName}-notification-service
+##
+fullnameOverride: ""
+
+## Setup Service properties for notification-service (open only one port)
+##
+service:
+  ## Set service type
+  ##
+  type: ClusterIP
+  ## Set service port
+  ##
+  protocol: TCP
+  ## Set service target port to map
+  ##
+  port: 80
+  ## Set port protocol default: TCP
+  ##
+  targetPort: 3008
+  ## Set port name
+  ##
+  name: http
+
+## HPA properties for notification-service
+## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
+## If autoscaling is disabled notification-service will be managed by replicaset with `replicaCount` determine pod amount
+##
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 75
+  targetMemoryUtilizationPercentage: 75
+
+## Set notification-service resources
+##
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 250m
+    memory: 512Mi
+
+nodeSelector:
+  "beta.kubernetes.io/os": linux
+
+## Provide deployment tolerations
+##
+tolerations: []
+
+## Provide deployment affinity
+##
+affinity: {}
+
+configuration:
+  secrets: {}
+  map: {}
+
+secret:
+  data: {}
+
+mongodb:
+  url: ""
+
+database:
+  host: ""
+  username: ""
+  password: ""
+
+messageBroker:
+  brokerList: ""
+  password: ""
