@@ -1,0 +1,12 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "webpush-service.fullname" . }}-configmap
+  labels:
+  {{- include "webpush-service.labels" . | nindent 4 }}
+data:
+  FRONTEGG_EVENT_SERVICE_URL: http://frontegg-event-service
+  NODE_ENV: production
+  PORT: "3013"
+  FRONTEGG_SERVICE_NAME: webpush-service
+  CLOUD_ENVIRONMENT: prod

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "webpush-service.fullname" . }}-test-connection"
+  labels:
+    {{- include "webpush-service.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "webpush-service.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
