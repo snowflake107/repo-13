@@ -2,7 +2,7 @@
 
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { assert } from '@ember/debug';
+// import { assert } from '@ember/debug';
 import { run } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import Tagify from '@yaireo/tagify';
@@ -35,18 +35,17 @@ export default class EmberTagifyComponent extends Component {
     @action
     onClassUpdated() {
       const newClass = this.args.class;
-      // tagify is main CSS class that needs to be ther ealways
+      // tagify main CSS class needs to be ther ealways
       this.tagifyRef.DOM.scope.className = 'tagify ' + newClass;
     }
 
     setupTagify(element) {
-        const { value } = this.args;
-
-        // Require that users pass a date
-        assert(
-          '<EmberTagify> requires a `value` to be passed for tagify input.',
-          value !== undefined
-        );
+        // const { value } = this.args;
+        // // Require that users pass a value
+        // assert(
+        //   '<EmberTagify> requires a `value` to be passed for tagify input.',
+        //   value !== undefined
+        // );
     
         // Pass all values and setup tagify
         run.scheduleOnce('afterRender', this, this._setTagifyOptions, element);
