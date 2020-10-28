@@ -25,8 +25,9 @@ export default class EmberTagifyComponent extends Component {
     @action
     onValueUpdated() {
       const new_value = this.args.value;
+      const cur_value = this.tagifyRef.value.map((item) => item['value']).join(',');
   
-      if (typeof new_value !== 'undefined') {
+      if (typeof new_value !== 'undefined' && cur_value !== new_value) {
         this.tagifyRef.removeAllTags();
         this.tagifyRef.addTags(new_value);
       }

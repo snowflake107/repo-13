@@ -5,7 +5,6 @@ import { tracked } from '@glimmer/tracking';
 
 export default class EmberTagify extends Controller {
   @tracked tagsvalue = 'tag1,tag2';
-  @tracked tags = [];
 
   classStringDefault =
   `tagify docs-transition
@@ -26,8 +25,8 @@ export default class EmberTagify extends Controller {
   
   @action
   onTagChange(e) {
-    this.tags = e.detail.value;
-    console.log(`onTagChange: ${this.tags}`);
+    this.tagsvalue = JSON.parse(e.detail.value).map((item) => item['value']).join(',');
+    console.log(`onTagChange: ${this.tagsvalue}`);
   }
 
   @action
@@ -43,10 +42,5 @@ export default class EmberTagify extends Controller {
   @action
   clearAll() {
     this.tagsvalue = '';
-  }
-
-  @action
-  toggleErrorState() {
-    this.classString = this.classStringDefault + ' tagify-failure';
   }
 }
