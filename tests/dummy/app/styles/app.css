@@ -13,3 +13,10 @@
   .tagify {
     --tag--max-width: 5ch
   }
+
+  .tagify-failure {
+    --tags-border-color: hsl(7, 83%, 39%);
+    --tags-focus-border-color: hsl(7, 83%, 39%);
+    --tags-hover-border-color: hsl(7, 83%, 39%);
+  }
+  

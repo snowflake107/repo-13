@@ -7,7 +7,7 @@ module('Integration | Component | ember-tagify', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    this.value = '[{"value":"foo"},{"value":"bar"}]';
+    this.value = [{'value':'foo'},{'value':'bar'}];
     this.onTagChange = () => {};
 
     await render(hbs`<EmberTagify 
@@ -17,10 +17,10 @@ module('Integration | Component | ember-tagify', function(hooks) {
                         data-id="input-tagify"
                     />`);
 
-    assert.equal(this.element.querySelector('input').value, this.value);
+    assert.equal(this.element.querySelector('input').value, JSON.stringify(this.value));
 
-    assert.dom('input[data-id="input-tagify"]').value = '[{"value":"foo"},{"value":"bar"},{"value":"kuku"}]';
-    assert.equal(this.element.querySelector('input').value, this.value);
+    this.set('value', [{"value":"foo"},{"value":"bar"},{"value":"kuku"}]);
+    assert.equal(this.element.querySelector('input').value, JSON.stringify(this.value));
   });
 
   test('onChange event fires', async function(assert) {
@@ -68,15 +68,15 @@ module('Integration | Component | ember-tagify', function(hooks) {
   });
 
   test('setting value affects tagify', async function(assert) {
-    this.set('tags_value', '[{"value":"foo"},{"value":"bar"}]');
+    this.set('tags_value', [{"value":"foo"},{"value":"bar"}]);
     await render(hbs`<EmberTagify 
                         placeholder='Please enter the tag'
                         @value={{this.tags_value}}
                     />`);
     // change value  
-    this.set('tags_value','[{"value":"foo"},{"value":"bar"},{"value":"kuku"}]');
+    this.set('tags_value', [{"value":"foo"},{"value":"bar"},{"value":"kuku"}]);
     await settled();
     // validate onChange event fired
-    assert.equal(this.element.querySelector('input').value, this.tags_value);
+    assert.equal(this.element.querySelector('input').value, JSON.stringify(this.tags_value));
   });
 });

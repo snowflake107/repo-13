@@ -32,6 +32,13 @@ export default class EmberTagifyComponent extends Component {
       }
     }
 
+    @action
+    onClassUpdated() {
+      const newClass = this.args.class;
+      // tagify is main CSS class that needs to be ther ealways
+      this.tagifyRef.DOM.scope.className = 'tagify ' + newClass;
+    }
+
     setupTagify(element) {
         const { value } = this.args;
 

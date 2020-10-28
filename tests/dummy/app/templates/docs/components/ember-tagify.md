@@ -5,9 +5,16 @@
 {{log this.tagsvalue}}
 
 <DocsDemo as |demo|>
+  <label for="enable-error-state">Enable Error State</label>
+  <Input
+    @id="enable-error-state"
+    @type="checkbox"
+    @checked={{this.isErroState}}
+  />
+
   <demo.example @name="ember-tagify.hbs">
     <EmberTagify
-      class={{this.classString}}
+      @class={{if this.isErroState "tagify-failure" this.classStringDefault}}
       placeholder="Type a tag"
       @value={{this.tagsvalue}}
       @onChange={{this.onTagChange}}

@@ -7,21 +7,23 @@ export default class EmberTagify extends Controller {
   @tracked tagsvalue = 'tag1,tag2';
   @tracked tags = [];
 
-  get classString() {
-    return `tagify docs-transition
-    focus:docs-outline-0
-    docs-border docs-border-transparent
-    focus:docs-bg-white
-    focus:docs-border-grey-light
-    docs-placeholder-grey-darkest
-    docs-rounded
-    docs-bg-grey-lighter
-    docs-pl-10
-    docs-block
-    docs-appearance-none
-    docs-ds-input`;
-  }
+  classStringDefault =
+  `tagify docs-transition
+  focus:docs-outline-0
+  docs-border docs-border-transparent
+  focus:docs-bg-white
+  focus:docs-border-grey-light
+  docs-placeholder-grey-darkest
+  docs-rounded
+  docs-bg-grey-lighter
+  docs-pl-10
+  docs-block
+  docs-appearance-none
+  docs-ds-input`;
 
+  @tracked
+  classString = this.classStringDefault;
+  
   @action
   onTagChange(e) {
     this.tags = e.detail.value;
@@ -41,5 +43,10 @@ export default class EmberTagify extends Controller {
   @action
   clearAll() {
     this.tagsvalue = '';
+  }
+
+  @action
+  toggleErrorState() {
+    this.classString = this.classStringDefault + ' tagify-failure';
   }
 }
