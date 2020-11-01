@@ -1,0 +1,543 @@
+# -- Set frontegg's configurations
+frontegg:
+  # -- Docker Images registry properties
+  images:
+    # -- Set enabled to create a secret with Frontegg's registry properties
+    enabled: true
+    # -- Set registry name
+    registry: docker.io
+    # -- Set username for docker registry provided by Frontegg
+    username: ""
+    # -- Set password for docker registry provided by Frontegg
+    password: ""
+
+connectors-worker:
+  # Default values for events-service.
+  # This is a YAML-formatted file.
+  # Declare variables to be passed into your templates.
+
+  ## Provide the amount of pods if HPA is not enabled
+  ##
+  replicaCount: 2
+
+  ## Provide the image docker tag default: latest
+  ##
+  appVersion: latest
+
+  ## Manage docker image properties
+  ##
+  image:
+    ## Provide docker repository hub
+    ##
+    repository: frontegg/hybrid-connectors-worker
+    ## Provide image pull policy
+    ##
+    pullPolicy: Always
+
+  ## Provide secret name for frontegg's repository
+  ##
+  imagePullSecrets:
+    - name: regcred
+
+  ## Provide a name in place of connectors-worker for `app:` labels
+  ##
+  nameOverride: ""
+  ## Provide a name in place of {releaseName}-connectors-worker
+  ##
+  fullnameOverride: ""
+
+  ## Setup Service properties for team-management-service (open only one port)
+  ##
+  service:
+    ## Set service type
+    ##
+    type: ClusterIP
+    ## Set service port
+    ##
+    protocol: TCP
+    ## Set service target port to map
+    ##
+    port: 80
+    ## Set port protocol default: TCP
+    ##
+    targetPort: 3011
+    ## Set port name
+    ##
+    name: http
+
+  ## HPA properties for connectors-worker
+  ## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
+  ## If autoscaling is disabled team-management-service will be managed by replicaset with `replicaCount` determine pod amount
+  ##
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 75
+    targetMemoryUtilizationPercentage: 75
+
+  ## Set connectors-worker resources
+  ##
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 250m
+      memory: 512Mi
+
+  nodeSelector:
+    "beta.kubernetes.io/os": linux
+
+  ## Provide deployment tolerations
+  ##
+  tolerations: []
+
+  ## Provide deployment affinity
+  ##
+  affinity: {}
+
+  configuration:
+    secrets: {}
+    map: {}
+
+  # -- Set Message Broker (Kafka) properties.
+  messageBroker:
+    # -- Set broker list (host)
+    brokerList: ""
+    # -- Set broker list password
+    password: ""
+
+  # -- Set Redis properties
+  redis:
+    # -- Set redis host
+    host: ""
+    # -- Set redis host
+    port: "6379"
+    # -- Set redis password
+    password: ""
+    # -- Set redis database index, change only if needed
+    index: "7"
+    # -- Set tls value (true|false)
+    tls: "true"
+
+  # -- Set Frontegg's properties
+  frontegg:
+    # -- Set frontegg's email key, given by frontegg
+    emailKey: ""
+    twilio:
+      # -- Set twilio sender number
+      sender: ""
+      # -- Set twilio token, given buy
+      token: ""
+      # -- Set twilio account Id given by Frontegg
+      accountId: ""
+
+event-service:
+  # Default values for events-service.
+  # This is a YAML-formatted file.
+  # Declare variables to be passed into your templates.
+
+  ## Provide the amount of pods if HPA is not enabled
+  ##
+  replicaCount: 2
+
+  ## Provide the image docker tag default: latest
+  ##
+  appVersion: latest
+
+  ## Manage docker image properties
+  ##
+  image:
+    ## Provide docker repository hub
+    ##
+    repository: frontegg/hybrid-event-service
+    ## Provide image pull policy
+    ##
+    pullPolicy: Always
+
+  ## Provide secret name for frontegg's repository
+  ##
+  imagePullSecrets:
+    - name: regcred
+
+  ## Provide a name in place of event-service for `app:` labels
+  ##
+  nameOverride: ""
+  ## Provide a name in place of {releaseName}-event-service
+  ##
+  fullnameOverride: ""
+
+  ## Setup Service properties for team-management-service (open only one port)
+  ##
+  service:
+    ## Set service type
+    ##
+    type: ClusterIP
+    ## Set service port
+    ##
+    protocol: TCP
+    ## Set service target port to map
+    ##
+    port: 80
+    ## Set port protocol default: TCP
+    ##
+    targetPort: 3011
+    ## Set port name
+    ##
+    name: http
+
+  ## HPA properties for event-service
+  ## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
+  ## If autoscaling is disabled team-management-service will be managed by replicaset with `replicaCount` determine pod amount
+  ##
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 75
+    targetMemoryUtilizationPercentage: 75
+
+  ## Set event-service resources
+  ##
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 250m
+      memory: 512Mi
+
+  nodeSelector:
+    "beta.kubernetes.io/os": linux
+
+  ## Provide deployment tolerations
+  ##
+  tolerations: []
+
+  ## Provide deployment affinity
+  ##
+  affinity: {}
+
+  configuration:
+    secrets: {}
+    map: {}
+
+  # -- Set database properties
+  database:
+    # -- Set database name
+    name: frontegg_events
+    # -- Set database host url
+    host: ""
+    # -- Set database username
+    username: ""
+    # -- Set database password
+    password: ""
+
+  # -- Set Message Broker (Kafka) properties.
+  messageBroker:
+    # -- Set broker list (host)
+    brokerList: ""
+    # -- Set broker list password
+    password: ""
+
+  # -- Set Redis properties
+  redis:
+    # -- Set redis host
+    host: ""
+    # -- Set redis host
+    port: "6379"
+    # -- Set redis password
+    password: ""
+    # -- Set redis database index, change only if needed
+    index: "7"
+    # -- Set tls value (true|false)
+    tls: "true"
+
+integrations-service:
+  # Default values for integrations-service.
+  # This is a YAML-formatted file.
+  # Declare variables to be passed into your templates.
+
+  # -- Provide the amount of pods if HPA is not enabled
+  replicaCount: 2
+
+  # -- Provide the image docker tag default: latest
+  appVersion: latest
+
+  # -- Manage docker image properties
+  image:
+    # -- Provide docker repository hub
+    repository: frontegg/hybrid-integrations-service
+    # -- Provide image pull policy
+    pullPolicy: Always
+
+  # -- Provide secret name for frontegg's repository
+  imagePullSecrets:
+    - name: regcred
+
+  # -- Provide a name in place of integrations-service for `app:` labels
+  nameOverride: ""
+  # -- Provide a name in place of {releaseName}-integrations-service
+  fullnameOverride: ""
+
+  # -- Setup Service properties for integrations-service (open only one port)
+  service:
+    # -- Set service type
+    type: ClusterIP
+    # -- Set service port
+    protocol: TCP
+    # -- Set service target port to map
+    port: 80
+    # -- Set port protocol default: TCP
+    targetPort: 3014
+    # -- Set port name
+    name: http
+
+  # -- HPA properties for integrations-service
+  # -- If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
+  # -- If autoscaling is disabled integrations-service will be managed by replicaset with `replicaCount` determine pod amount
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 75
+    targetMemoryUtilizationPercentage: 75
+
+  # -- Set integrations-service resources
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 250m
+      memory: 512Mi
+
+  nodeSelector:
+    "beta.kubernetes.io/os": linux
+
+  # -- Provide deployment tolerations
+  tolerations: []
+
+  # -- Provide deployment affinity
+  affinity: {}
+
+  configuration:
+    secrets: {}
+    map: {}
+
+  # == Set frontegg properties
+  frontegg:
+    slack:
+      # -- Set Slack encryption key provided by Slack
+      encryptionKey: ""
+
+  mongo:
+    # -- Set MongoDB connection string
+    connectionString: ""
+
+  # -- Set Message Broker (Kafka) properties.
+  messageBroker:
+    # -- Set broker list (host)
+    brokerList: ""
+    # -- Set broker list password
+    password: ""
+
+notification-service:
+  # Default values for notification-service.
+  # This is a YAML-formatted file.
+  # Declare variables to be passed into your templates.
+
+  ## Provide the amount of pods if HPA is not enabled
+  ##
+  replicaCount: 2
+
+  ## Provide the image docker tag default: latest
+  ##
+  appVersion: latest
+
+  ## Manage docker image properties
+  ##
+  image:
+    ## Provide docker repository hub
+    ##
+    repository: frontegg/hybrid-notification-service
+    ## Provide image pull policy
+    ##
+    pullPolicy: Always
+
+  ## Provide secret name for frontegg's repository
+  ##
+  imagePullSecrets:
+    - name: regcred
+
+  ## Provide a name in place of notification-service for `app:` labels
+  ##
+  nameOverride: ""
+  ## Provide a name in place of {releaseName}-notification-service
+  ##
+  fullnameOverride: ""
+
+  ## Setup Service properties for notification-service (open only one port)
+  ##
+  service:
+    ## Set service type
+    ##
+    type: ClusterIP
+    ## Set service port
+    ##
+    protocol: TCP
+    ## Set service target port to map
+    ##
+    port: 80
+    ## Set port protocol default: TCP
+    ##
+    targetPort: 3008
+    ## Set port name
+    ##
+    name: http
+
+  ## HPA properties for notification-service
+  ## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
+  ## If autoscaling is disabled notification-service will be managed by replicaset with `replicaCount` determine pod amount
+  ##
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 75
+    targetMemoryUtilizationPercentage: 75
+
+  ## Set notification-service resources
+  ##
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 250m
+      memory: 512Mi
+
+  nodeSelector:
+    "beta.kubernetes.io/os": linux
+
+  ## Provide deployment tolerations
+  ##
+  tolerations: []
+
+  ## Provide deployment affinity
+  ##
+  affinity: {}
+
+  configuration:
+    secrets: {}
+    map: {}
+
+  secret:
+    data: {}
+
+  mongodb:
+    url: ""
+
+  database:
+    host: ""
+    username: ""
+    password: ""
+
+  messageBroker:
+    brokerList: ""
+    password: ""
+
+webpush-service:
+  # Default values for webpush-service.
+  # This is a YAML-formatted file.
+  # Declare variables to be passed into your templates.
+
+  # -- Provide the amount of pods if HPA is not enabled
+  replicaCount: 2
+
+  # -- Provide the image docker tag default: latest
+  appVersion: latest
+
+  # -- Manage docker image properties
+  image:
+    # -- Provide docker repository hub
+    repository: frontegg/hybrid-webpush-service
+    # -- Provide image pull policy
+    pullPolicy: Always
+
+  # -- Provide secret name for frontegg's repository
+  imagePullSecrets:
+    - name: regcred
+
+  # -- Provide a name in place of webpush-service for `app:` labels
+  nameOverride: ""
+  # -- Provide a name in place of {releaseName}-webpush-service
+  fullnameOverride: ""
+
+  # -- Setup Service properties for webpush-service (open only one port)
+  service:
+    # -- Set service type
+    type: ClusterIP
+    # -- Set service port
+    protocol: TCP
+    # -- Set service target port to map
+    port: 80
+    # -- Set port protocol default: TCP
+    targetPort: "3013"
+    # -- Set port name
+    name: http
+
+  # -- HPA properties for webpush-service
+  # -- If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
+  # -- If autoscaling is disabled webpush-service will be managed by replicaset with `replicaCount` determine pod amount
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 75
+    targetMemoryUtilizationPercentage: 75
+
+  # -- Set webpush-service resources
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 250m
+      memory: 512Mi
+
+  nodeSelector:
+    "beta.kubernetes.io/os": linux
+
+  # -- Provide deployment tolerations
+  tolerations: []
+
+  # -- Provide deployment affinity
+  affinity: {}
+
+  configuration:
+    secrets: {}
+    map: {}
+
+  # -- Set database properties
+  database:
+    # -- Set database host url
+    host: ""
+    # -- Set database username
+    username: ""
+    # -- Set database password
+    password: ""
+
+  # -- Set Message Broker (Kafka) properties.
+  messageBroker:
+    # -- Set broker list (host)
+    brokerList: ""
+    # -- Set broker list password
+    password: ""
+
+  frontegg:
+    clientEmail: ""
+    googlePrivateKey: ""
+    firebasePublicKey: ""
+    firebaseProjectId: ""
