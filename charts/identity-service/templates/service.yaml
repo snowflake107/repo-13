@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: frontegg-{{ include "identity-service.name" . }}
   labels:
+    monitoring-metrics: enabled
   {{- include "identity-service.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
