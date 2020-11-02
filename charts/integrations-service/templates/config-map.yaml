@@ -9,4 +9,4 @@ data:
   NODE_ENV: production
   PORT: "3014"
   FRONTEGG_SERVICE_NAME: integrations-service
-
+  FRONTEGG_INTEGRATIONS_SERVICE_API_KEY: "frontegg-api-key"
