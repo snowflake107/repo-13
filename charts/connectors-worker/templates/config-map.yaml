@@ -10,3 +10,4 @@ data:
   PORT: "3015"
   FRONTEGG_SERVICE_NAME: connectors-worker
   FRONTEGG_INTEGRATIONS_SERVICE_URL: http://frontegg-integrations-service
+  FRONTEGG_INTEGRATIONS_SERVICE_API_KEY: "frontegg-api-key"
