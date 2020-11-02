@@ -8,3 +8,5 @@ data:
   CLOUD_ENVIRONMENT: prod
   NODE_ENV: production
   FRONTEGG_VENDORS_SERVICE_URL: http://frontegg-notification-service
+  FRONTEGG_NOTIFICATION_SERVICE_API_KEY: "frontegg-api-key"
+  FRONTEGG_VENDORS_SERVICE_API_KEY: "frontegg-api-key"
