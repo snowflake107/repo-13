@@ -46,7 +46,7 @@ service:
   port: 80
   ## Set port protocol default: TCP
   ##
-  targetPort: 3011
+  targetPort: 3015
   ## Set port name
   ##
   name: http
