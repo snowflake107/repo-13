@@ -10,3 +10,4 @@ data:
   PORT: "3013"
   FRONTEGG_SERVICE_NAME: webpush-service
   CLOUD_ENVIRONMENT: prod
+  FRONTEGG_WEBPUSH_SERVICE_API_KEY: "frontegg-api-key"
