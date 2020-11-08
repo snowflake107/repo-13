@@ -132,6 +132,10 @@ connectors-worker:
       token: ""
       # -- Set twilio account Id given by Frontegg
       accountId: ""
+    # -- Set supported channels
+    # -- Possible values email | sms | slack
+    # -- use comma separated values for example: email,slack,sms
+    channels: ""
 
 event-service:
   # Default values for events-service.
