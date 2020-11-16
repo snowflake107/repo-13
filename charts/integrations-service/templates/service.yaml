@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: frontegg-{{ include "integrations-service.name" . }}
   labels:
+	monitoring-metrics: enabled
   {{- include "integrations-service.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
