@@ -63,17 +63,24 @@ export default class EmberTagifyComponent extends Component {
           onAddTag,
           onRemoveTag, 
           value,
+          editTags,
           ...rest 
         } = this.args;
 
-        this.tagifyRef = new Tagify(element, {
+        let options = {
           callbacks: {
             "change": onChange || this.onChange,
             "add": onAddTag || this.onAddTag,
             "remove": onRemoveTag || this.onRemoveTag,
           },
+          editTags: Object.assign({}, editTags),
           ...rest
-        });
+        };
+        // revert to default if not provided        
+        if (!editTags) {
+          delete options.editTags;
+        }
+        this.tagifyRef = new Tagify(element, options);
         this.tagifyRef.addTags(value);
     }
 
