@@ -65,6 +65,14 @@ async function getSecrets(secretRequests, client) {
 function selectData(data, selector) {
     const ata = jsonata(selector);
     let result = JSON.stringify(ata.evaluate(data));
+
+    console.log('~~~~selector', selector);
+    if (selector === 'data."CSC_LINK"') {
+        console.log('~~~', data[selector]);
+        console.log('~~~~ata', jsonata(selector));
+        console.log('~~~~result', result);
+    }
+
     // Compat for custom engines
     if (!result && ((ata.ast().type === "path" && ata.ast()['steps'].length === 1) || ata.ast().type === "string") && selector !== 'data' && 'data' in data) {
         result = JSON.stringify(jsonata(`data.${selector}`).evaluate(data));
@@ -72,9 +80,18 @@ function selectData(data, selector) {
         throw Error(`Unable to retrieve result for ${selector}. No match data was found. Double check your Key or Selector.`);
     }
 
+    if (selector === 'data."CSC_LINK"' ) {
+        result = JSON.parse(result);
+    }
+
     if (result.startsWith(`"`)) {
         result = result.substring(1, result.length - 1);
     }
+
+    if (selector === 'data."CSC_LINK"' ) {
+        console.log('~~~~finished', result);
+    }
+
     return result;
 }
 
