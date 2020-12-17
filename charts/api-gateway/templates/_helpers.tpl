@@ -49,13 +49,13 @@ Common labels
 helm.sh/chart: {{ include "api-gateway.chart" . }}
 {{ include "api-gateway.selectorLabels" . }}
 app.frontegg.io/version: {{ .Chart.Version | quote }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.frontegg.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{/*
 Selector labels
 */}}
 {{- define "api-gateway.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "api-gateway.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.frontegg.com/name: {{ include "api-gateway.name" . }}
+app.frontegg.com/instance: {{ .Release.Name }}
 {{- end -}}
