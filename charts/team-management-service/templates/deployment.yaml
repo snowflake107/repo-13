@@ -14,9 +14,15 @@ spec:
       labels:
         app.frontegg.com/appVersion: {{ .Values.appVersion | quote }}
       {{- include "team-management-service.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels  }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       annotations:
         checksum/secret: {{ (print .Values.secret) | sha256sum }}
         checksum/config: {{ (print .Values.configmap) | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

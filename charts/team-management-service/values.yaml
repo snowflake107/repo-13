@@ -84,6 +84,9 @@ tolerations: []
 ##
 affinity: {}
 
+podAnnotations: {}
+podLabels: {}
+
 configuration:
   secret: {}
   map: {}
