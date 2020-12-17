@@ -138,3 +138,6 @@ frontegg:
  authenticationServiceUrl: "https://api.frontegg.com/auth/vendor"
  metadataServiceUrl: https://api.frontegg.com/metadata
  hybridServices: "identity,team"
+
+podAnnotations: {}
+podLabels: {}
