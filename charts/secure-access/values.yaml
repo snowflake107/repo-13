@@ -25,6 +25,9 @@ api-gateway:
     # -- Provide image pull policy
     pullPolicy: Always
 
+  podAnnotations: {}
+  podLabels: {}
+
   # -- Provide secret name for Frontegg's docker image repository.
   imagePullSecrets:
     - name: regcred
@@ -157,6 +160,7 @@ identity-service:
   fullnameOverride: ""
 
   podAnnotations: {}
+  podLabels: {}
 
   podSecurityContext: {}
   # fsGroup: 2000
@@ -273,6 +277,9 @@ team-management-service:
   nameOverride: ""
   # -- Provide a name in place of {releaseName}-team-management-service
   fullnameOverride: ""
+
+  podAnnotations: {}
+  podLabels: {}
 
   # -- Setup Service properties for team-management-service (open only one port)
   service:
