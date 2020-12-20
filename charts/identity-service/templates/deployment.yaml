@@ -13,10 +13,16 @@ spec:
     metadata:
       labels:
         app.frontegg.com/appVersion: "{{ .Values.appVersion }}"
-      {{- include "identity-service.selectorLabels" . | nindent 8 }}
+        {{- include "identity-service.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels  }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       annotations:
         checksum/secret: {{ (print .Values.secret) | sha256sum }}
         checksum/config: {{ (print .Values.configmap) | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
