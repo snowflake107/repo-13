@@ -270,7 +270,7 @@ connectors-worker:
         secretAccess: ""
         region: ""
       # -- Set Sendgrid properties
-      sendgrid: ""
+      sendgrid:
         apiKey: ""
 
 event-service:
