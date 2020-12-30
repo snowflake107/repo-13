@@ -130,12 +130,12 @@ api-gateway:
     # Frontegg authentication key, provided by frontegg
     authenticationPublicKey: ""
     # Frontegg api entry point.
-    apiGatewayUrl: "{{ .Values.frontegg.apiUrl }}"
+    apiGatewayUrl: "https://api.frontegg.com"
     # Frontegg authentication url.
     authenticationServiceUrl: "https://api.frontegg.com/auth/vendor"
     # Frontegg configration url.
     metadataServiceUrl: https://api.frontegg.com/metadata
-    hybridServices: "identity, team"
+    hybridServices: "webhook,event,integrations"
 
 connectors-worker:
   # Default values for events-service.
