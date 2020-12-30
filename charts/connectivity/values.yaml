@@ -605,5 +605,3 @@ integrations-service:
     brokerList: ""
     # -- Set broker list password
     password: ""
-
-
