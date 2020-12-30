@@ -12,7 +12,7 @@ dependencies:
     version: "0.1.14"
     repository: "https://frontegg.github.io/helm-charts/"
   - name: event-service
-    version: "0.1.10"
+    version: "0.1.11"
     repository: "https://frontegg.github.io/helm-charts/"
   - name: integrations-service
     version: "0.1.7"
