@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: frontegg-{{ include "webhook-service.name" . }}
   labels:
-	monitoring-metrics: enabled
+    monitoring-metrics: enabled
   {{- include "webhook-service.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
