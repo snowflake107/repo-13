@@ -109,8 +109,6 @@ redis:
 
 # -- Set Frontegg's properties
 frontegg:
-  # -- Set frontegg's email key, given by frontegg
-  emailKey: ""
   twilio:
     # -- Set twilio sender number
     sender: ""
@@ -122,3 +120,15 @@ frontegg:
   # -- Possible values email | sms | slack
   # -- use comma separated values for example: email,slack,sms
   channels: ""
+  # -- Set emails properties for the appropriate provider
+  emails:
+    # -- Set the email supported provide [ses | sendgrid] default (sendgrid)
+    provider: ""
+    # -- Set aws SES properties
+    aws:
+      accessKey: ""
+      secretAccess: ""
+      region: ""
+    # -- Set Sendgrid properties
+    sendgrid: ""
+      apiKey: ""
