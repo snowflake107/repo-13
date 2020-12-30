@@ -117,3 +117,26 @@ redis:
   index: "7"
   # -- Set tls value (true|false)
   tls: "true"
+
+# -- Set frontegg properties
+frontegg:
+  # -- Set frontegg hybrid synchronization properties
+  sync:
+    # -- Enable or Disable frontegg hybrid with frontegg cloud.
+    # -- By disabling this you might not see the changes on frontegg portal or get updates.
+    enabled: "true"
+    # -- Set sync time interval with frontegg cloud in minutes
+    timeInterval: "15"
+  # -- Set frontegg authentication url. (by not setting value it will use frontegg's cloud url)
+  authenticationUrl: ""
+  # -- Set frontegg evnets Service url. (by not setting value it will use frontegg's cloud url)
+  managedEventServiceUrl: ""
+  # -- Set Your account client Id (provided on the portal administration page)
+  clientId: ""
+  # -- Set Your account Api Key (provided on the portal administration page)
+  apiKey: ""
+  # -- Set authentication failure retry delay in milliseconds
+  authenticationRetryDelayInterval: "5000"
+  # -- Set authentication failure behavior.
+  # -- When authentication fails should the service stop?
+  shutdownOnInitialAuthenticationFailure: "true"
