@@ -130,7 +130,7 @@ api-gateway:
     # Frontegg authentication key, provided by frontegg
     authenticationPublicKey: ""
     # Frontegg api entry point.
-    apiGatewayUrl: "{{ .Values.frontegg.api }}"
+    apiGatewayUrl: "{{ .Values.frontegg.apiUrl }}"
     # Frontegg authentication url.
     authenticationServiceUrl: "https://api.frontegg.com/auth/vendor"
     # Frontegg configration url.

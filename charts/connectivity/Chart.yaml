@@ -2,7 +2,7 @@ apiVersion: v2
 name: connectivity
 description: Frontegg's Connectivity Helm chart for Kubernetes
 type: application
-version: 0.1.0-beta22
+version: 0.1.0-beta23
 
 dependencies:
   - name: api-gateway
