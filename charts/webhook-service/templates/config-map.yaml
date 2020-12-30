@@ -10,4 +10,6 @@ data:
   PORT: "3013"
   FRONTEGG_SERVICE_NAME: webhook-service
   FRONTEGG_EVENT_SERVICE_URL: http://frontegg-event-service
+  FRONTEGG_WEBHOOK_SERVICE_API_KEY: "frontegg-api-key"
+  FRONTEGG_EVENT_SERVICE_API_KEY: "frontegg-api-key"
 
