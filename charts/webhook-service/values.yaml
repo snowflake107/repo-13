@@ -19,9 +19,9 @@ image:
 imagePullSecrets:
   - name: regcred
 
-# -- Provide a name in place of xxx-service for `app:` labels
+# -- Provide a name in place of webhook-service for `app:` labels
 nameOverride: ""
-# -- Provide a name in place of {releaseName}-xxx-service
+# -- Provide a name in place of {releaseName}-webhook-service
 fullnameOverride: ""
 
 podAnnotations: {}
@@ -29,7 +29,7 @@ podAnnotations: {}
 podSecurityContext: {}
 # fsGroup: 2000
 
-# -- Setup Service properties for integrations-service (open only one port)
+# -- Setup Service properties for webhook-service (open only one port)
 service:
   # -- Set service type
   type: ClusterIP
@@ -42,7 +42,7 @@ service:
   # -- Set port name
   name: http
 
-# -- Set integrations-service resources
+# -- Set webhook-service resources
 resources:
   requests:
     cpu: 250m
@@ -51,9 +51,9 @@ resources:
     cpu: 250m
     memory: 1024Mi
 
-# -- HPA properties for integrations-service
+# -- HPA properties for webhook-service
 # -- If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
-# -- If autoscaling is disabled integrations-service will be managed by replicaset with `replicaCount` determine pod amount
+# -- If autoscaling is disabled webhook-service will be managed by replicaset with `replicaCount` determine pod amount
 autoscaling:
   enabled: true
   minReplicas: 2
