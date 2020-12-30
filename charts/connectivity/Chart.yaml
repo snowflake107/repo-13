@@ -9,7 +9,7 @@ dependencies:
     version: "0.4.24"
     repository: "https://frontegg.github.io/helm-charts/"
   - name: connectors-worker
-    version: "0.1.14"
+    version: "0.1.15"
     repository: "https://frontegg.github.io/helm-charts/"
   - name: event-service
     version: "0.1.12"
