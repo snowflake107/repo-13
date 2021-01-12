@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        app.frontegg.com/appVersion: {{ .Values.appVersion }}
+        app.frontegg.com/appVersion: {{ .Values.appVersion | quote}}
       {{- include "connectors-worker.selectorLabels" . | nindent 8 }}
       annotations:
         checksum/secret: {{ (print .Values.secret) | sha256sum }}
