@@ -110,6 +110,15 @@ redis:
   port: "6379"
   tls: "true"
 
+## Set Kafka properties
+##
+kafka:
+  enabled: false
+  brokerList: ""
+  password: ""
+  username: ""
+  topicName: AUDIT_TRIGGERED
+
 ## Frontegg's services url for inner communications
 ## Provide an alternate url for a service if a service name was changed
 ##
