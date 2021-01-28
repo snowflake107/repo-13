@@ -3,8 +3,8 @@ kind: Service
 metadata:
   name: frontegg-{{ include "event-service.name" . }}
   labels:
-	  monitoring-metrics: enabled
-  	  {{- include "event-service.labels" . | nindent 4 }}
+    monitoring-metrics: enabled
+  {{- include "event-service.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
