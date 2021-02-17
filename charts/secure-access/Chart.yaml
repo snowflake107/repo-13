@@ -2,7 +2,7 @@ apiVersion: v2
 name: secure-access
 description: Frontegg's secure access Helm Chart
 type: application
-version: 1.5.0-beta.1
+version: 1.5.0-beta.2
 icon: https://frontegg.com/wp-content/uploads/2020/04/logo_frrontegg.svg
 
 dependencies:
@@ -15,7 +15,7 @@ dependencies:
     repository: "https://frontegg.github.io/helm-charts/"
 
   - name: identity-service
-    version: "0.1.37"
+    version: "0.1.38"
     repository: "https://frontegg.github.io/helm-charts/"
 
 maintainers:
