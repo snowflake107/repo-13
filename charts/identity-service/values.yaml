@@ -133,7 +133,7 @@ email:
 ## Set secure access webhook properties
 ##
 webhook:
-  enabled: false
+  enabled: "false"
   ## Set the url that the webhook wil be sent to
   url: ""
   ## (optional) Set secret that will be sent in the request header
