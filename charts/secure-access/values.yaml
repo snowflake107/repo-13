@@ -234,6 +234,15 @@ identity-service:
   email:
     apiKey: ""
 
+  ## -- Set secure access webhook properties
+  ##
+  webhook:
+    enabled: false
+    ## -- Set the url that the webhook wil be sent to
+    url: ""
+    ## -- (optional) Set secret that will be sent in the request header
+    secret: ""
+
   # -- Set Frontegg's api key for emails
   frontegg:
     # -- Set Frontegg provided in frontegg's portal administration
