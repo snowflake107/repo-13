@@ -158,7 +158,7 @@ connectors-worker:
 
   ## Provide the image docker tag default: latest
   ##
-  appVersion: "2021.5.3132651"
+  appVersion: "2021.5.5162227"
 
   ## Manage docker image properties
   ##
@@ -310,7 +310,7 @@ event-service:
 
   ## Provide the image docker tag default: latest
   ##
-  appVersion: "2021.3.25121247"
+  appVersion: "2021.5.5183929"
 
   ## Manage docker image properties
   ##
@@ -563,7 +563,7 @@ integrations-service:
   replicaCount: 2
 
   # -- Provide the image docker tag default: latest
-  appVersion: "2021.5.3132725"
+  appVersion: "2021.5.5162332"
 
   # -- Manage docker image properties
   image:
