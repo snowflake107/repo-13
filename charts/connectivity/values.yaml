@@ -523,7 +523,7 @@ webhook-service:
   # -- Webhook-service uses MongoDB for persistence
   #
   mongo:
-    # -- Set MongoDB connection string
+    # -- Set MongoDB connection string (mongo://xxx@yyy/webhooks?)
     connectionString: ""
     # -- Set MongoDB connection retry attempts
     retryAttempts: "3"
@@ -629,7 +629,7 @@ integrations-service:
   # -- integrations-service uses MongoDB for persistence
   #
   mongo:
-    # -- Set MongoDB connection string
+    # -- Set MongoDB connection string (mongo://xxx@yyy/integrations?)
     connectionString: ""
 
 
