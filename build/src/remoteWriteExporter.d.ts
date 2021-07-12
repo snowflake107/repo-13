@@ -1,7 +1,7 @@
 import { collectorTypes, CollectorExporterNodeConfigBase } from '@opentelemetry/exporter-collector';
 import { MetricRecord, MetricExporter } from '@opentelemetry/metrics';
 import { ServiceClientType } from './types';
-import { CollectorExporterNodeBase } from './CollectorExporterNodeBase';
+import { CollectorExporterNodeBase } from './remoteWriteExporterNodeBase';
 /**
  * Collector Metric Exporter for Node with protobuf
  */
@@ -12,4 +12,4 @@ export declare class CollectorMetricExporter extends CollectorExporterNodeBase<M
     getDefaultUrl(config: CollectorExporterNodeConfigBase): string;
     getServiceClientType(): ServiceClientType;
 }
-//# sourceMappingURL=CollectorMetricExporter.d.ts.map
+//# sourceMappingURL=remoteWriteExporter.d.ts.map

@@ -18,13 +18,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CollectorMetricExporter = void 0;
 const exporter_collector_1 = require("@opentelemetry/exporter-collector");
 const types_1 = require("./types");
-const CollectorExporterNodeBase_1 = require("./CollectorExporterNodeBase");
+const CollectorExporterNodeBase_1 = require("./remoteWriteExporterNodeBase");
 const core_1 = require("@opentelemetry/core");
 const DEFAULT_COLLECTOR_URL = 'http://localhost:4317/v1/metrics';
 /**
  * Collector Metric Exporter for Node with protobuf
  */
-class CollectorMetricExporter extends CollectorExporterNodeBase_1.CollectorExporterNodeBase {
+class RemoteWriteExporter extends CollectorExporterNodeBase_1.CollectorExporterNodeBase {
     constructor(config = {}) {
         super(config);
         this.token = config.token ;
@@ -49,5 +49,5 @@ class CollectorMetricExporter extends CollectorExporterNodeBase_1.CollectorExpor
         return types_1.ServiceClientType.METRICS;
     }
 }
-exports.CollectorMetricExporter = CollectorMetricExporter;
-//# sourceMappingURL=CollectorMetricExporter.js.map
+exports.CollectorMetricExporter = RemoteWriteExporter;
+//# sourceMappingURL=remoteWriteExporter.js.map

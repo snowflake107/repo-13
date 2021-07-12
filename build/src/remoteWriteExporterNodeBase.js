@@ -21,7 +21,7 @@ const exporter_collector_1 = require("@opentelemetry/exporter-collector");
 /**
  * Collector Metric Exporter abstract base class
  */
-class CollectorExporterNodeBase extends exporter_collector_1.CollectorExporterNodeBase {
+class RemoteWriteExporterNodeBase extends exporter_collector_1.CollectorExporterNodeBase {
     _sendPromise(objects, onSuccess, onError) {
         const promise = new Promise(resolve => {
             const _onSuccess = () => {
@@ -71,5 +71,5 @@ class CollectorExporterNodeBase extends exporter_collector_1.CollectorExporterNo
         }
     }
 }
-exports.CollectorExporterNodeBase = CollectorExporterNodeBase;
-//# sourceMappingURL=CollectorExporterNodeBase.js.map
+exports.CollectorExporterNodeBase = RemoteWriteExporterNodeBase;
+//# sourceMappingURL=RemoteWriteExporterNodeBase.js.map

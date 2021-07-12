@@ -48,13 +48,11 @@ function onInit(collector, _config) {
 exports.onInit = onInit;
 
 function send(collector, objects, onSuccess, onError) {
-
-
-
     const serviceRequest = collector.convert(objects);
     const write_request = transform.toTimeSeries(serviceRequest)
     const bytes = write_request.serializeBinary();
     const compr = SnappyJS.compress(bytes);
+
     //Send with htttp
     const parsedUrl = new url.URL(collector.url);
     const options = {

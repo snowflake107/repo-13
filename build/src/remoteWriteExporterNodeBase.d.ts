@@ -10,4 +10,4 @@ export declare abstract class CollectorExporterNodeBase<ExportItem, ServiceReque
     send(objects: ExportItem[], onSuccess: () => void, onError: (error: collectorTypes.CollectorExporterError) => void): void;
     abstract getServiceClientType(): ServiceClientType;
 }
-//# sourceMappingURL=CollectorExporterNodeBase.d.ts.map
+//# sourceMappingURL=remoteWriteExporterNodeBase.d.ts.map

@@ -1,5 +1,5 @@
 import { collectorTypes, CollectorExporterNodeConfigBase } from '@opentelemetry/exporter-collector';
-import { CollectorExporterNodeBase } from './CollectorExporterNodeBase';
+import { CollectorExporterNodeBase } from './remoteWriteExporterNodeBase';
 import type { Type } from 'protobufjs';
 export declare function getExportRequestProto(): Type | undefined;
 export declare function onInit<ExportItem, ServiceRequest>(collector: CollectorExporterNodeBase<ExportItem, ServiceRequest>, _config: CollectorExporterNodeConfigBase): void;
