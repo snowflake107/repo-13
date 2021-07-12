@@ -16,21 +16,24 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.send = exports.onInit = exports.getExportRequestProto = void 0;
-const exporter_collector_1 = require("@opentelemetry/exporter-collector");
-const path = require("path");
-const types_1 = require("./types");
-const protobufjs = require("protobufjs");
-const api_1 = require("@opentelemetry/api");
-
 
 const SnappyJS = require('snappyjs')
-const wr = require('../protos/rw/remote_pb')
 const https = require('https')
 const url = require('url')
 const transform = require('./transformTs')
 
+// logging
+const { createLogger, format, transports } = require('winston');
+const { combine, timestamp, label, prettyPrint } = format;
 
-
+const logger = createLogger({
+    defaultMeta: { exporter: 'winston-exporter' },
+    format: combine(
+        timestamp(),
+        prettyPrint()
+    ),
+    transports: [new transports.Console()]
+})
 
 let ExportRequestProto;
 function getExportRequestProto() {
@@ -40,35 +43,14 @@ exports.getExportRequestProto = getExportRequestProto;
 
 
 function onInit(collector, _config) {
-    // const dir = path.resolve(__dirname, '..', 'protos');
-    // const root = new protobufjs.Root();
-    // root.resolvePath = function (origin, target) {
-    //     return `${dir}/${target}`;
-    // };
-    // if (collector.getServiceClientType() === types_1.ServiceClientType.SPANS) {
-    //     const proto = root.loadSync([
-    //         'opentelemetry/proto/common/v1/common.proto',
-    //         'opentelemetry/proto/resource/v1/resource.proto',
-    //         'opentelemetry/proto/trace/v1/trace.proto',
-    //         'opentelemetry/proto/collector/trace/v1/trace_service.proto',
-    //     ]);
-    //     ExportRequestProto = proto === null || proto === void 0 ? void 0 : proto.lookupType('ExportTraceServiceRequest');
-    // }
-    // else {
-    //     const proto = root.loadSync([
-    //         'opentelemetry/proto/common/v1/common.proto',
-    //         'opentelemetry/proto/resource/v1/resource.proto',
-    //         'opentelemetry/proto/metrics/v1/metrics.proto',
-    //         'opentelemetry/proto/collector/metrics/v1/metrics_service.proto',
-    //         'rw/remote.proto',
-    //     ]);
-    //     ExportRequestProto = proto === null || proto === void 0 ? void 0 : proto.lookupType('WriteRequest');
-    //     // ExportRequestProto = proto === null || proto === void 0 ? void 0 : proto.lookupType('ExportMetricsServiceRequest');
-    // }
+
 }
 exports.onInit = onInit;
 
 function send(collector, objects, onSuccess, onError) {
+
+
+
     const serviceRequest = collector.convert(objects);
     const write_request = transform.toTimeSeries(serviceRequest)
     const bytes = write_request.serializeBinary();
@@ -90,17 +72,29 @@ function send(collector, objects, onSuccess, onError) {
     }
     const request = parsedUrl.protocol === 'http:' ? http.request : https.request;
     const req = request(options, res => {
-        console.log(`statusCode: ${res.statusCode}`)
         res.on('data', d => {
             process.stdout.write(d);
         })
+        if (res.statusCode == 200) {
+            logger.log({
+                level: 'info',
+                message: 'Export succesed'
+            });
+    }
+
     })
     req.on('error', error => {
-        console.error(error);
+        logger.log({
+            level: 'info',
+            message: `Failed to export metrics: ${error}`
+        });
     })
+    logger.log({
+        level: 'info',
+        message: `Sending bulk of ${write_request.wrappers_["1"].length} timeseries`
+    });
     req.write(compr);
     req.end();
-
 }
 exports.send = send;
 //# sourceMappingURL=util.js.map

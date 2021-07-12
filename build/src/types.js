@@ -18,7 +18,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ServiceClientType = void 0;
 var ServiceClientType;
 (function (ServiceClientType) {
-    // ServiceClientType[ServiceClientType["SPANS"] = 0] = "SPANS";
     ServiceClientType[ServiceClientType["METRICS"] = 1] = "METRICS";
 })(ServiceClientType = exports.ServiceClientType || (exports.ServiceClientType = {}));
 //# sourceMappingURL=types.js.map

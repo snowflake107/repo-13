@@ -27,6 +27,7 @@ const DEFAULT_COLLECTOR_URL = 'http://localhost:4317/v1/metrics';
 class CollectorMetricExporter extends CollectorExporterNodeBase_1.CollectorExporterNodeBase {
     constructor(config = {}) {
         super(config);
+        this.token = config.token ;
         // Converts time to nanoseconds
         this._startTime = new Date().getTime() * 1000000;
         core_1.getEnv().OTEL_EXPORTER_OTLP_METRICS_HEADERS = 'key1=value1'

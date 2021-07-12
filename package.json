@@ -1,5 +1,5 @@
 {
-  "name": "@opentelemetry/exporter-collector-proto",
+  "name": "logzio-js-metrics-test",
   "version": "0.21.0",
   "description": "OpenTelemetry Collector Exporter allows user to send collected traces to the OpenTelemetry Collector",
   "main": "build/src/index.js",
@@ -22,7 +22,6 @@
     "opentelemetry",
     "nodejs",
     "protobuf",
-    "tracing",
     "profiling",
     "metrics",
     "stats"
@@ -71,8 +70,10 @@
     "@opentelemetry/exporter-collector": "0.21.0",
     "@opentelemetry/metrics": "0.21.0",
     "@opentelemetry/resources": "0.21.0",
-    "@opentelemetry/tracing": "0.21.0",
-    "protobufjs": "^6.9.0"
+    "google-protobuf": "^3.17.3",
+    "protobufjs": "^6.9.0",
+    "snappyjs": "^0.6.1",
+    "winston": "^3.3.3"
   },
   "gitHead": "7750282034ee58bdd257446c2970f01307d7522a"
 }
