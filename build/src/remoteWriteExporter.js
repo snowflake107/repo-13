@@ -20,7 +20,7 @@ const exporter_collector_1 = require("@opentelemetry/exporter-collector");
 const types_1 = require("./types");
 const CollectorExporterNodeBase_1 = require("./remoteWriteExporterNodeBase");
 const core_1 = require("@opentelemetry/core");
-const DEFAULT_COLLECTOR_URL = 'http://localhost:4317/v1/metrics';
+const DEFAULT_LISTENER_URL = 'https://listener.logz.io:8053';
 /**
  * Collector Metric Exporter for Node with protobuf
  */
@@ -38,12 +38,7 @@ class RemoteWriteExporter extends CollectorExporterNodeBase_1.CollectorExporterN
     }
     getDefaultUrl(config) {
         return typeof config.url === 'string'
-            ? config.url
-            : core_1.getEnv().OTEL_EXPORTER_OTLP_METRICS_ENDPOINT.length > 0
-                ? core_1.getEnv().OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
-                : core_1.getEnv().OTEL_EXPORTER_OTLP_ENDPOINT.length > 0
-                    ? core_1.getEnv().OTEL_EXPORTER_OTLP_ENDPOINT
-                    : DEFAULT_COLLECTOR_URL;
+            ? config.url : DEFAULT_LISTENER_URL
     }
     getServiceClientType() {
         return types_1.ServiceClientType.METRICS;

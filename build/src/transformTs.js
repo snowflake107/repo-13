@@ -20,7 +20,6 @@ function attachSample(s, samples, metric_type = 'reg'){
     }
     samples.push(sample)
 }
-// TODO export
 
 function attachLabel(l, labels){
     let label = new wr.Label();
@@ -28,7 +27,6 @@ function attachLabel(l, labels){
     label.setValue(l.value);
     labels.push(label)
 }
-// TODO export
 
 function convertToTsLSamples(metric, ts, metric_type = 'reg'){
     const samples = []
@@ -69,7 +67,6 @@ function convertToTsLSamples(metric, ts, metric_type = 'reg'){
         ts.addSamples(s);
     })
 }
-// TODO export
 
 function convertToTsLabels(metric, ts, attributes ,name){
     const labels = []
@@ -129,7 +126,6 @@ function convertToTsLabels(metric, ts, attributes ,name){
         ts.addLabels(l);
     })
 }
-// TODO export
 
 function checkNestedObjectByKeyValue(obj, objKey, objValue) {
     if (typeof obj !== 'object') return false;
