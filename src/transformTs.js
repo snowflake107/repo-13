@@ -1,4 +1,4 @@
-const wr = require('../protos/rw/remote_pb')
+const wr = require('./remote_pb')
 
 
 function attachSample(s, samples, metric_type = 'reg'){

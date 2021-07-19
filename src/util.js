@@ -17,17 +17,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.send = exports.onInit = exports.getExportRequestProto = void 0;
 
-const SnappyJS = require('snappyjs')
-const https = require('https')
-const url = require('url')
-const transform = require('./transformTs')
+const SnappyJS = require('snappyjs');
+const https = require('https');
+const url = require('url');
+const transform = require('./transformTs');
+let lost = 0;
+
+
 
 // logging
 const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, label, prettyPrint } = format;
 
 const logger = createLogger({
-    defaultMeta: { exporter: 'winston-exporter' },
+    defaultMeta: { exporter: 'logzio-exporter' },
     format: combine(
         timestamp(),
         prettyPrint()
@@ -47,52 +50,76 @@ function onInit(collector, _config) {
 }
 exports.onInit = onInit;
 
+function exporterRetryStrategy(err, response, body, options){
+    const retryCodes = [408, 500, 502, 503, 504, 522, 524];
+    const shouldRetry = retryCodes.includes(response.statusCode);
+    if (shouldRetry){
+        options.headers['logzio-shipper'] = `modejs-metrics/1.0.0/${response.attempts}`
+        logger.log({
+            level: "warn",
+            message: `Faild to export, attempt number: ${response.attempts}, retrying again in ${options.retryDelay/1000}s`,
+        })
+    }
+    return {
+        mustRetry: shouldRetry,
+        options: options,
+    }
+}
+
 function send(collector, objects, onSuccess, onError) {
     const serviceRequest = collector.convert(objects);
     const write_request = transform.toTimeSeries(serviceRequest)
     const bytes = write_request.serializeBinary();
     const compr = SnappyJS.compress(bytes);
+    if (write_request.wrappers_["1"].length > 0) {
 
-    //Send with htttp
-    const parsedUrl = new url.URL(collector.url);
-    const options = {
-        hostname: parsedUrl.hostname,
-        port: parsedUrl.port,
-        path: parsedUrl.pathname,
-        method: 'POST',
-        agent: collector.agent,
-        headers: {
-            "Content-Encoding": "snappy",
-            "Authorization": "Bearer " + collector.token,
-            "Content-Type": "application/x-protobuf",
-            "X-Prometheus-Remote-Write-Version": "0.1.0",
+        //Send with htttp
+        const parsedUrl = new url.URL(collector.url);
+        const request = require('requestretry');
+        const options = {
+            uri: collector.url,
+            method: 'POST',
+            agent: collector.agent,
+            body: compr,
+            headers: {
+                "Content-Encoding": "snappy",
+                "Authorization": "Bearer " + collector.token,
+                "Content-Type": "application/x-protobuf",
+                "X-Prometheus-Remote-Write-Version": "0.1.0",
+                "logzio-shipper": `modejs-metrics/1.0.0/0`,
+                "NN": `${lost}`
+            },
+            maxAttempts: 3,
+            retryDelay: 2000,
+            retryStrategy: exporterRetryStrategy
         }
-    }
-    const request = parsedUrl.protocol === 'http:' ? http.request : https.request;
-    const req = request(options, res => {
-        res.on('data', d => {
-            process.stdout.write(d);
-        })
-        if (res.statusCode == 200) {
-            logger.log({
-                level: 'info',
-                message: 'Export succesed'
-            });
-    }
 
-    })
-    req.on('error', error => {
         logger.log({
             level: 'info',
-            message: `Failed to export metrics: ${error}`
+            message: `Sending bulk of ${write_request.wrappers_["1"].length} timeseries`
         });
-    })
-    logger.log({
-        level: 'info',
-        message: `Sending bulk of ${write_request.wrappers_["1"].length} timeseries`
-    });
-    req.write(compr);
-    req.end();
+        request(options, function(err, response, body){
+            // this callback will only be called when the request succeeded or after maxAttempts or on error
+            if (response.statusCode != 200) {
+                logger.log({
+                    level: "warn",
+                    message:`Export failed after ${response.attempts} attempts. Status code: ${response.statusCode}`
+                })
+                lost += write_request.wrappers_["1"].length;
+            } else {
+                logger.log({
+                    level: "info",
+                    message:`Export Succeeded after ${response.attempts} attempts. Status code: ${response.statusCode}`
+                })
+                lost = 0;
+            }
+        });
+    } else {
+        logger.log({
+            level: "info",
+            message: "No timeseries to send"
+        })
+    }
 }
 exports.send = send;
 //# sourceMappingURL=util.js.map
