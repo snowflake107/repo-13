@@ -5,6 +5,6 @@
     "outDir": "out"
   },
   "include": [
-    "build/src/*.js"
+    "src/*.js"
   ]
 }
