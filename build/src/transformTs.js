@@ -1,6 +1,4 @@
 const wr = require('../protos/rw/remote_pb')
-const https = require('https')
-const url = require('url')
 
 
 function attachSample(s, samples, metric_type = 'reg'){
