@@ -57,7 +57,7 @@ function convertToTsLSamples(metric, ts, metric_type = 'reg'){
         })
     }
     else {
-        //TODO
+        throw new Error('Metric type is not supported')
     }
     samples.forEach((s) => {
         ts.addSamples(s);
@@ -116,7 +116,7 @@ function convertToTsLabels(metric, ts, attributes ,name){
         })
     }
     else {
-        //TODO
+        throw new Error('Metric type is not supported')
     }
     labels.forEach((l) => {
         ts.addLabels(l);
