@@ -18,9 +18,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.send = exports.onInit = exports.getExportRequestProto = void 0;
 
 const SnappyJS = require('snappyjs');
-const https = require('https');
-const url = require('url');
 const transform = require('./transformTs');
+const retryCodes = [408, 500, 502, 503, 504, 522, 524];
 let lost = 0;
 
 
@@ -30,7 +29,7 @@ const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, label, prettyPrint } = format;
 
 const logger = createLogger({
-    defaultMeta: { exporter: 'logzio-exporter' },
+    defaultMeta: { exporter: 'logzio-nodejs-exporter' },
     format: combine(
         timestamp(),
         prettyPrint()
@@ -51,14 +50,10 @@ function onInit(collector, _config) {
 exports.onInit = onInit;
 
 function exporterRetryStrategy(err, response, body, options){
-    const retryCodes = [408, 500, 502, 503, 504, 522, 524];
     const shouldRetry = retryCodes.includes(response.statusCode);
     if (shouldRetry){
-        options.headers['logzio-shipper'] = `modejs-metrics/1.0.0/${response.attempts}`
-        logger.log({
-            level: "warn",
-            message: `Faild to export, attempt number: ${response.attempts}, retrying again in ${options.retryDelay/1000}s`,
-        })
+        options.headers['logzio-shipper'] = `modejs-metrics/1.0.0/${response.attempts}`;
+        logger.log({level: "warn", message: `Faild to export, attempt number: ${response.attempts}, retrying again in ${options.retryDelay/1000}s`,});
     }
     return {
         mustRetry: shouldRetry,
@@ -66,21 +61,19 @@ function exporterRetryStrategy(err, response, body, options){
     }
 }
 
-function send(collector, objects, onSuccess, onError) {
+function send(collector, objects) {
     const serviceRequest = collector.convert(objects);
     const write_request = transform.toTimeSeries(serviceRequest)
     const bytes = write_request.serializeBinary();
-    const compr = SnappyJS.compress(bytes);
+    const payload = SnappyJS.compress(bytes);
     if (write_request.wrappers_["1"].length > 0) {
-
         //Send with htttp
-        const parsedUrl = new url.URL(collector.url);
         const request = require('requestretry');
         const options = {
             uri: collector.url,
             method: 'POST',
             agent: collector.agent,
-            body: compr,
+            body: payload,
             headers: {
                 "Content-Encoding": "snappy",
                 "Authorization": "Bearer " + collector.token,
@@ -94,31 +87,19 @@ function send(collector, objects, onSuccess, onError) {
             retryStrategy: exporterRetryStrategy
         }
 
-        logger.log({
-            level: 'info',
-            message: `Sending bulk of ${write_request.wrappers_["1"].length} timeseries`
-        });
+        logger.log({level: 'info', message: `Sending bulk of ${write_request.wrappers_["1"].length} timeseries`});
         request(options, function(err, response, body){
             // this callback will only be called when the request succeeded or after maxAttempts or on error
             if (response.statusCode != 200) {
-                logger.log({
-                    level: "warn",
-                    message:`Export failed after ${response.attempts} attempts. Status code: ${response.statusCode}`
-                })
+                logger.log({level: "warn", message:`Export failed after ${response.attempts} attempts. Status code: ${response.statusCode}`})
                 lost += write_request.wrappers_["1"].length;
             } else {
-                logger.log({
-                    level: "info",
-                    message:`Export Succeeded after ${response.attempts} attempts. Status code: ${response.statusCode}`
-                })
+                logger.log({level: "info", message:`Export Succeeded after ${response.attempts} attempts. Status code: ${response.statusCode}`})
                 lost = 0;
             }
         });
     } else {
-        logger.log({
-            level: "info",
-            message: "No timeseries to send"
-        })
+        logger.log({level: "info", message: "No timeseries to send"})
     }
 }
 exports.send = send;

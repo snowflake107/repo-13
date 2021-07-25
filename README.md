@@ -1,4 +1,4 @@
-This topic includes instructions on how to send custom metrics to Logz.io from your GO application.
+This topic includes instructions on how to send custom metrics to Logz.io from your Node.js application.
 
 The included example uses the [OpenTelemetry JS SDK](https://github.com/open-telemetry/opentelemetry-js) and its based on [OpenTelemetry exporter collector proto](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-exporter-collector-proto).
 
