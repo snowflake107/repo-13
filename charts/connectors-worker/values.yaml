@@ -87,12 +87,20 @@ configuration:
   secrets: {}
   map: {}
 
-# -- Set Message Broker (Kafka) properties.
+# -- Set Message Broker (Kafka) properties. Frontegg only support plaintext and sasl connection type.
 messageBroker:
-  # -- Set broker list (host)
+  # -- Set broker list (hosts), if more than one use comma separated string
   brokerList: ""
-  # -- Set broker list password
+  # -- Set kafka sasl password if needed
   password: ""
+  # -- Set kafka sasl username if needed
+  username: ""
+  # -- Set useRetry (true|false) to activate retry mechanism on message handling failure.
+  useRetry: "false"
+  # -- Set retry count, maximum number of retries for the mechanism handling failure.
+  retryCount: "3"
+  # -- Set useDlq (true|false), activate dead letter queue mechanism on failed messages.
+  useDlq: "false"
 
 # -- Set Redis properties
 redis:
