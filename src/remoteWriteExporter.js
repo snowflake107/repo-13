@@ -27,7 +27,12 @@ const DEFAULT_LISTENER_URL = 'https://listener.logz.io:8053';
 class RemoteWriteExporter extends CollectorExporterNodeBase_1.CollectorExporterNodeBase {
     constructor(config = {}) {
         super(config);
-        this.token = config.token ;
+        if (config.token) {
+            this.token = config.token ;
+        }
+        else {
+            throw new Error("Token is required")
+        }
         // Converts time to nanoseconds
         this._startTime = new Date().getTime() * 1000000;
         core_1.getEnv().OTEL_EXPORTER_OTLP_METRICS_HEADERS = 'key1=value1'
@@ -45,4 +50,3 @@ class RemoteWriteExporter extends CollectorExporterNodeBase_1.CollectorExporterN
     }
 }
 exports.CollectorMetricExporter = RemoteWriteExporter;
-//# sourceMappingURL=remoteWriteExporter.js.map

@@ -1,4 +1,4 @@
-const wr = require('./remote_pb')
+const wr = require('../protos/rw/remote_pb')
 function attachSample(s, samples, metric_type = 'reg'){
     let sample = new wr.Sample();
     sample.setTimestampmillis(Math.floor(s.startTimeUnixNano/1000000));
@@ -154,17 +154,17 @@ function toTimeSeries(otel_request) {
                     let metric_type = (('doubleHistogram' in _metric) ? 'doubleHistogram' : 'intHistogram');
                     // Sum metric
                     let _ts_sum = new wr.TimeSeries();
-                    convertToTsLabels(_metric, _ts_sum, _attributes, _metric.name + "_sum");
+                    convertToTsLabels(_metric, _ts_sum, _attributes, `${_metric.name}_sum`);
                     convertToTsLSamples(_metric, _ts_sum, 'sum');
                     write_request.addTimeseries(_ts_sum);
                     // Count metric
                     let _ts_count = new wr.TimeSeries();
-                    convertToTsLabels(_metric, _ts_count, _attributes, _metric.name + "_count");
+                    convertToTsLabels(_metric, _ts_count, _attributes, `${_metric.name}_count`);
                     convertToTsLSamples(_metric, _ts_count, 'count');
                     write_request.addTimeseries(_ts_count);
                     // Average metric
                     let _ts_avg = new wr.TimeSeries();
-                    convertToTsLabels(_metric, _ts_avg, _attributes, _metric.name + "_avg");
+                    convertToTsLabels(_metric, _ts_avg, _attributes, `${_metric.name}_avg`);
                     convertToTsLSamples(_metric, _ts_avg, 'avg');
                     write_request.addTimeseries(_ts_avg);
                 }
@@ -179,4 +179,12 @@ function toTimeSeries(otel_request) {
     })
     return write_request;
 }
+// export
 exports.toTimeSeries = toTimeSeries;
+exports.convertToTsLabels = convertToTsLabels;
+exports.convertToTsLSamples = convertToTsLSamples;
+exports.attachSample = attachSample;
+exports.convertToTsLSamples = convertToTsLSamples;
+exports.attachLabel = attachLabel;
+
+

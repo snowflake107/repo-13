@@ -72,4 +72,3 @@ class RemoteWriteExporterNodeBase extends exporter_collector_1.CollectorExporter
     }
 }
 exports.CollectorExporterNodeBase = RemoteWriteExporterNodeBase;
-//# sourceMappingURL=RemoteWriteExporterNodeBase.js.map

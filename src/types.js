@@ -20,4 +20,3 @@ var ServiceClientType;
 (function (ServiceClientType) {
     ServiceClientType[ServiceClientType["METRICS"] = 1] = "METRICS";
 })(ServiceClientType = exports.ServiceClientType || (exports.ServiceClientType = {}));
-//# sourceMappingURL=types.js.map

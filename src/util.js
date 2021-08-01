@@ -61,6 +61,7 @@ function exporterRetryStrategy(err, response, body, options){
     }
 }
 
+
 function send(collector, objects) {
     const serviceRequest = collector.convert(objects);
     const write_request = transform.toTimeSeries(serviceRequest)
@@ -83,7 +84,7 @@ function send(collector, objects) {
                 "NN": `${lost}`
             },
             maxAttempts: 3,
-            retryDelay: 2000,
+            retryDelay: 4000,
             retryStrategy: exporterRetryStrategy
         }
 
@@ -103,4 +104,3 @@ function send(collector, objects) {
     }
 }
 exports.send = send;
-//# sourceMappingURL=util.js.map
