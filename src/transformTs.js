@@ -1,8 +1,4 @@
 const wr = require('../protos/rw/remote_pb')
-const https = require('https')
-const url = require('url')
-
-
 function attachSample(s, samples, metric_type = 'reg'){
     let sample = new wr.Sample();
     sample.setTimestampmillis(Math.floor(s.startTimeUnixNano/1000000));
@@ -61,7 +57,7 @@ function convertToTsLSamples(metric, ts, metric_type = 'reg'){
         })
     }
     else {
-        //TODO
+        throw new Error('Metric type is not supported')
     }
     samples.forEach((s) => {
         ts.addSamples(s);
@@ -120,7 +116,7 @@ function convertToTsLabels(metric, ts, attributes ,name){
         })
     }
     else {
-        //TODO
+        throw new Error('Metric type is not supported')
     }
     labels.forEach((l) => {
         ts.addLabels(l);
@@ -158,17 +154,17 @@ function toTimeSeries(otel_request) {
                     let metric_type = (('doubleHistogram' in _metric) ? 'doubleHistogram' : 'intHistogram');
                     // Sum metric
                     let _ts_sum = new wr.TimeSeries();
-                    convertToTsLabels(_metric, _ts_sum, _attributes, _metric.name + "_sum");
+                    convertToTsLabels(_metric, _ts_sum, _attributes, `${_metric.name}_sum`);
                     convertToTsLSamples(_metric, _ts_sum, 'sum');
                     write_request.addTimeseries(_ts_sum);
                     // Count metric
                     let _ts_count = new wr.TimeSeries();
-                    convertToTsLabels(_metric, _ts_count, _attributes, _metric.name + "_count");
+                    convertToTsLabels(_metric, _ts_count, _attributes, `${_metric.name}_count`);
                     convertToTsLSamples(_metric, _ts_count, 'count');
                     write_request.addTimeseries(_ts_count);
                     // Average metric
                     let _ts_avg = new wr.TimeSeries();
-                    convertToTsLabels(_metric, _ts_avg, _attributes, _metric.name + "_avg");
+                    convertToTsLabels(_metric, _ts_avg, _attributes, `${_metric.name}_avg`);
                     convertToTsLSamples(_metric, _ts_avg, 'avg');
                     write_request.addTimeseries(_ts_avg);
                 }
@@ -183,4 +179,12 @@ function toTimeSeries(otel_request) {
     })
     return write_request;
 }
+// export
 exports.toTimeSeries = toTimeSeries;
+exports.convertToTsLabels = convertToTsLabels;
+exports.convertToTsLSamples = convertToTsLSamples;
+exports.attachSample = attachSample;
+exports.convertToTsLSamples = convertToTsLSamples;
+exports.attachLabel = attachLabel;
+
+
