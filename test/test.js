@@ -127,8 +127,7 @@ describe('TestExporter', function(){
                 else {
                     assert.strictEqual(metricValue,5);
                 }
-            }),
-            console.log("DS")
+            })
         });
         it('attachLabel()', function () {
             let labels = [];
