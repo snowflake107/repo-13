@@ -26,7 +26,8 @@
     "protos/**/*",
     "doc",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "package-lock.json"
   ],
   "publishConfig": {
     "access": "public"
