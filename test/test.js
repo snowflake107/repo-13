@@ -25,7 +25,6 @@ describe('TestExporter', function(){
             }
         });
     });
-
     describe('TestTransformTS', function () {
         let request;
         let testMetrics;
