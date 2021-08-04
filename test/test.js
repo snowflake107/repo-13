@@ -93,7 +93,7 @@ describe('TestExporter', function(){
             let samples = []
             let testSample = {
                 "value": 5,
-                "startTimeUnixNano": 10000005,
+                "timeUnixNano": 10000005,
             }
             transform.attachSample(testSample, samples)
             assert.strictEqual(samples[0].array[0], 5);
@@ -102,7 +102,7 @@ describe('TestExporter', function(){
             testSample = {
                 "sum": 44,
                 "count": 2,
-                "startTimeUnixNano": 10000005,
+                "timeUnixNano": 10000005,
             }
             transform.attachSample(testSample, samples, 'sum')
             assert.strictEqual(samples[0].array[0], 44);

@@ -1,7 +1,7 @@
 const wr = require('../protos/rw/remote_pb')
 function attachSample(s, samples, metric_type = 'reg'){
     let sample = new wr.Sample();
-    sample.setTimestampmillis(Math.floor(s.startTimeUnixNano/1000000));
+    sample.setTimestampmillis(Math.floor(s.timeUnixNano/1000000));
     if (metric_type == 'reg') {
         sample.setValue(s.value);
     }

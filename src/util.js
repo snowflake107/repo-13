@@ -36,18 +36,25 @@ function onInit(collector, _config) {
 exports.onInit = onInit;
 
 function exporterRetryStrategy(err, response, body, options){
-    const retryCodes = [408, 500, 502, 503, 504, 522, 524];
-    const shouldRetry = retryCodes.includes(response.statusCode);
-    if (shouldRetry){
-        options.headers['logzio-shipper'] = `nodejs-metrics/1.0.0/${response.attempts}`;
-        logger.log({level: "warn", message: `Faild to export, attempt number: ${response.attempts}, retrying again in ${options.retryDelay/1000}s`,});
+    try {
+        const retryCodes = [408, 500, 502, 503, 504, 522, 524];
+        const shouldRetry = retryCodes.includes(response.statusCode);
+        if (shouldRetry){
+            options.headers['logzio-shipper'] = `nodejs-metrics/1.0.0/${response.attempts}`;
+            logger.log({level: "warn", message: `Faild to export, attempt number: ${response.attempts}, retrying again in ${options.retryDelay/1000}s`,});
+        }
+        return {
+            mustRetry: shouldRetry,
+            options: options,
+        }
     }
-    return {
-        mustRetry: shouldRetry,
-        options: options,
+    catch (e) {
+        logger.log({
+            level: "error",
+            message: e
+        })
     }
 }
-
 
 function send(collector, objects) {
     const serviceRequest = collector.convert(objects);
