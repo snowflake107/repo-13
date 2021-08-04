@@ -2,66 +2,8 @@ const nock = require('nock');
 const assert = require('assert');
 const wr = require('../protos/rw/remote_pb')
 const util = require('../src/util');
-const { MeterProvider } = require('@opentelemetry/metrics');
 const transform  = require('../src/transformTs');
 const rwexporter = require('../src/remoteWriteExporter');
-
-async function convertMetrics (rawMetrics, exporter, returnRaw = false) {
-    let metrics_list = [];
-    for (const metric of rawMetrics) {
-        await metric.getMetricRecord().then(function (res) {
-            metrics_list.push(res[0]);
-        });
-    }
-    if (returnRaw){
-        return metrics_list;
-    }
-    let metrics =  await exporter.convert(metrics_list);
-    return metrics;
-}
-
-function toLabelDict(metric) {
-    let list = {}
-    metric[0].forEach( label => {
-        list[label[0]] = label[1];
-    });
-    return list;
-}
-
-async function initTestRequest(returnRaw = false){
-    const collectorOptions = {
-        url: 'fake',
-        token: 'token',
-    };
-    const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
-    const meter = new MeterProvider({
-        exporter: metricExporter,
-        interval: 1,
-    }).getMeter('example-exporter-collector');
-    const requestCounter = meter.createCounter('metric1', {
-        description: 'Example of a Counter',
-    });
-
-    const upDownCounter = meter.createUpDownCounter('metric2', {
-        description: 'Example of a UpDownCounter',
-    });
-    const recorder = meter.createValueRecorder('recorder_metric', {
-        description: 'Example of a ValueRecorder',
-    });
-    const labels = {pid: "1", environment: 'staging'};
-    requestCounter.bind(labels).add(5);
-    upDownCounter.bind(labels).add(5);
-    recorder.bind(labels).record(6);
-    recorder.bind(labels).record(10);
-    metricExporter.shutdown()
-    if (returnRaw) {
-        return await convertMetrics([requestCounter, upDownCounter, recorder], metricExporter, returnRaw);
-    }
-    else {
-        return await convertMetrics([requestCounter, upDownCounter, recorder], metricExporter);
-
-    }
-}
 
 
 describe('TestExporter', function(){
@@ -76,7 +18,7 @@ describe('TestExporter', function(){
         });
         it('Missing token', function (){
             try {
-                let r = new rwexporter.CollectorMetricExporter({token:"",url:"custom"});
+                new rwexporter.CollectorMetricExporter({token:"",url:"custom"});
             }
             catch (e) {
                 assert(e.message == "Token is required")
@@ -89,9 +31,10 @@ describe('TestExporter', function(){
         let testMetrics;
         let testAtt;
         let rawMetricList;
+        let testUtil = require('./testUtil');
         before(async function () {
-            request = await initTestRequest();
-            rawMetricList = await initTestRequest( true);
+            request = await testUtil.initTestRequest();
+            rawMetricList = await testUtil.initTestRequest( true);
 
             testMetrics = request['resourceMetrics'][0]['instrumentationLibraryMetrics'][0]['metrics'];
             testAtt =[
@@ -113,7 +56,7 @@ describe('TestExporter', function(){
         it('toTimeSeries()', function () {
             let write_request = transform.toTimeSeries(request);
             write_request.array[0].forEach(metric => {
-                let metricLabels = toLabelDict(metric);
+                let metricLabels = testUtil.toLabelDict(metric);
                 assert.strictEqual(metricLabels['pid'], '1')
                 assert.strictEqual(metricLabels['environment'], 'staging')
             })
@@ -176,7 +119,7 @@ describe('TestExporter', function(){
             let ts = new wr.TimeSeries();
             let metric = testMetrics[2];
             transform.convertToTsLabels(metric,ts,testAtt,metric.name);
-            let labels = toLabelDict(ts.array);
+            let labels = testUtil.toLabelDict(ts.array);
             assert.strictEqual(labels['__name__'], 'recorder_metric');
             assert.strictEqual(labels['att1'], 'v1');
             assert.strictEqual(labels['att2'], 'v2');
@@ -186,31 +129,31 @@ describe('TestExporter', function(){
             metric['intSum'] = metric['doubleHistogram'];
             delete metric.doubleHistogram;
             transform.convertToTsLabels(metric,ts,testAtt,metric.name);
-            labels = toLabelDict(ts.array);
+            labels = testUtil.toLabelDict(ts.array);
             assert.strictEqual(labels['__name__'], 'recorder_metric');
 
             metric['intGauge'] = metric['intSum'];
             delete metric.intSum;
             transform.convertToTsLabels(metric,ts,testAtt,metric.name);
-            labels = toLabelDict(ts.array);
+            labels = testUtil.toLabelDict(ts.array);
             assert.strictEqual(labels['__name__'], 'recorder_metric');
 
             metric['doubleGauge'] = metric['intGauge'];
             delete metric.intGauge;
             transform.convertToTsLabels(metric,ts,testAtt,metric.name);
-            labels = toLabelDict(ts.array);
+            labels = testUtil.toLabelDict(ts.array);
             assert.strictEqual(labels['__name__'], 'recorder_metric');
 
             metric['doubleSum'] = metric['doubleGauge'];
             delete metric.doubleGauge;
             transform.convertToTsLabels(metric,ts,testAtt,metric.name);
-            labels = toLabelDict(ts.array);
+            labels = testUtil.toLabelDict(ts.array);
             assert.strictEqual(labels['__name__'], 'recorder_metric');
 
             metric['intHistogram'] = metric['doubleSum'];
             delete metric.doubleSum;
             transform.convertToTsLabels(metric,ts,testAtt,metric.name);
-            labels = toLabelDict(ts.array);
+            labels = testUtil.toLabelDict(ts.array);
             assert.strictEqual(labels['__name__'], 'recorder_metric');
 
             metric['doubleHistogram'] = metric['intHistogram'];
@@ -266,9 +209,6 @@ describe('TestExporter', function(){
                     token: 'token',
                 };
                 const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
-                util.retryCodes.forEach( statusCode => {
-
-                });
                 nock('https://localhost:5555')
                     .post('/')
                     .reply(400, {"message":"hello world"});
@@ -297,7 +237,6 @@ describe('TestExporter', function(){
                 assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/3");
                 assert.strictEqual(response.attempts,3);
                 // should drop 5 ts
-                response = util.send(metricExporter, rawMetricList);
                 assert.strictEqual(response.options.headers['NN'],"5");
             });
         });

@@ -1,11 +1,10 @@
 {
   "name": "yotam-js-metrics-test",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Logz.io node.js metrics Exporter allows user to send collected traces to the Logz.io using OpenTelemetry SDK ",
   "main": "src/index.js",
   "repository": "open-telemetry/opentelemetry-js",
   "scripts": {
-    "compile": "tsc --build",
     "test": "mocha"
   },
   "keywords": [

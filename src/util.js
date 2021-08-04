@@ -19,24 +19,9 @@ exports.send = exports.onInit = exports.getExportRequestProto = void 0;
 
 const SnappyJS = require('snappyjs');
 const transform = require('./transformTs');
-const retryCodes = [408, 500, 502, 503, 504, 522, 524];
+const logger = require('./logging').logger
 let lost = 0;
-exports.retryCodes = retryCodes;
 
-
-
-// logging
-const { createLogger, format, transports } = require('winston');
-const { combine, timestamp, label, prettyPrint } = format;
-
-const logger = createLogger({
-    defaultMeta: { exporter: 'logzio-nodejs-exporter' },
-    format: combine(
-        timestamp(),
-        prettyPrint()
-    ),
-    transports: [new transports.Console()]
-})
 
 let ExportRequestProto;
 function getExportRequestProto() {
@@ -51,6 +36,7 @@ function onInit(collector, _config) {
 exports.onInit = onInit;
 
 function exporterRetryStrategy(err, response, body, options){
+    const retryCodes = [408, 500, 502, 503, 504, 522, 524];
     const shouldRetry = retryCodes.includes(response.statusCode);
     if (shouldRetry){
         options.headers['logzio-shipper'] = `nodejs-metrics/1.0.0/${response.attempts}`;
