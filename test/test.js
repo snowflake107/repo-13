@@ -1,20 +1,23 @@
+const nock = require('nock');
 const assert = require('assert');
 const wr = require('../protos/rw/remote_pb')
 const util = require('../src/util');
 const { MeterProvider } = require('@opentelemetry/metrics');
 const transform  = require('../src/transformTs');
 const rwexporter = require('../src/remoteWriteExporter');
-const collec = require('@opentelemetry/exporter-collector');
 
-async function convertMetrics (rawMetrics, exporter) {
+async function convertMetrics (rawMetrics, exporter, returnRaw = false) {
     let metrics_list = [];
     for (const metric of rawMetrics) {
         await metric.getMetricRecord().then(function (res) {
             metrics_list.push(res[0]);
         });
     }
-    let metrics =  await exporter.convert(metrics_list)
-    return metrics
+    if (returnRaw){
+        return metrics_list;
+    }
+    let metrics =  await exporter.convert(metrics_list);
+    return metrics;
 }
 
 function toLabelDict(metric) {
@@ -25,7 +28,7 @@ function toLabelDict(metric) {
     return list;
 }
 
-async function initTestRequest(){
+async function initTestRequest(returnRaw = false){
     const collectorOptions = {
         url: 'fake',
         token: 'token',
@@ -51,29 +54,33 @@ async function initTestRequest(){
     recorder.bind(labels).record(6);
     recorder.bind(labels).record(10);
     metricExporter.shutdown()
-    return await convertMetrics([requestCounter, upDownCounter, recorder], metricExporter);
+    if (returnRaw) {
+        return await convertMetrics([requestCounter, upDownCounter, recorder], metricExporter, returnRaw);
+    }
+    else {
+        return await convertMetrics([requestCounter, upDownCounter, recorder], metricExporter);
+
+    }
 }
 
 
 describe('TestExporter', function(){
-    describe('TestExporterInit', function() {
-        describe('ConfigValues', function() {
-            it('Default url', function (){
-                let r = new rwexporter.CollectorMetricExporter({token:"fake"});
-                assert.strictEqual(r.url,"https://listener.logz.io:8053");
-            });
-            it('Custom url', function (){
-                let r = new rwexporter.CollectorMetricExporter({token:"fake",url:"custom"});
-                assert.strictEqual(r.url,"custom");
-            });
-            it('Missing token', function (){
-                try {
-                    let r = new rwexporter.CollectorMetricExporter({token:"",url:"custom"});
-                }
-                catch (e) {
-                    assert(e.message == "Token is required")
-                }
-            });
+    describe('TestExporterConfig', function() {
+        it('Default url', function (){
+            let r = new rwexporter.CollectorMetricExporter({token:"fake"});
+            assert.strictEqual(r.url,"https://listener.logz.io:8053");
+        });
+        it('Custom url', function (){
+            let r = new rwexporter.CollectorMetricExporter({token:"fake",url:"custom"});
+            assert.strictEqual(r.url,"custom");
+        });
+        it('Missing token', function (){
+            try {
+                let r = new rwexporter.CollectorMetricExporter({token:"",url:"custom"});
+            }
+            catch (e) {
+                assert(e.message == "Token is required")
+            }
         });
     });
 
@@ -81,8 +88,11 @@ describe('TestExporter', function(){
         let request;
         let testMetrics;
         let testAtt;
+        let rawMetricList;
         before(async function () {
             request = await initTestRequest();
+            rawMetricList = await initTestRequest( true);
+
             testMetrics = request['resourceMetrics'][0]['instrumentationLibraryMetrics'][0]['metrics'];
             testAtt =[
                 {
@@ -227,6 +237,69 @@ describe('TestExporter', function(){
             ts.array[1].pop();
             transform.convertToTsLSamples(metric,ts,'avg');
             assert.strictEqual(ts.array[1][0][0],8);
+        });
+        describe('TestExport', function() {
+            this.timeout(20000)
+            it('Send() should success', async  () => {
+                function sleep(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+                const collectorOptions = {
+                    url: 'https://localhost:5555',
+                    token: 'token',
+                };
+                const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
+                nock('https://localhost:5555')
+                    .post('/')
+                    .reply(200, {"message":"hello world"});
+                let response = util.send(metricExporter, rawMetricList);
+                await sleep(5000)
+                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/0")
+                assert.strictEqual(response.options.headers['NN'],"0")
+            });
+            it('Send() should not retry', async  () => {
+                function sleep(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+                const collectorOptions = {
+                    url: 'https://localhost:5555',
+                    token: 'token',
+                };
+                const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
+                util.retryCodes.forEach( statusCode => {
+
+                });
+                nock('https://localhost:5555')
+                    .post('/')
+                    .reply(400, {"message":"hello world"});
+                let response = util.send(metricExporter, rawMetricList);
+                await sleep(5000)
+                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/0")
+                assert.strictEqual(response.options.headers['NN'],"0")
+                assert.strictEqual(response.attempts,1)
+            });
+            it('Send() should retry', async  () => {
+                function sleep(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+                const collectorOptions = {
+                    url: 'https://localhost:5555',
+                    token: 'token',
+                };
+                const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
+                nock('https://localhost:5555')
+                    .persist()
+                    .post('/')
+                    .reply(500, {"message":"hello world"});
+                let response = util.send(metricExporter, rawMetricList);
+                await sleep(8000);
+                // should retry 3 times and write header
+                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/3");
+                assert.strictEqual(response.attempts,3);
+                // should drop 5 ts
+                response = util.send(metricExporter, rawMetricList);
+                assert.strictEqual(response.options.headers['NN'],"5");
+            });
         });
     });
 })
