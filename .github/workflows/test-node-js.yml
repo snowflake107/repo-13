@@ -20,6 +20,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      - run: npm install -g npm-install-peers
       - run: npm install request -g
-      - run: npm install -g
       - run: npm test
