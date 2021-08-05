@@ -7,6 +7,31 @@ const rwexporter = require('../src/remoteWriteExporter');
 
 
 describe('TestExporter', function(){
+    let request;
+    let testMetrics;
+    let testAtt;
+    let rawMetricList;
+    let testUtil = require('./testUtil');
+    before(async function () {
+        request = await testUtil.initTestRequest();
+        rawMetricList = await testUtil.initTestRequest( true);
+
+        testMetrics = request['resourceMetrics'][0]['instrumentationLibraryMetrics'][0]['metrics'];
+        testAtt =[
+            {
+                "key": "att1",
+                "value": {
+                    "stringValue": "v1"
+                }
+            },
+            {
+                "key": "att2",
+                "value": {
+                    "stringValue": "v2"
+                }
+            }
+        ]
+    });
     describe('TestExporterConfig', function() {
         it('Default url', function (){
             let r = new rwexporter.CollectorMetricExporter({token:"fake"});
@@ -26,32 +51,6 @@ describe('TestExporter', function(){
         });
     });
     describe('TestTransformTS', function () {
-        let request;
-        let testMetrics;
-        let testAtt;
-        let rawMetricList;
-        let testUtil = require('./testUtil');
-        before(async function () {
-            request = await testUtil.initTestRequest();
-            rawMetricList = await testUtil.initTestRequest( true);
-
-            testMetrics = request['resourceMetrics'][0]['instrumentationLibraryMetrics'][0]['metrics'];
-            testAtt =[
-                {
-                    "key": "att1",
-                    "value": {
-                        "stringValue": "v1"
-                    }
-                },
-                {
-                    "key": "att2",
-                    "value": {
-                        "stringValue": "v2"
-                    }
-                }
-            ]
-        });
-
         it('toTimeSeries()', function () {
             let write_request = transform.toTimeSeries(request);
             write_request.array[0].forEach(metric => {
@@ -180,7 +179,9 @@ describe('TestExporter', function(){
             transform.convertToTsLSamples(metric,ts,'avg');
             assert.strictEqual(ts.array[1][0][0],8);
         });
-        describe('TestExport', function() {
+    });
+
+    describe('TestExport', function() {
             this.timeout(20000)
             it('Send() should success', async  () => {
                 function sleep(ms) {
@@ -239,6 +240,5 @@ describe('TestExporter', function(){
                 assert.strictEqual(response.options.headers['NN'],"5");
             });
         });
-    });
 })
 
