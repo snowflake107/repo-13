@@ -51,7 +51,7 @@ function exporterRetryStrategy(err, response, body, options){
     catch (e) {
         logger.log({
             level: "error",
-            message: e
+            message: err.message
         })
     }
 }
@@ -84,20 +84,28 @@ function send(collector, objects) {
         logger.log({level: 'info', message: `Sending bulk of ${write_request.wrappers_["1"].length} timeseries`});
         response = request(options, function (err, response, body) {
             // this callback will only be called when the request succeeded or after maxAttempts or on error
-            if (response.statusCode != 200) {
+            try {
+                if (response.statusCode < 200 || response.statusCode > 204 ) {
+                    logger.log({
+                        level: "warn",
+                        message: `Export failed after ${response.attempts} attempts. Status code: ${response.statusCode}`
+                    })
+                    lost += write_request.wrappers_["1"].length;
+                    return response;
+                } else {
+                    logger.log({
+                        level: "info",
+                        message: `Export Succeeded after ${response.attempts} attempts. Status code: ${response.statusCode}`
+                    })
+                    lost = 0;
+                    return response;
+                }
+            }
+            catch (e) {
                 logger.log({
-                    level: "warn",
-                    message: `Export failed after ${response.attempts} attempts. Status code: ${response.statusCode}`
+                    level: "error",
+                    message: `Failed to export error : ${err.message}`
                 })
-                lost += write_request.wrappers_["1"].length;
-                return response;
-            } else {
-                logger.log({
-                    level: "info",
-                    message: `Export Succeeded after ${response.attempts} attempts. Status code: ${response.statusCode}`
-                })
-                lost = 0;
-                return response;
             }
         });
         return response;
