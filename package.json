@@ -1,6 +1,6 @@
 {
-  "name": "yotam-js-metrics-test",
-  "version": "0.1.16",
+  "name": "logzio-nodejs-metrics-alpha",
+  "version": "0.0.1",
   "description": "Logz.io node.js metrics Exporter allows user to send collected metrics to the Logz.io using OpenTelemetry SDK ",
   "main": "src/index.js",
   "repository": "logzio/js-metrics",

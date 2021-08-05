@@ -41,14 +41,6 @@ describe('TestExporter', function(){
             let r = new rwexporter.CollectorMetricExporter({token:"fake",url:"custom"});
             assert.strictEqual(r.url,"custom");
         });
-        it('Missing token', function (){
-            try {
-                new rwexporter.CollectorMetricExporter({token:"",url:"custom"});
-            }
-            catch (e) {
-                assert(e.message == "Token is required")
-            }
-        });
     });
     describe('TestTransformTS', function () {
         it('toTimeSeries()', function () {
@@ -189,7 +181,9 @@ describe('TestExporter', function(){
                 }
                 const collectorOptions = {
                     url: 'https://localhost:5555',
-                    token: 'token',
+                    headers: {
+                        "Authorization":"Bearer token"
+                    }
                 };
                 const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
                 nock('https://localhost:5555')
@@ -197,8 +191,7 @@ describe('TestExporter', function(){
                     .reply(200, {"message":"hello world"});
                 let response = util.send(metricExporter, rawMetricList);
                 await sleep(5000)
-                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/0")
-                assert.strictEqual(response.options.headers['NN'],"0")
+                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/0/0")
             });
             it('Send() should not retry', async  () => {
                 function sleep(ms) {
@@ -206,16 +199,16 @@ describe('TestExporter', function(){
                 }
                 const collectorOptions = {
                     url: 'https://localhost:5555',
-                    token: 'token',
-                };
+                    headers: {
+                        "Authorization":"Bearer token"
+                    }                };
                 const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
                 nock('https://localhost:5555')
                     .post('/')
                     .reply(400, {"message":"hello world"});
                 let response = util.send(metricExporter, rawMetricList);
                 await sleep(5000)
-                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/0")
-                assert.strictEqual(response.options.headers['NN'],"0")
+                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/0/0")
                 assert.strictEqual(response.attempts,1)
             });
             it('Send() should retry', async  () => {
@@ -224,8 +217,9 @@ describe('TestExporter', function(){
                 }
                 const collectorOptions = {
                     url: 'https://localhost:5555',
-                    token: 'token',
-                };
+                    headers: {
+                        "Authorization":"Bearer token"
+                    }                };
                 const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
                 nock('https://localhost:5555')
                     .persist()
@@ -234,10 +228,9 @@ describe('TestExporter', function(){
                 let response = util.send(metricExporter, rawMetricList);
                 await sleep(8000);
                 // should retry 3 times and write header
-                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/3");
+                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/3/5");
                 assert.strictEqual(response.attempts,3);
                 // should drop 5 ts
-                assert.strictEqual(response.options.headers['NN'],"5");
             });
         });
 

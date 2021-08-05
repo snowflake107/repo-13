@@ -26,7 +26,9 @@ exports.toLabelDict = toLabelDict;
 async function initTestRequest(returnRaw = false){
     const collectorOptions = {
         url: 'fake',
-        token: 'token',
+        headers: {
+            "Authorization":"Bearer fakeToken"
+        }
     };
     const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
     const meter = new MeterProvider({

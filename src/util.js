@@ -20,8 +20,8 @@ exports.send = exports.onInit = exports.getExportRequestProto = void 0;
 const SnappyJS = require('snappyjs');
 const transform = require('./transformTs');
 const logger = require('./logging').logger
+const request = require('requestretry');
 let lost = 0;
-
 
 let ExportRequestProto;
 function getExportRequestProto() {
@@ -40,7 +40,7 @@ function exporterRetryStrategy(err, response, body, options){
         const retryCodes = [408, 500, 502, 503, 504, 522, 524];
         const shouldRetry = retryCodes.includes(response.statusCode);
         if (shouldRetry){
-            options.headers['logzio-shipper'] = `nodejs-metrics/1.0.0/${response.attempts}`;
+            options.headers['logzio-shipper'] = `nodejs-metrics/1.0.0/${response.attempts}/${lost}`;
             logger.log({level: "warn", message: `Faild to export, attempt number: ${response.attempts}, retrying again in ${options.retryDelay/1000}s`,});
         }
         return {
@@ -64,25 +64,23 @@ function send(collector, objects) {
     let response;
     if (write_request.wrappers_["1"].length > 0) {
         //Send with htttp
-        const request = require('requestretry');
+        const rawHeaders = {
+            "Content-Encoding": "snappy",
+            "Content-Type": "application/x-protobuf",
+            "X-Prometheus-Remote-Write-Version": "0.1.0",
+            "logzio-shipper": `nodejs-metrics/1.0.0/0/${lost}`,
+        };
+        const headers = {...rawHeaders,...collector.headers}
         const options = {
             uri: collector.url,
             method: 'POST',
             agent: collector.agent,
             body: payload,
-            headers: {
-                "Content-Encoding": "snappy",
-                "Authorization": "Bearer " + collector.token,
-                "Content-Type": "application/x-protobuf",
-                "X-Prometheus-Remote-Write-Version": "0.1.0",
-                "logzio-shipper": `nodejs-metrics/1.0.0/0`,
-                "NN": `${lost}`
-            },
+            headers: headers,
             maxAttempts: 3,
             retryDelay: 2000,
             retryStrategy: exporterRetryStrategy
         }
-
         logger.log({level: 'info', message: `Sending bulk of ${write_request.wrappers_["1"].length} timeseries`});
         response = request(options, function (err, response, body) {
             // this callback will only be called when the request succeeded or after maxAttempts or on error
