@@ -14,7 +14,7 @@ Node 8 or higher
 Install the package:
 
 ```
-npm install logzio-nodejs-metrics-sdk@0.0.1
+npm install logzio-nodejs-metrics-sdk@0.1.0
 ```
 
 Set the variables in the following code snippet:
