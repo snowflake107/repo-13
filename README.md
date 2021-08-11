@@ -1,3 +1,4 @@
+## Logz.io nodejs metrics sdk
 This topic includes instructions on how to send custom metrics to Logz.io from your Node.js application.
 
 The included example uses the [OpenTelemetry JS SDK](https://github.com/open-telemetry/opentelemetry-js) and its based on [OpenTelemetry exporter collector proto](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-exporter-collector-proto).
@@ -5,7 +6,16 @@ The included example uses the [OpenTelemetry JS SDK](https://github.com/open-tel
 **Before you begin, you'll need**:
 Node 8 or higher
 
+
+**Note** This project works best with logzio as metrics backend, but its compatible with all backends that support `prometheuesrmotewrite` format
+
 ## Quick start
+
+Install the package:
+
+```
+npm install logzio-nodejs-metrics-sdk@0.0.1
+```
 
 Set the variables in the following code snippet:
 
@@ -15,11 +25,13 @@ Set the variables in the following code snippet:
 |token| Your Logz.io Prometheus Metrics account token.  |
 ```js
 const { MeterProvider } = require('@opentelemetry/metrics');
-const { RemoteWriteMetricExporter } =  require('yotam-js-metrics-test');
+const { RemoteWriteMetricExporter } =  require('logzio-nodejs-metrics-sdk');
 
 const collectorOptions = {
     url: '<<url>>',
-    token: '<<token>>',
+    headers: {
+        "Authorization":"Bearer <<token>>"
+    }
 };
 // Initialize the exporter
 const metricExporter = new RemoteWriteMetricExporter(collectorOptions);
@@ -58,11 +70,13 @@ For more information, see the OpenTelemetry [documentation](https://github.com/o
 First Initialize the exporter and meter provider:
 ```js
 const { MeterProvider } = require('@opentelemetry/metrics');
-const { RemoteWriteMetricExporter } =  require('yotam-js-metrics-test');
+const { RemoteWriteMetricExporter } =  require('logzio-nodejs-metrics-sdk');
 
 const collectorOptions = {
     url: '<<url>>',
-    token: '<<token>>',
+    headers: {
+        "Authorization":"Bearer <<token>>"
+    }
 };
 // Initialize the exporter
 const metricExporter = new RemoteWriteMetricExporter(collectorOptions);
