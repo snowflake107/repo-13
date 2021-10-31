@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: frontegg-{{ include "connectors-worker.name" . }}
   labels:
+    monitoring-metrics: enabled
   {{- include "connectors-worker.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
