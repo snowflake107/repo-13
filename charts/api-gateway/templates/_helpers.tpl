@@ -59,3 +59,11 @@ Selector labels
 app.frontegg.com/name: {{ include "api-gateway.name" . }}
 app.frontegg.com/instance: {{ .Release.Name }}
 {{- end -}}
+
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "api-gateway.jobs.restart.name" -}}
+{{- printf "%s-%s" .Release.Name .Values.jobs.restart.name | trunc 63 | trimSuffix "-" -}}
+{{- end }}

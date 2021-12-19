@@ -1,0 +1,46 @@
+{{- if .Values.jobs.restart.enabled -}}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "api-gateway.jobs.restart.name" . }}
+  labels:
+      {{- include "api-gateway.labels" . | nindent 4 }}
+  {{- with .Values.jobs.restart.job.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  concurrencyPolicy: Forbid
+  schedule: {{ .Values.jobs.restart.job.schedule | quote }}
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 2 # this has very low chance of failing, as all this does
+      # is prompt kubernetes to schedule new replica set for
+      # the deployment
+      activeDeadlineSeconds: 600 # timeout, makes most sense with
+      # "waiting for rollout" variant specified below
+      ttlSecondsAfterFinished: 100
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: {{ include "api-gateway.jobs.restart.name" . }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          containers:
+            - name: kubectl
+              image: bitnami/kubectl # probably any kubectl image will do,
+                # optionaly specify version, but this
+                # should not be necessary, as long the
+              # version of kubectl is new enough to
+              # have `rollout restart`
+              command:
+                - bash
+                - -c
+                - >-
+                  kubectl rollout restart deployment/{{- include "api-gateway.fullname" . }}-deployment &&
+                  kubectl rollout status deployment/{{- include "api-gateway.fullname" . }}-deployment
+{{- end }}
