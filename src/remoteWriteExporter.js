@@ -15,16 +15,15 @@
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CollectorMetricExporter = void 0;
-const exporter_collector_1 = require("@opentelemetry/exporter-collector");
-const types_1 = require("./types");
-const CollectorExporterNodeBase_1 = require("./remoteWriteExporterNodeBase");
-const core_1 = require("@opentelemetry/core");
+exports.RemoteWriteExporter = void 0;
+const otlpExporter = require("@opentelemetry/exporter-metrics-otlp-http");
+const types = require("./types");
+const remoteWriteExporterNodeBase = require("./remoteWriteExporterNodeBase");
 const DEFAULT_LISTENER_URL = 'https://listener.logz.io:8053';
 /**
- * Collector Metric Exporter for Node with protobuf
+ * Remote write Metric Exporter for Node with protobuf
  */
-class RemoteWriteExporter extends CollectorExporterNodeBase_1.CollectorExporterNodeBase {
+class RemoteWriteExporter extends remoteWriteExporterNodeBase.RemoteWriteExporterNodeBase {
     constructor(config = {}) {
         super(config);
         this.headers = config.headers;
@@ -32,14 +31,14 @@ class RemoteWriteExporter extends CollectorExporterNodeBase_1.CollectorExporterN
         this._startTime = new Date().getTime() * 1000000;
     }
     convert(metrics) {
-        return exporter_collector_1.toCollectorExportMetricServiceRequest(metrics, this._startTime, this);
+        return otlpExporter.toOTLPExportMetricServiceRequest(metrics, this._startTime, this);
     }
     getDefaultUrl(config) {
         return typeof config.url === 'string'
             ? config.url : DEFAULT_LISTENER_URL
     }
     getServiceClientType() {
-        return types_1.ServiceClientType.METRICS;
+        return types.ServiceClientType.METRICS;
     }
 }
-exports.CollectorMetricExporter = RemoteWriteExporter;
+exports.RemoteWriteExporter = RemoteWriteExporter;

@@ -34,11 +34,11 @@ describe('TestExporter', function(){
     });
     describe('TestExporterConfig', function() {
         it('Default url', function (){
-            let r = new rwexporter.CollectorMetricExporter({token:"fake"});
+            let r = new rwexporter.RemoteWriteExporter({token:"fake"});
             assert.strictEqual(r.url,"https://listener.logz.io:8053");
         });
         it('Custom url', function (){
-            let r = new rwexporter.CollectorMetricExporter({token:"fake",url:"custom"});
+            let r = new rwexporter.RemoteWriteExporter({token:"fake",url:"custom"});
             assert.strictEqual(r.url,"custom");
         });
     });
@@ -185,7 +185,7 @@ describe('TestExporter', function(){
                         "Authorization":"Bearer token"
                     }
                 };
-                const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
+                const metricExporter = new rwexporter.RemoteWriteExporter(collectorOptions);
                 nock('https://localhost:5555')
                     .post('/')
                     .reply(200, {"message":"hello world"});
@@ -202,7 +202,7 @@ describe('TestExporter', function(){
                     headers: {
                         "Authorization":"Bearer token"
                     }                };
-                const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
+                const metricExporter = new rwexporter.RemoteWriteExporter(collectorOptions);
                 nock('https://localhost:5555')
                     .post('/')
                     .reply(400, {"message":"hello world"});
@@ -220,7 +220,7 @@ describe('TestExporter', function(){
                     headers: {
                         "Authorization":"Bearer token"
                     }                };
-                const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
+                const metricExporter = new rwexporter.RemoteWriteExporter(collectorOptions);
                 nock('https://localhost:5555')
                     .persist()
                     .post('/')

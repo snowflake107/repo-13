@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CollectorExporterNodeBase = void 0;
+exports.RemoteWriteExporterNodeBase = void 0;
 const api_1 = require("@opentelemetry/api");
-const exporter_collector_1 = require("@opentelemetry/exporter-collector");
+const otlpExporter = require("@opentelemetry/exporter-trace-otlp-http");
 /**
- * Collector Metric Exporter abstract base class
+ * Remote wrote Metric Exporter abstract base class
  */
-class RemoteWriteExporterNodeBase extends exporter_collector_1.CollectorExporterNodeBase {
+class RemoteWriteExporterNodeBase extends otlpExporter.OTLPExporterNodeBase {
     _sendPromise(objects, onSuccess, onError) {
         const promise = new Promise(resolve => {
             const _onSuccess = () => {
@@ -71,4 +71,4 @@ class RemoteWriteExporterNodeBase extends exporter_collector_1.CollectorExporter
         }
     }
 }
-exports.CollectorExporterNodeBase = RemoteWriteExporterNodeBase;
+exports.RemoteWriteExporterNodeBase = RemoteWriteExporterNodeBase;

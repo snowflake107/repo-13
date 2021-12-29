@@ -1,5 +1,5 @@
 const rwexporter = require('../src/remoteWriteExporter');
-const { MeterProvider } = require('@opentelemetry/metrics');
+const { MeterProvider } = require('@opentelemetry/sdk-metrics-base');
 async function convertMetrics (rawMetrics, exporter, returnRaw = false) {
     let metrics_list = [];
     for (const metric of rawMetrics) {
@@ -30,7 +30,7 @@ async function initTestRequest(returnRaw = false){
             "Authorization":"Bearer fakeToken"
         }
     };
-    const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
+    const metricExporter = new rwexporter.RemoteWriteExporter(collectorOptions);
     const meter = new MeterProvider({
         exporter: metricExporter,
         interval: 1,
@@ -42,20 +42,20 @@ async function initTestRequest(returnRaw = false){
     const upDownCounter = meter.createUpDownCounter('metric2', {
         description: 'Example of a UpDownCounter',
     });
-    const recorder = meter.createValueRecorder('recorder_metric', {
+    const histogram = meter.createHistogram('recorder_metric', {
         description: 'Example of a ValueRecorder',
     });
     const labels = {pid: "1", environment: 'staging'};
     requestCounter.bind(labels).add(5);
     upDownCounter.bind(labels).add(5);
-    recorder.bind(labels).record(6);
-    recorder.bind(labels).record(10);
+    histogram.bind(labels).record(6);
+    histogram.bind(labels).record(10);
     metricExporter.shutdown()
     if (returnRaw) {
-        return await convertMetrics([requestCounter, upDownCounter, recorder], metricExporter, returnRaw);
+        return await convertMetrics([requestCounter, upDownCounter, histogram], metricExporter, returnRaw);
     }
     else {
-        return await convertMetrics([requestCounter, upDownCounter, recorder], metricExporter);
+        return await convertMetrics([requestCounter, upDownCounter, histogram], metricExporter);
 
     }
 }
