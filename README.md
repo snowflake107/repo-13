@@ -14,7 +14,7 @@ Node 8 or higher
 Install the package:
 
 ```
-npm install logzio-nodejs-metrics-sdk@0.1.0
+npm install logzio-nodejs-metrics-sdk@0.2.0
 ```
 
 Set the variables in the following code snippet:
@@ -25,7 +25,7 @@ Set the variables in the following code snippet:
 |token| Your Logz.io Prometheus Metrics account token.  |
 ```js
 const { MeterProvider } = require('@opentelemetry/metrics');
-const { RemoteWriteMetricExporter } =  require('logzio-nodejs-metrics-sdk');
+const { sdk } =  require('logzio-nodejs-metrics-sdk');
 
 const collectorOptions = {
     url: '<<url>>',
@@ -34,10 +34,10 @@ const collectorOptions = {
     }
 };
 // Initialize the exporter
-const metricExporter = new RemoteWriteMetricExporter(collectorOptions);
+const metricExporter = new sdk.RemoteWriteExporter(collectorOptions);
 
 // Initialize the meter provider
-const meter = new MeterProvider({
+const meter = new MeterProvider.MeterProvider({
     exporter: metricExporter,
     interval: 15000, // Push interval in seconds
 }).getMeter('example-exporter');
@@ -70,7 +70,7 @@ For more information, see the OpenTelemetry [documentation](https://github.com/o
 First Initialize the exporter and meter provider:
 ```js
 const { MeterProvider } = require('@opentelemetry/metrics');
-const { RemoteWriteMetricExporter } =  require('logzio-nodejs-metrics-sdk');
+const { sdk } =  require('logzio-nodejs-metrics-sdk');
 
 const collectorOptions = {
     url: '<<url>>',
@@ -79,10 +79,10 @@ const collectorOptions = {
     }
 };
 // Initialize the exporter
-const metricExporter = new RemoteWriteMetricExporter(collectorOptions);
+const metricExporter = new sdk.RemoteWriteExporter(collectorOptions);
 
 // Initialize the meter provider
-const meter = new MeterProvider({
+const meter = new MeterProvider.MeterProvider({
     exporter: metricExporter,
     interval: 15000, // Push interval in seconds
 }).getMeter('example-exporter');

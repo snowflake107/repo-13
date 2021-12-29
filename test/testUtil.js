@@ -30,7 +30,7 @@ async function initTestRequest(returnRaw = false){
             "Authorization":"Bearer fakeToken"
         }
     };
-    const metricExporter = new rwexporter.CollectorMetricExporter(collectorOptions);
+    const metricExporter = new rwexporter.RemoteWriteExporter(collectorOptions);
     const meter = new MeterProvider({
         exporter: metricExporter,
         interval: 1,

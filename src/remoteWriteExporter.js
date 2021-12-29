@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CollectorMetricExporter = void 0;
+exports.RemoteWriteExporter = void 0;
 const exporter_collector_1 = require("@opentelemetry/exporter-collector");
 const types_1 = require("./types");
 const CollectorExporterNodeBase_1 = require("./remoteWriteExporterNodeBase");
@@ -42,4 +42,4 @@ class RemoteWriteExporter extends CollectorExporterNodeBase_1.CollectorExporterN
         return types_1.ServiceClientType.METRICS;
     }
 }
-exports.CollectorMetricExporter = RemoteWriteExporter;
+exports.RemoteWriteExporter = RemoteWriteExporter;
