@@ -17,11 +17,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RemoteWriteExporterNodeBase = void 0;
 const api_1 = require("@opentelemetry/api");
-const exporter_collector_1 = require("@opentelemetry/exporter-trace-otlp-http");
+const otlpExporter = require("@opentelemetry/exporter-trace-otlp-http");
 /**
- * Collector Metric Exporter abstract base class
+ * Remote wrote Metric Exporter abstract base class
  */
-class RemoteWriteExporterNodeBase extends exporter_collector_1.OTLPExporterNodeBase {
+class RemoteWriteExporterNodeBase extends otlpExporter.OTLPExporterNodeBase {
     _sendPromise(objects, onSuccess, onError) {
         const promise = new Promise(resolve => {
             const _onSuccess = () => {
