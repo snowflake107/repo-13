@@ -24,8 +24,8 @@ Set the variables in the following code snippet:
 |url|  The Logz.io Listener URL for for your region, configured to use port **8052** for http traffic, or port **8053** for https traffic. |
 |token| Your Logz.io Prometheus Metrics account token.  |
 ```js
-const { MeterProvider } = require('@opentelemetry/sdk-metrics-base');
-const { sdk } =  require('logzio-nodejs-metrics-sdk');
+const MeterProvider = require('@opentelemetry/sdk-metrics-base');
+const sdk =  require('logzio-nodejs-metrics-sdk');
 
 const collectorOptions = {
     url: '<<url>>',
@@ -65,8 +65,8 @@ For more information, see the OpenTelemetry [documentation](https://github.com/o
 ### More examples
 First Initialize the exporter and meter provider:
 ```js
-const { MeterProvider } = require('@opentelemetry/sdk-metrics-base');
-const { sdk } =  require('logzio-nodejs-metrics-sdk');
+const MeterProvider = require('@opentelemetry/sdk-metrics-base');
+const sdk =  require('logzio-nodejs-metrics-sdk');
 
 const collectorOptions = {
     url: '<<url>>',
@@ -117,4 +117,5 @@ histogram.record(20);
 // test_histogram_count{environment: 'prod'} 2.0
 // test_histogram_avg{environment: 'prod'} 25.0
 ```
+
 
