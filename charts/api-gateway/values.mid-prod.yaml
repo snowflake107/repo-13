@@ -1,0 +1,23 @@
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+
+configmap:
+  data:
+    CLOUD_ENVIRONMENT: prod
+    FRONTEGG_ADMINS_SERVICE_URL: http://frontegg-admins-service
+    FRONTEGG_AUDITS_SERVICE_URL: http://frontegg-audits-service
+    FRONTEGG_AUTHENTICATION_SERVICE_URL: http://frontegg-authentication-service
+    FRONTEGG_METADATA_SERVICE_URL: http://frontegg-metadata-service
+    FRONTEGG_NOTIFICATION_SERVICE_URL: http://frontegg-notification-service
+    FRONTEGG_REPORTS_ENGINE_URL: http://frontegg-reporting-engine
+    FRONTEGG_REPORTS_SERVICE_URL: http://frontegg-reporting-service
+    FRONTEGG_TEAM_SERVICE_URL: http://frontegg-team-management-service
+    FRONTEGG_VENDORS_SERVICE_URL: http://frontegg-vendors-service
+    FRONTEGG_TENANT_SERVICE_URL: http://frontegg-tenants-service
+    FRONTEGG_WEBPUSH_SERVICE_URL: http://frontegg-webpush-service
+    FRONTEGG_SUBSCRIPTIONS_SERVICE_URL: http://frontegg-subscriptions-service
+    NODE_ENV: production
+    FRONTEGG_METRICS_ENABLED: "true"
+    FRONTEGG_JAEGER_ENABLED: "true"
