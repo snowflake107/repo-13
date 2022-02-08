@@ -1,0 +1,8 @@
+autoscaling:
+  enabled: true
+
+configmap:
+  data:
+    CLOUD_ENVIRONMENT: prod
+    NODE_ENV: production
+    PORTAL_URL: https://portal.frontegg.com
