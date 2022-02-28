@@ -9,6 +9,7 @@
 import AVFoundation
 import Foundation
 import UIKit
+import CoreMotion
 
 //
 // TODOs for the CameraView which are currently too hard to implement either because of AVFoundation's limitations, or my brain capacity
@@ -111,6 +112,8 @@ public final class CameraView: UIView {
   internal var actualFrameProcessorFps = 30.0
   internal var lastSuggestedFrameProcessorFps = 0.0
   internal var lastFrameProcessorPerformanceEvaluation = DispatchTime.now()
+    
+  internal let motionManager = CMMotionManager()
 
   /// Returns whether the AVCaptureSession is currently running (reflected by isActive)
   var isRunning: Bool {
@@ -133,6 +136,11 @@ public final class CameraView: UIView {
     videoPreviewLayer.session = captureSession
     videoPreviewLayer.videoGravity = .resizeAspectFill
     videoPreviewLayer.frame = layer.bounds
+    
+    motionManager.accelerometerUpdateInterval = 0.2;
+    motionManager.gyroUpdateInterval = 0.2;
+    motionManager.deviceMotionUpdateInterval = 0.2;
+    motionManager.startDeviceMotionUpdates()
 
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(sessionRuntimeError),
@@ -158,6 +166,7 @@ public final class CameraView: UIView {
   }
 
   deinit {
+    motionManager.stopDeviceMotionUpdates()
     NotificationCenter.default.removeObserver(self,
                                               name: .AVCaptureSessionRuntimeError,
                                               object: captureSession)

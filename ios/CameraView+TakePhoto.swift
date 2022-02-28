@@ -102,11 +102,35 @@ extension CameraView {
       if #available(iOS 14.1, *), let enableAutoDistortionCorrection = options["enableAutoDistortionCorrection"] as? Bool {
         photoSettings.isAutoContentAwareDistortionCorrectionEnabled = enableAutoDistortionCorrection
       }
+      guard let photoOutputConnection = photoOutput.connection(with: AVMediaType.video) else {fatalError("Unable to establish input>output connection")}
+      photoOutputConnection.videoOrientation = getDeviceOrientation()
 
       photoOutput.capturePhoto(with: photoSettings, delegate: PhotoCaptureDelegate(promise: promise))
 
       // Assume that `takePhoto` is always called with the same parameters, so prepare the next call too.
       photoOutput.setPreparedPhotoSettingsArray([photoSettings], completionHandler: nil)
     }
+      func getDeviceOrientation() -> AVCaptureVideoOrientation
+      {
+          guard let motion = self.motionManager.deviceMotion else { return AVCaptureVideoOrientation.portrait }
+
+          let gravity = motion.gravity
+          
+          if (fabs(gravity.y) < fabs(gravity.x)) {
+              if(gravity.x > 0){
+                  return AVCaptureVideoOrientation.landscapeLeft
+              }
+              else{
+                  return AVCaptureVideoOrientation.landscapeRight
+              }
+          } else {
+              if(gravity.y > 0){
+                  return AVCaptureVideoOrientation.portraitUpsideDown
+              }
+              else{
+                  return AVCaptureVideoOrientation.portrait
+              }
+          }
+      }
   }
 }
