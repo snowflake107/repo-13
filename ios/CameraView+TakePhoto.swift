@@ -108,5 +108,27 @@ extension CameraView {
       // Assume that `takePhoto` is always called with the same parameters, so prepare the next call too.
       photoOutput.setPreparedPhotoSettingsArray([photoSettings], completionHandler: nil)
     }
+      func getDeviceOrientation() -> AVCaptureVideoOrientation
+      {
+          guard let motion = self.motionManager.deviceMotion else { return AVCaptureVideoOrientation.portrait }
+
+          let gravity = motion.gravity
+          
+          if (fabs(gravity.y) < fabs(gravity.x)) {
+              if(gravity.x > 0){
+                  return AVCaptureVideoOrientation.landscapeLeft
+              }
+              else{
+                  return AVCaptureVideoOrientation.landscapeRight
+              }
+          } else {
+              if(gravity.y > 0){
+                  return AVCaptureVideoOrientation.portraitUpsideDown
+              }
+              else{
+                  return AVCaptureVideoOrientation.portrait
+              }
+          }
+      }
   }
 }
