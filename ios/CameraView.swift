@@ -166,6 +166,7 @@ public final class CameraView: UIView {
   }
 
   deinit {
+    motionManager.stopDeviceMotionUpdates()
     NotificationCenter.default.removeObserver(self,
                                               name: .AVCaptureSessionRuntimeError,
                                               object: captureSession)
