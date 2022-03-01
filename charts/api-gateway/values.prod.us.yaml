@@ -1,3 +1,0 @@
-nodeSelector:
-  "beta.kubernetes.io/os": linux
-  pool-type: memorypool
