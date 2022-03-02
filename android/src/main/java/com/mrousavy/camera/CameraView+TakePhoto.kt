@@ -88,7 +88,7 @@ suspend fun CameraView.takePhoto(options: ReadableMap): WritableMap = coroutineS
     Log.d(CameraView.TAG, "Saving picture to ${file.absolutePath}...")
     val milliseconds = measureTimeMillis {
       val flipHorizontally = lensFacing == CameraCharacteristics.LENS_FACING_FRONT
-      photo.save(file, flipHorizontally)
+      photo.save(file, flipHorizontally, deviceOrientation)
     }
     Log.i(CameraView.TAG_PERF, "Finished image saving in ${milliseconds}ms")
     // TODO: Read Exif from existing in-memory photo buffer instead of file?
