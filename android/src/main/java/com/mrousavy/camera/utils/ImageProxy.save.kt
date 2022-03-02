@@ -40,6 +40,39 @@ fun flip(imageBytes: ByteArray, imageWidth: Int): ByteArray {
   return holder + subArray
 }
 
+fun fixOrientation(imageBytes: ByteArray, orientation: Int, flipHorizontally: Boolean): ByteArray {
+  val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+  val matrix = Matrix()
+  val oneEight = 45 // (360/8)
+  val exif = ExifInterface(imageBytes.inputStream())
+
+  when (orientation) {
+    //  landscape left
+    in oneEight..3*oneEight -> {
+      matrix.setRotate(180f)
+      exif.setAttribute(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_ROTATE_180.toString())
+    }
+    //  upside down
+    in 3*oneEight..5*oneEight-> {
+      matrix.setRotate(if (flipHorizontally) -270f else 270f)
+      exif.setAttribute(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_ROTATE_270.toString())
+    }
+    // landscape right
+    in 5*oneEight..7*oneEight -> {
+      matrix.setRotate(0f)
+      exif.setAttribute(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL.toString())
+    }
+    // portrait or unknown
+    else -> {
+      return imageBytes
+    }
+  }
+  val newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+  val stream = ByteArrayOutputStream()
+  newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+  return stream.toByteArray()
+}
+
 // TODO: This function is slow. Figure out a faster way to flip images, preferably via directly manipulating the byte[] Exif flags
 fun flipImage(imageBytes: ByteArray): ByteArray {
   val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
@@ -78,7 +111,7 @@ fun flipImage(imageBytes: ByteArray): ByteArray {
   return stream.toByteArray()
 }
 
-fun ImageProxy.save(file: File, flipHorizontally: Boolean) {
+fun ImageProxy.save(file: File, flipHorizontally: Boolean, deviceOrientation: Int) {
   when (format) {
     // TODO: ImageFormat.RAW_SENSOR
     // TODO: ImageFormat.DEPTH_JPEG
@@ -89,12 +122,15 @@ fun ImageProxy.save(file: File, flipHorizontally: Boolean) {
       // copy image from buffer to byte array
       buffer.get(bytes)
 
-      if (flipHorizontally) {
-        val milliseconds = measureTimeMillis {
-          bytes = flipImage(bytes)
-        }
-        Log.i(CameraView.TAG_PERF, "Flipping Image took $milliseconds ms.")
-      }
+      // not relevant when always fixing orientation by device orientation.
+//      if (flipHorizontally) {
+//        val milliseconds = measureTimeMillis {
+//          bytes = flipImage(bytes)
+//        }
+//        Log.i(CameraView.TAG_PERF, "Flipping Image took $milliseconds ms.")
+//      }
+
+      bytes = fixOrientation(bytes, deviceOrientation, flipHorizontally)
 
       val output = FileOutputStream(file)
       output.write(bytes)

@@ -8,6 +8,7 @@ import android.content.res.Configuration
 import android.hardware.camera2.*
 import android.util.Log
 import android.util.Range
+import android.view.OrientationEventListener
 import android.view.*
 import android.view.View.OnTouchListener
 import android.widget.FrameLayout
@@ -142,6 +143,8 @@ class CameraView(context: Context, private val frameProcessorThread: ExecutorSer
   private val lifecycleRegistry: LifecycleRegistry
   private var hostLifecycleState: Lifecycle.State
 
+  var deviceOrientation: Int = OrientationEventListener.ORIENTATION_UNKNOWN
+
   private val inputRotation: Int
     get() {
       return context.displayRotation
@@ -229,16 +232,24 @@ class CameraView(context: Context, private val frameProcessorThread: ExecutorSer
     scaleGestureDetector = ScaleGestureDetector(context, scaleGestureListener)
     touchEventListener = OnTouchListener { _, event -> return@OnTouchListener scaleGestureDetector.onTouchEvent(event) }
 
+    val orientationEventListener: OrientationEventListener = object : OrientationEventListener(context) {
+      override fun onOrientationChanged(orientation: Int) {
+        deviceOrientation = orientation
+      }
+    }
+
     hostLifecycleState = Lifecycle.State.INITIALIZED
     lifecycleRegistry = LifecycleRegistry(this)
     reactContext.addLifecycleEventListener(object : LifecycleEventListener {
       override fun onHostResume() {
         hostLifecycleState = Lifecycle.State.RESUMED
         updateLifecycleState()
+        orientationEventListener.enable()
       }
       override fun onHostPause() {
         hostLifecycleState = Lifecycle.State.CREATED
         updateLifecycleState()
+        orientationEventListener.disable()
       }
       override fun onHostDestroy() {
         hostLifecycleState = Lifecycle.State.DESTROYED
@@ -247,8 +258,12 @@ class CameraView(context: Context, private val frameProcessorThread: ExecutorSer
         takePhotoExecutor.shutdown()
         recordVideoExecutor.shutdown()
         reactContext.removeLifecycleEventListener(this)
+        orientationEventListener.disable()
       }
     })
+
+    orientationEventListener.enable()
+
   }
 
   override fun onConfigurationChanged(newConfig: Configuration?) {
