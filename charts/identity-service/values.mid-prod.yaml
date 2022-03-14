@@ -1,6 +1,6 @@
 autoscaling:
   enabled: true
-  minReplicas : 5
+  minReplicas : 3
   maxReplicas : 10
 
 configmap:
