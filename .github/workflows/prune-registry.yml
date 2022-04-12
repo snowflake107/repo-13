@@ -1,0 +1,36 @@
+name: Prune GHCR
+
+on:
+  schedule:
+    # 10AM on Tuesday
+    - cron:  '1 10 * * 1'
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+    steps:
+      # Prune old images
+      # https://github.com/marketplace/actions/ghcr-pruning
+      - name: GHCR Pruning
+        uses: actblue/action-ghcr-prune@v0.3.0
+        with:
+          token: ${{ secrets.GIT_CI_GHCR_PRUNE }}
+          organization: actblue
+          container: ${{github.repository}}
+          dry-run: false # Dry-run first, then change to `false`
+          older-than: 14 # days
+          keep-last: 7
+          untagged: true
+          tag-regex: /main|v*/
