@@ -61,6 +61,7 @@ def setup_aws_client(config: Dict) -> None:
 
     # AWS credentials based authentication
     if aws_access_key_id and aws_secret_access_key:
+        LOGGER.info("Setting up session with Access Key...")
         boto3.setup_default_session(
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
@@ -68,6 +69,7 @@ def setup_aws_client(config: Dict) -> None:
         )
     # AWS Profile based authentication
     else:
+        LOGGER.info("Setting up session with profile %s", aws_profile)
         boto3.setup_default_session(profile_name=aws_profile)
 
 
