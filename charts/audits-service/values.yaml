@@ -1,0 +1,134 @@
+# Default values for api-gateway.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Provide the amount of pods if HPA is not enabled
+##
+replicaCount: 2
+
+## Provide the image docker tag default: latest
+##
+appVersion: hybrid-2022.5.18114634
+
+## Manage docker image properties
+##
+image:
+  ## Provide docker repository hub
+  ##
+  repository: frontegg/hybrid-audits-service
+  ## Provide image pull policy
+  ##
+  pullPolicy: Always
+
+## Provide secret name for frontegg's repository
+##
+imagePullSecrets:
+ - name: regcred
+
+## Provide a name in place of api-gateway for `app:` labels
+##
+nameOverride: ""
+## Provide a name in place of {releaseName}-api-gateway
+##
+fullnameOverride: ""
+
+## Setup Service properties for team-management-service (open only one port)
+##
+service:
+  ## Set service type
+  ##
+  type: ClusterIP
+  ## Set service port
+  ##
+  protocol: TCP
+  ## Set service target port to map
+  ##
+  port: 80
+  ## Set port protocol default: TCP
+  ##
+  targetPort: 3002
+  ## Set port name
+  ##
+  name: access-port
+
+## HPA properties for team-management-service
+## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
+## If autoscaling is disabled team-management-service will be managed by replicaset with `replicaCount` determine pod amount
+##
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 75
+  targetMemoryUtilizationPercentage: 75
+
+## Set api-gateway resources
+##
+resources:
+  requests:
+    cpu: 500m
+    memory: 768Mi
+  limits:
+    cpu: 500m
+    memory: 768Mi
+
+nodeSelector:
+  "beta.kubernetes.io/os": linux
+
+## Provide deployment tolerations
+##
+tolerations: []
+
+## Provide deployment affinity
+##
+affinity: {}
+
+configuration:
+  secrets: {}
+  map: {}
+
+podAnnotations: {}
+podLabels: {}
+
+## Frontegg's services url for inner communications
+## Provide an alternate url for a service if a service name was changed
+##
+network:
+  adminsServiceUrl: http://frontegg-admins-service
+  auditsServiceUrl: http://frontegg-audits-service
+  authenticationServiceUrl: http://frontegg-authentication-service
+  metadataServiceUrl: http://frontegg-metadata-service
+  notificationServiceUrl: http://frontegg-notification-service
+  reportsEngineUrl: http://frontegg-reporting-engine
+  reportsServiceUrl: http://frontegg-reporting-service
+  teamServiceUrl: http://frontegg-team-management-service
+  vendorsServiceUrl: http://frontegg-vendors-service
+  tenantsServiceUrl: http://frontegg-tenants-service
+  webpushServiceUrl: http://frontegg-webpush-service
+  featureFlagsServiceUrl: http://frontegg-feature-flags-service
+  webhookServiceUrl: http://frontegg-webhook-service
+  eventsServiceUrl: http://frontegg-event-service
+  identityServiceUrl: http://frontegg-identity-service
+  integrationsServiceUrl: http://frontegg-integrations-service
+
+kafka:
+  brokerList: ''
+  topicName: ''
+  sslPassword: ''
+
+frontegg:
+  clientId: ""
+  apiKey: ""
+  sync:
+    ## Set authentication failure retry delay in milliseconds.
+    ##
+    authenticationRetryDelay: "5000"
+    ## Set sync time interval (minutes) with Frontegg's managed cloud.
+    ##
+    intervalTime: "15"
+    ## Set true to shutdown secure access in case of authentication failure on pod startup.
+    ##
+    shutdownOnAuthenticationFailure: "true"
+    ##
+    ##
+    metadataServiceFetchPubsubStrategy: "false"
