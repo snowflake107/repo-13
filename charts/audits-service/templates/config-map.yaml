@@ -5,6 +5,7 @@ metadata:
   labels:
   {{- include "api-gateway.labels" . | nindent 4 }}
 data:
+  NODE_ENV: production
   FRONTEGG_HYBRID_MODE: "true"
   FRONTEGG_PORT: "3002"
   FRONTEGG_SPLIT_IO_KEY: ''
