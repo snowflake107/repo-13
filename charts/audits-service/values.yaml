@@ -127,6 +127,7 @@ frontegg:
   clientId: ""
   apiKey: ""
   sync:
+    metadataServiceUrl: https://api.frontegg.com/metadata
     ## Set authentication failure retry delay in milliseconds.
     ##
     authenticationRetryDelay: "5000"
