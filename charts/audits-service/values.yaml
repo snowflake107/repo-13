@@ -112,9 +112,15 @@ network:
   integrationsServiceUrl: http://frontegg-integrations-service
 
 kafka:
-  brokerList: ''
-  topicName: ''
-  sslPassword: ''
+  brokerList: ""
+  topicName: ""
+  sslPassword: ""
+
+mysql:
+  host: ""
+  userName: ""
+  dbName: "frontegg_audits"
+  useSsl: "false"
 
 frontegg:
   clientId: ""
