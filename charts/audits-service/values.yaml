@@ -139,3 +139,6 @@ frontegg:
     ##
     ##
     metadataServiceFetchPubsubStrategy: "false"
+    ##
+    ##
+    authenticationUrl: ""
