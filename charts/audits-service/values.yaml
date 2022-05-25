@@ -8,7 +8,7 @@ replicaCount: 2
 
 ## Provide the image docker tag default: latest
 ##
-appVersion: hybrid-2022.5.18114634
+appVersion: 2022.5.24090228
 
 ## Manage docker image properties
 ##
