@@ -119,6 +119,7 @@ kafka:
 mysql:
   host: ""
   userName: ""
+  password: ""
   dbName: "frontegg_audits"
   useSsl: "false"
 
