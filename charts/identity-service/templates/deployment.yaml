@@ -5,7 +5,9 @@ metadata:
   labels:
   {{- include "identity-service.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas : {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
   {{- include "identity-service.selectorLabels" . | nindent 6 }}
