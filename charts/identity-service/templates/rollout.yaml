@@ -1,0 +1,21 @@
+{{- if .Values.unifiedTag }}
+{{- if hasKey .Values.supportRollouts .Values.unifiedTag }}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ include "identity-service.fullname" . }}-rollout
+spec:
+  workloadRef: # Reference an existing Deployment using workloadRef field
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "identity-service.fullname" . }}-deployment
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      {{- include "identity-service.selectorLabels" . | nindent 6 }}
+  strategy:
+    blueGreen:
+      activeService: frontegg-{{ include "identity-service.name" . }}
+      autoPromotionEnabled: true
+{{- end }}
+{{- end }}

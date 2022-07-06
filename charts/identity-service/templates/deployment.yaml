@@ -5,8 +5,10 @@ metadata:
   labels:
   {{- include "identity-service.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas : {{ .Values.replicaCount }}
+  {{- if and (hasKey .Values.supportRollouts .Values.unifiedTag) (index .Values.supportRollouts .Values.unifiedTag).scaleDeploymentToZero }}
+  replicas: 0
+  {{- else if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
