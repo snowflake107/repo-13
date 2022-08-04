@@ -1,0 +1,77 @@
+{{- $values := .Values -}}
+{{- $top := . -}}
+{{- with .Values.migrations }}
+{{- if .enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "team-management-service.fullname" $top }}-pre-upgrade-migrations
+  labels:
+    {{- include "team-management-service.labels" $top | nindent 4 }}
+    app.kubernetes.io/component: pre-upgrade-migrations
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "-1"
+    helm.sh/hook-delete-policy: "before-hook-creation"
+   {{- if .jobAnnotations }}
+   {{- toYaml .jobAnnotations | nindent 4 }}
+   {{- end }}
+spec:
+  backoffLimit: 1
+  template:
+    metadata:
+      name: {{ include "team-management-service.fullname" $top }}-pre-upgrade-migrations
+      labels:
+        {{- include "team-management-service.labels" $top | nindent 8 }}
+        app.kubernetes.io/component: pre-upgrade-migrations
+      {{- if .annotations }}
+      annotations:
+        {{- toYaml .annotations | nindent 8 }}
+      {{- end }}
+    spec:
+      restartPolicy: Never
+      {{- with $values.imagePullSecrets }}
+      imagePullSecrets :
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ include "team-management-service.fullname" $top }}-migrations
+          image : {{ $values.image.repository }}:{{ $values.appVersion }}
+          imagePullPolicy : {{ $values.image.pullPolicy }}
+          env:
+          {{- range $secret_name, $localValues := $values.configuration.secrets }}
+          {{- range $key, $value := $localValues }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secret_name }}
+                  key: {{ $value }}
+          {{- end }}
+          {{- end }}
+          {{- range $config_name, $localValues := $values.configuration.map }}
+          {{- range $key, $value :=  $localValues }}
+            - name: {{ $key }}
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ $config_name }}
+                  key: {{ $value }}
+          {{- end }}
+          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "team-management-service.fullname" $top }}-configmap
+            - secretRef:
+                name: {{ include "team-management-service.fullname" $top }}-secret
+          args: [ "/bin/bash", "./run-migrations.sh" ]
+          resources:
+            {{- toYaml .resources | nindent 12 }}
+      {{- if $values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml $values.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if $values.tolerations }}
+      tolerations:
+      {{- toYaml $values.tolerations | nindent 8 }}
+      {{- end }}
+{{- end }}
+{{- end }}
