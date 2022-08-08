@@ -49,3 +49,7 @@ Selector labels
 app.frontegg.com/name: {{ include "webhook-service.name" . }}
 app.frontegg.com/instance: {{ .Release.Name }}
 {{- end -}}
+
+{{- define "webhook-service.offlineLabels" -}}
+app.frontegg.com/name: {{ include "webhook-service.name" . }}-offline
+{{- end -}}

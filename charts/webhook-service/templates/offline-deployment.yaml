@@ -1,21 +1,22 @@
+{{- if .Values.offline.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "webhook-service.fullname" . }}-deployment
+  name: {{ include "webhook-service.fullname" . }}-offline-deployment
   labels:
-  {{- include "webhook-service.labels" . | nindent 4 }}
+    {{- include "webhook-service.offlineLabels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas : {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-  {{- include "webhook-service.selectorLabels" . | nindent 6 }}
+      {{- include "webhook-service.offlineLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.frontegg.com/appVersion: "{{ .Values.appVersion }}"
-      {{- include "webhook-service.selectorLabels" . | nindent 8 }}
+        app.frontegg.com/appVersion: {{ .Values.appVersion | quote }}
+        {{- include "webhook-service.offlineLabels" . | nindent 8 }}
       annotations:
         checksum/secret: {{ (print .Values.secret) | sha256sum }}
         checksum/config: {{ (print .Values.configmap) | sha256sum }}
@@ -43,7 +44,7 @@ spec:
           env:
             {{- if .Values.offline.enabled }}
             - name: FRONTEGG_IS_SERVICE_OFFLINE_PROCESS
-              value: "false"
+              value: "true"
             {{- end  }}
             {{- range $secret_name, $values := .Values.configuration.secrets }}
             {{- range $key, $value :=  $values}}
@@ -68,9 +69,8 @@ spec:
                 name: {{ include "webhook-service.fullname" . }}-configmap
             - secretRef:
                 name: {{ include "webhook-service.fullname" . }}-secret
-
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.offline.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
@@ -83,3 +83,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
   {{- end }}
+{{- end }}

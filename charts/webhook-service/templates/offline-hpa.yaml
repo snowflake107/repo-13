@@ -1,0 +1,32 @@
+{{- if .Values.offline.enabled }}
+{{- if .Values.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "webhook-service.fullname" . }}-offline-hpa
+  labels:
+  {{- include "webhook-service.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "webhook-service.fullname" . }}-offline-deployment
+  {{- with .Values.offline.autoscaling }}
+  minReplicas: {{ .minReplicas }}
+  maxReplicas: {{ .maxReplicas }}
+  metrics:
+    {{- if .targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .targetMemoryUtilizationPercentage }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
