@@ -1,0 +1,21 @@
+{{- if .Values.unifiedTag }}
+{{- if hasKey .Values.supportRollouts .Values.unifiedTag }}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ include "api-gateway.fullname" . }}-rollout
+spec:
+  workloadRef: # Reference an existing Deployment using workloadRef field
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "api-gateway.fullname" . }}-deployment
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      {{- include "api-gateway.selectorLabels" . | nindent 6 }}
+  strategy:
+    blueGreen:
+      activeService: frontegg-{{ include "api-gateway.name" . }}
+      autoPromotionEnabled: true
+{{- end }}
+{{- end }}
