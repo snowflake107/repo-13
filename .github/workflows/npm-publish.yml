@@ -10,6 +10,7 @@ jobs:
         with:
           node-version: 17
       - run: npm install
+      - run: npm install --save request
       - run: npm test
       - uses: JS-DevTools/npm-publish@v1
         with:
