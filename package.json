@@ -1,6 +1,6 @@
 {
   "name": "logzio-nodejs-metrics-sdk",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Logz.io node.js metrics Exporter allows user to send collected metrics to the Logz.io using OpenTelemetry SDK ",
   "main": "src/index.js",
   "repository": "logzio/js-metrics",
@@ -56,12 +56,12 @@
     "@opentelemetry/exporter-metrics-otlp-http": "^0.27.0",
     "@opentelemetry/exporter-trace-otlp-http": "^0.27.0",
     "@opentelemetry/sdk-metrics-base": "^0.27.0",
-    "google-protobuf": "^3.17.3",
-    "nock": "^13.1.1",
-    "protobufjs": "^6.9.0",
-    "requestretry": "^5.0.0",
+    "google-protobuf": "^3.21.0",
+    "nock": "^13.2.9",
+    "protobufjs": "^7.0.0",
+    "requestretry": "^7.1.0",
     "snappyjs": "^0.6.1",
-    "winston": "^3.3.3"
+    "winston": "^3.8.1"
   },
   "gitHead": "7750282034ee58bdd257446c2970f01307d7522a"
 }

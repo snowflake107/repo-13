@@ -1,7 +1,7 @@
 const wr = require('../protos/rw/remote_pb')
 function attachSample(s, samples, metric_type = 'reg'){
     let sample = new wr.Sample();
-    sample.setTimestampmillis(Math.floor(s.timeUnixNano/1000000));
+    sample.setTimestampmillis(Math.floor(new Date().getTime()));
     if (metric_type == 'reg') {
         sample.setValue(s.value);
     }
@@ -134,6 +134,7 @@ function checkNestedObjectByKeyValue(obj, objKey, objValue) {
     }
     return false
 }
+
 
 function toTimeSeries(otel_request) {
     const write_request = new wr.WriteRequest();
