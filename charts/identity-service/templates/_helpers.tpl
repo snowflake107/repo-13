@@ -56,6 +56,11 @@ app.frontegg.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "identity-service.selectorLabels" -}}
+{{- $top := . -}}
+{{- if $top.Values.selectorLabels -}}
+{{ toYaml $top.Values.selectorLabels }}
+{{- else -}}
 app.frontegg.com/name: {{ include "identity-service.name" . }}
 app.frontegg.com/instance: {{ .Release.Name }}
+{{- end -}}
 {{- end -}}
