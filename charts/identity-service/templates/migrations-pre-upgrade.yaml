@@ -1,41 +1,42 @@
 {{- $values := .Values -}}
 {{- $top := . -}}
-{{- with .Values.migrations }}
-{{- if .enabled }}
+{{- range $jobName, $job := $values.jobs -}}
+{{- if $job.enabled }}
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "identity-service.fullname" $top }}-pre-upgrade-migrations
+  name: {{ include "identity-service.fullname" $top }}-{{ $jobName }}
   labels:
     {{- include "identity-service.labels" $top | nindent 4 }}
-    app.kubernetes.io/component: pre-upgrade-migrations
+    app.kubernetes.io/component: {{ $jobName }}
   annotations:
-    helm.sh/hook: pre-install,pre-upgrade
-    helm.sh/hook-weight: "-1"
-    helm.sh/hook-delete-policy: "before-hook-creation"
-   {{- if .jobAnnotations }}
-   {{- toYaml .jobAnnotations | nindent 4 }}
+   {{- if $job.metadata }}
+   {{- with $job.metadata.annotations }}
+   {{- toYaml . | nindent 4 }}
+   {{- end }}
    {{- end }}
 spec:
-  backoffLimit: 1
+  {{- with $job.spec }}
+  backoffLimit: {{ .backoffLimit | default 1 }}
   template:
     metadata:
-      name: {{ include "identity-service.fullname" $top }}-pre-upgrade-migrations
+      name: {{ include "identity-service.fullname" $top }}-{{ $jobName }}
       labels:
         {{- include "identity-service.labels" $top | nindent 8 }}
-        app.kubernetes.io/component: pre-upgrade-migrations
-      {{- if .annotations }}
+        app.kubernetes.io/component: {{ $jobName }}
+      {{- with .annotations }}
       annotations:
-        {{- toYaml .annotations | nindent 8 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      restartPolicy: Never
+      restartPolicy: {{ .restartPolicy | default "Never" }}
       {{- with $values.imagePullSecrets }}
       imagePullSecrets :
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ include "identity-service.fullname" $top }}-migrations
+        - name: {{ include "identity-service.fullname" $top }}-{{ $jobName }}
           image : {{ $values.image.repository }}:{{ $values.appVersion }}
           imagePullPolicy : {{ $values.image.pullPolicy }}
           env:
@@ -62,7 +63,10 @@ spec:
                 name: {{ include "identity-service.fullname" $top }}-configmap
             - secretRef:
                 name: {{ include "identity-service.fullname" $top }}-secret
-          args: [ "/bin/bash", "./run-migrations.sh" ]
+          {{- with .args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .resources | nindent 12 }}
       {{- if $values.nodeSelector }}
@@ -73,5 +77,6 @@ spec:
       tolerations:
       {{- toYaml $values.tolerations | nindent 8 }}
       {{- end }}
+{{- end }}
 {{- end }}
 {{- end }}
