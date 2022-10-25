@@ -6,9 +6,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "integration-service.fullname" $top }}-{{ $jobName }}
+  name: {{ include "integrations-service.fullname" $top }}-{{ $jobName }}
   labels:
-    {{- include "integration-service.labels" $top | nindent 4 }}
+    {{- include "integrations-service.labels" $top | nindent 4 }}
     app.kubernetes.io/component: {{ $jobName }}
   annotations:
    {{- if $job.metadata }}
@@ -21,9 +21,9 @@ spec:
   backoffLimit: {{ .backoffLimit | default 1 }}
   template:
     metadata:
-      name: {{ include "integration-service.fullname" $top }}-{{ $jobName }}
+      name: {{ include "integrations-service.fullname" $top }}-{{ $jobName }}
       labels:
-        {{- include "integration-service.labels" $top | nindent 8 }}
+        {{- include "integrations-service.labels" $top | nindent 8 }}
         app.kubernetes.io/component: {{ $jobName }}
       {{- with .annotations }}
       annotations:
@@ -36,7 +36,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ include "integration-service.fullname" $top }}-{{ $jobName }}
+        - name: {{ include "integrations-service.fullname" $top }}-{{ $jobName }}
           image : {{ $values.image.repository }}:{{ $values.appVersion }}
           imagePullPolicy : {{ $values.image.pullPolicy }}
           env:
@@ -60,9 +60,9 @@ spec:
           {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ include "integration-service.fullname" $top }}-configmap
+                name: {{ include "integrations-service.fullname" $top }}-configmap
             - secretRef:
-                name: {{ include "integration-service.fullname" $top }}-secret
+                name: {{ include "integrations-service.fullname" $top }}-secret
           {{- with .args }}
           args:
             {{- toYaml . | nindent 12 }}
