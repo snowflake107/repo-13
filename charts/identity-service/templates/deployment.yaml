@@ -32,10 +32,26 @@ spec:
       imagePullSecrets:
       {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.externalSecret }}
+      {{- if .Values.externalSecret.enabled }}
+      volumes :
+        - name : vol-secret
+          secret :
+            secretName : {{ include "identity-service.fullname" . }}-external-secret
+      {{- end }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: {{ .Values.image.repository }}:{{ .Values.appVersion }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.externalSecret }}
+          {{- if .Values.externalSecret.enabled }}
+          volumeMounts :
+            - name : vol-secret
+              mountPath : /etc/config/config.env
+              subPath : config
+          {{- end }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }} # change this to 80 in the future
