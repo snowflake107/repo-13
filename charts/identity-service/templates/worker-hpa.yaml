@@ -1,0 +1,29 @@
+{{- if and .Values.offline.enabled .Values.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "identity-service.fullname" . }}-worker-hpa
+  labels:
+  {{- include "identity-service.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "identity-service.fullname" . }}-worker-deployment
+  minReplicas: {{ .Values.offline.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.offline.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.offline.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.offline.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
+  {{- end }}
+  {{- end }}
+

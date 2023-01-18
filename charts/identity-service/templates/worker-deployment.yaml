@@ -1,0 +1,105 @@
+{{- if .Values.offline.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "identity-service.fullname" . }}-worker-deployment
+  labels:
+    {{- include "identity-service.workerLabels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.autoscaling.enabled | ternary 0 .Values.offline.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "identity-service.workerLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app.frontegg.com/appVersion: {{ .Values.appVersion | quote }}
+          {{- include "identity-service.workerLabels" . | nindent 8 }}
+      annotations:
+        checksum/secret: {{ (print .Values.secret) | sha256sum }}
+        checksum/config: {{ (print .Values.configmap) | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.externalSecret }}
+      {{- if .Values.externalSecret.enabled }}
+      volumes :
+        - name : vol-secret
+          secret :
+            secretName : {{ include "identity-service.fullname" . }}-external-secret
+      {{- end }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image.repository }}:{{ .Values.appVersion }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.externalSecret }}
+          {{- if .Values.externalSecret.enabled }}
+          volumeMounts :
+            - name : vol-secret
+              mountPath : /etc/config/config.env
+              subPath : config
+          {{- end }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }} # change this to 80 in the future
+              protocol: TCP
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            {{- range $secret_name, $values := .Values.configuration.secrets }}
+            {{- range $key, $value :=  $values}}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secret_name }}
+                  key: {{ $value }}
+            {{- end }}
+            {{- end }}
+            {{- range $config_name, $values := .Values.configuration.map }}
+            {{- range $key, $value :=  $values}}
+            - name: {{ $key }}
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ $config_name }}
+                  key: {{ $value }}
+          {{- end }}
+          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "identity-service.fullname" . }}-configmap
+            - secretRef:
+                name: {{ include "identity-service.fullname" . }}-secret
+          resources:
+            {{- toYaml .Values.offline.resources | nindent 12 }}
+          args:
+            - "npm"
+            - "run"
+            - "start:prod:worker"
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+  {{- end }}
+{{- end }}

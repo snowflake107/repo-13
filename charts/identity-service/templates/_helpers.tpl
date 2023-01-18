@@ -64,3 +64,8 @@ app.frontegg.com/name: {{ include "identity-service.name" . }}
 app.frontegg.com/instance: {{ .Release.Name }}
 {{- end -}}
 {{- end -}}
+
+{{- define "identity-service.workerLabels" -}}
+app.frontegg.com/name: {{ include "identity-service.name" . }}-worker
+{{- end -}}
+
