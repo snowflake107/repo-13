@@ -6,7 +6,9 @@ metadata:
   labels:
     {{- include "identity-service.workerLabels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.autoscaling.enabled | ternary 0 .Values.offline.replicaCount }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.offline.replicaCount }}
+  {{- end }}
   strategy:
     type: Recreate
   selector:
