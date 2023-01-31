@@ -1,22 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "api-gateway.fullname" . }}-deployment
+  name: {{ include "api-gateway.fullname" . }}-deployment-fastify
   labels:
     {{- include "api-gateway.labels" . | nindent 4 }}
 spec:
-  {{- if .Values.argoRollouts }}
-  replicas: 0
-  {{- else if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: {{ .Values.fastify.replicaCount }}
   selector:
     matchLabels:
       {{- include "api-gateway.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.frontegg.com/appVersion: "{{ .Values.appVersion }}"
+        app.frontegg.com/fastify-appVersion: "{{ .Values.fastify.appVersion }}"
         {{- include "api-gateway.selectorLabels" . | nindent 8 }}
         {{- with .Values.podLabels  }}
         {{- toYaml . | nindent 8 }}
@@ -40,7 +36,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.appVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.fastify.appVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http

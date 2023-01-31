@@ -51,6 +51,8 @@ service:
   ##
   name: access-port
 
+argoRollouts: false
+
 ## HPA properties for team-management-service
 ## If autoscaling is enabled it will monitor the service and raise or lower pods amount based upon usage
 ## If autoscaling is disabled team-management-service will be managed by replicaset with `replicaCount` determine pod amount
