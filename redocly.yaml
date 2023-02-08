@@ -11,16 +11,6 @@ apis:
 extends:
   - recommended
   
-rules:
-  # A sample custom rule. Read more about rules: https://redocly.com/docs/cli/rules/
-  assert/operation-description:
-    subject: 
-      type: Operation
-      property: description
-    assertions:
-      defined: true
-      minLength: 30
-
 features.openapi:
   htmlTemplate: ./static/index.html
   theme:
