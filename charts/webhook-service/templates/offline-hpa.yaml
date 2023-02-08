@@ -1,6 +1,6 @@
 {{- if .Values.offline.enabled }}
 {{- if .Values.autoscaling.enabled }}
-apiVersion: autoscaling/v2beta1
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "webhook-service.fullname" . }}-offline-hpa
@@ -19,13 +19,17 @@ spec:
     - type: Resource
       resource:
         name: cpu
-        targetAverageUtilization: {{ .targetCPUUtilizationPercentage }}
+        target:
+          type: Utilization
+          averageUtilization: {{ .targetCPUUtilizationPercentage }}
     {{- end }}
     {{- if .targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory
-        targetAverageUtilization: {{ .targetMemoryUtilizationPercentage }}
+        target:
+          type: Utilization
+          averageUtilization: {{ .targetMemoryUtilizationPercentage }}
   {{- end }}
   {{- end }}
   {{- end }}
