@@ -1,5 +1,4 @@
-{{- if .Values.unifiedTag }}
-{{- if hasKey .Values.supportRollouts .Values.unifiedTag }}
+{{- if .Values.argoRollouts }}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -17,5 +16,4 @@ spec:
     blueGreen:
       activeService: frontegg-{{ include "identity-service.name" . }}
       autoPromotionEnabled: true
-{{- end }}
 {{- end }}
