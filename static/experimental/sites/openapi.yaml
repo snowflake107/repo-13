@@ -1,0 +1,2010 @@
+openapi: 3.0.3
+info:
+  title: Sites API
+  version: 2023.01-experimental
+servers:
+  - url: /adobe/sites
+tags:
+  - name: Fragments
+    description: Content Fragments Operations
+  - name: Models
+    description: Content Fragment Models Operations
+  - name: Headless UI
+paths:
+  /cf/models:
+    parameters:
+      - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+    get:
+      operationId: models/getModels
+      tags:
+        - Models
+      summary: |
+        Retrieve all the Content Fragment Models accessible to the current
+        user
+      description: >
+        This API call provides support for retrieving all of the Content
+        Fragment Models
+
+        accessible to the current user. The request can be paginated.
+      parameters:
+        - in: query
+          name: cursor
+          schema:
+            $ref: '#/components/schemas/Cursor'
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: A maximum number of Content Fragment Models to retrieve.
+      responses:
+        '200':
+          description: A list of Content Fragment Models was successfully returned.
+          content:
+            application/json:
+              schema:
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentFragmentModel'
+                  cursor:
+                    $ref: '#/components/schemas/Cursor'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    post:
+      operationId: models/createModel
+      tags:
+        - Models
+      summary: Create a new Content Fragment Model
+      description: This call allows defining a new Content Fragment Model.
+      requestBody:
+        $ref: '#/components/requestBodies/RequestContentFragmentModel'
+      responses:
+        '201':
+          description: The Content Fragment Model was successfully created.
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The URI at which the created model can be accessed.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /cf/models/{id}:
+    parameters:
+      - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+      - in: path
+        name: id
+        required: true
+        description: The ID of the Content Fragment Model to retrieve.
+        schema:
+          $ref: '#/components/schemas/Base64URLId'
+    head:
+      operationId: models/getModelHeaders
+      tags:
+        - Models
+      summary: Retrieve the headers for a Content Fragment Model
+      description: >
+        This operation allows retrieving the headers for a Content Fragment
+        Model, when a client needs to execute subsequent operations that
+
+        need to be consistent.
+      responses:
+        '200':
+          description: OK
+          headers:
+            ETag:
+              schema:
+                type: string
+              description: >
+                A strong entity tag that identifies the current state of the
+                accessed Content Fragment Model.
+              required: true
+            Last-Modified:
+              schema:
+                type: string
+              description: >
+                The date and time when the origin server believes the resource
+                was last modified. See [RFC7232](https://httpwg
+
+                .org/specs/rfc7232.html#header.last-modified) for a description
+                of the format.
+              required: true
+        '304':
+          description: Not Modified
+          headers:
+            ETag:
+              schema:
+                type: string
+              description: >
+                A strong entity tag that identifies the current state of the
+                accessed Content Fragment Model.
+            Last-Modified:
+              schema:
+                type: string
+              description: >
+                The date and time when the origin server believes the resource
+                was last modified. See [RFC7232](https://httpwg
+
+                .org/specs/rfc7232.html#header.last-modified) for a description
+                of the format.
+        '400':
+          description: Bad Request
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    get:
+      operationId: models/getModel
+      tags:
+        - Models
+      summary: Retrieve a Content Fragment Model
+      description: |
+        This operation allows retrieving a Content Fragment Model by its ID.
+      responses:
+        '200':
+          description: OK
+          headers:
+            ETag:
+              schema:
+                type: string
+              description: >
+                A strong entity tag that identifies the current state of the
+                accessed Content Fragment Model.
+              required: true
+            Last-Modified:
+              schema:
+                type: string
+              description: >
+                The date and time when the origin server believes the resource
+                was last modified. See [RFC7232](https://httpwg
+
+                .org/specs/rfc7232.html#header.last-modified) for a description
+                of the format.
+              required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentFragmentModel'
+        '304':
+          $ref: '#/components/responses/NotModified'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      operationId: models/updateModel
+      summary: Updates a Content Fragment Model
+      description: Updates the model identified by the passed `id`.
+      tags:
+        - Models
+      parameters:
+        - in: header
+          name: If-Match
+          schema:
+            type: string
+            description: >-
+              The value of an `ETag` received for a previous `HEAD` or `GET`
+              request to this model.
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/PatchBody'
+      responses:
+        '204':
+          description: >
+            The update operation completed successfully. The response body
+            doesn't provide any content. If the response's `ETag` is the 
+
+            same as before, then this signals that the patch has not changed the
+            resource.
+          headers:
+            Content-Location:
+              description: >
+                Indicates that this content is a representation reporting on the
+                requested action's status and that the same 
+
+                report is available (for future access with GET) at the given
+                URI
+              schema:
+                type: string
+                pattern: ^/adobe/cf/models/[A-Za-z0-9_\-]+$
+            ETag:
+              schema:
+                type: string
+              description: The updated `ETag` value after this update.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      operationId: models/deleteModel
+      summary: Deletes a Content Fragment Model
+      description: Deletes the model identified by the passed `id`.
+      tags:
+        - Models
+      parameters:
+        - in: header
+          name: If-Match
+          schema:
+            type: string
+            description: >-
+              The value of an `ETag` received for a previous `HEAD` or `GET`
+              request to this model.
+          required: true
+      responses:
+        '204':
+          description: >-
+            The delete operation completed successfully. The response body
+            doesn't provide any content.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /cf/models/cf/datatypes:
+    parameters:
+      - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+    get:
+      operationId: models/listDataTypes
+      tags:
+        - Models
+      summary: Retrieves the available data types
+      description: >
+        The Data Types define what kind of fields a Content Fragment Model can
+        have.
+      parameters:
+        - in: query
+          name: cursor
+          schema:
+            $ref: '#/components/schemas/Cursor'
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: A maximum number of Data Types to retrieve.
+      responses:
+        '200':
+          description: A list of Content Fragments Data Types was successfully returned.
+          headers:
+            ETag:
+              schema:
+                type: string
+              description: >
+                A strong entity tag that identifies the current available set
+
+                of Content Fragments Data Types, irrespective of the paginated
+                response.
+          content:
+            application/json:
+              schema:
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DataType'
+                  cursor:
+                    $ref: '#/components/schemas/Cursor'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /cf/fragments:
+    get:
+      summary: Request to get a list of the content fragments.
+      description: >
+        Returns the list of the content fragments.<br><br>
+
+        <b>Important!</b> Current implementation limitation is to return at most
+        25 content fragments ordered by created date.
+      parameters:
+        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+        - in: query
+          name: path
+          description: >-
+            Optional UTF-8 encoded parameter to specify a path where to start
+            looking for content fragments.
+          schema:
+            type: string
+          examples:
+            one fragment:
+              value: >-
+                /content/dam/adaptto/presentations/aem-cloud-service-from-a-developer-perspective
+              description: >-
+                Get exaclty one
+                '/aem-cloud-service-from-a-developer-perspective' content
+                fragment.
+            multiple fragments:
+              value: /content/dam/adaptto/presentations
+              description: Get all child content fragments under '/presentations' folder.
+      tags:
+        - Headless UI
+        - experimental
+      responses:
+        '200':
+          $ref: '#/components/responses/FragmentsResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /cf/fragments/{fragmentId}:
+    patch:
+      summary: Request to patch content fragment with new changes.
+      description: >
+        ## Patch format
+
+        The changes to a content fragment are passed as a JSON patch, see <a
+        href="https://datatracker.ietf.org/doc/html/rfc6902">[RFC6902]</a> for
+        details.
+
+
+        ##  Detecting save conflicts
+
+        Save conflicts are detected by leveraging conditional HTTP requests, see
+        <a href="https://datatracker.ietf.org/doc/html/rfc7232">[RFC7232]</a>
+        for details.
+
+
+        ## Resolving conflicts
+
+        When conflict happens server sends respective response and correct ETag
+        header to the caller. It becomes the caller's responsibility to resolve
+        the conflict,
+
+        either by accepting values from the server, or by overwrite them.
+        Subsequent save requests should pass correct ETag received from the
+        server.
+      parameters:
+        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+        - in: header
+          name: If-Match
+          description: Content fragment ETag to match.
+          schema:
+            type: string
+          required: true
+        - $ref: '#/components/parameters/fragmentId'
+        - in: query
+          name: validated
+          description: >-
+            An indication for backend that content fragment is a work in
+            progress and not ready for publishing. It may also contain errors or
+            incomplete data. This parameter will be removed from the final API
+            version or as soon as backend validation is implemented.
+          schema:
+            type: boolean
+            default: true
+      tags:
+        - Headless UI
+        - experimental
+      requestBody:
+        $ref: '#/components/requestBodies/FragmentPatch'
+      responses:
+        '200':
+          $ref: '#/components/responses/FragmentResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '412':
+          $ref: '#/components/responses/PreconditionFailedResponse'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      summary: Request to get a content fragment with the given fragmentId.
+      description: Returns the content fragment.
+      parameters:
+        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+        - in: header
+          name: If-None-Match
+          description: Content fragment ETag, if known.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/fragmentId'
+      tags:
+        - Headless UI
+        - experimental
+      responses:
+        '200':
+          $ref: '#/components/responses/FragmentResponse'
+        '304':
+          $ref: '#/components/responses/NotModified'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /cf/fragments/{fragmentId}/previewUrl:
+    get:
+      summary: >-
+        Request to get a list of variants with a preview URL for the fragment
+        identified by the provided `fragmentId`.
+      description: Returns the content fragment preview URL.
+      parameters:
+        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+        - $ref: '#/components/parameters/fragmentId'
+      tags:
+        - Headless UI
+        - experimental
+      responses:
+        '200':
+          $ref: '#/components/responses/FragmentPreviewURLResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /cf/fragments/permissions:
+    post:
+      summary: Returns the permissions of the requesting-user on a list of resources.
+      description: >
+        Returns the list of permissions the user has over the provided list of
+        resources. Accepts resources of type `content fragment` and `folder`
+        stored under `/content/dam`.
+
+        <br><br><b>Warning: This API is experimental and is not intended for
+        public usage. The API might change or disappear at any time.</b>
+      tags:
+        - Headless UI
+        - experimental
+      parameters:
+        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+      requestBody:
+        $ref: '#/components/requestBodies/Permissions'
+      responses:
+        '200':
+          $ref: '#/components/responses/Permissions'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /cf/fragments/publish:
+    post:
+      summary: Request to publish content fragments.
+      description: >
+        Request to publish content fragments. Causes an AEM workflow to be
+        executed for the publication. If all goes well, the path of the workflow
+        job is returned in the 200 response.
+
+        <br><br><b>Warning: This API is experimental and is not intended for
+        public usage. The API might change or disappear at any time.</b>
+      tags:
+        - Headless UI
+        - experimental
+      parameters:
+        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+      requestBody:
+        $ref: '#/components/requestBodies/ContentFragmentPublish'
+      responses:
+        '200':
+          $ref: '#/components/responses/ContentFragmentPublish'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /cf/fragments/referencedBy:
+    post:
+      summary: Request to fetch the parent references of a given list of resources.
+      description: >
+        Returns the parent references of type Page, Experience Fragment and
+        Content Fragments which are referencing the resource specified in the
+        paths parameter.<br><br><b>Warning: This API is experimental and is not
+        intended for public usage. The API might change or disappear at any
+        time.</b>
+      tags:
+        - Headless UI
+        - experimental
+      parameters:
+        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+      requestBody:
+        $ref: '#/components/requestBodies/ContentFragmentsReferencedBy'
+      responses:
+        '200':
+          $ref: '#/components/responses/ContentFragmentsReferencedBy'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /cf/fragments/translations:
+    post:
+      summary: >-
+        Request to fetch locales and all language copies of a given list of
+        resources.
+      description: >
+        <b>Warning: This API is experimental and is not intended for public
+        usage. The API might change or disappear at any time.</b>
+      tags:
+        - Headless UI
+        - experimental
+      parameters:
+        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+      requestBody:
+        $ref: '#/components/requestBodies/RequestContentFragmentLanguageCopies'
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseContentFragmentLanguageCopies'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /cf/fragments/cf/graphql:
+    post:
+      summary: GraphQL POST request
+      description: >
+        <br><b>Warning: This API is experimental and is not intended for public
+        usage. The API might change or disappear at any time.</b>
+      tags:
+        - Headless UI
+        - experimental
+      parameters:
+        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+      requestBody:
+        $ref: '#/components/requestBodies/GraphQLRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/GraphQLResponse'
+    get:
+      summary: GraphQL GET request
+      description: >
+        <br><b>Warning: This API is experimental and is not intended for public
+        usage. The API might change or disappear at any time.</b>
+      tags:
+        - Headless UI
+        - experimental
+      parameters:
+        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+        - in: query
+          name: query
+          schema:
+            type: string
+          required: true
+          description: GraphQL query string
+        - in: query
+          name: variables
+          schema:
+            type: string
+          description: >-
+            Variables simplify GraphQL queries by letting you pass data
+            separately. Can be declared after the query are passed like
+            arguments to a function and begin with `$`.
+      responses:
+        '200':
+          $ref: '#/components/responses/GraphQLResponse'
+components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+    Organization:
+      type: apiKey
+      in: header
+      name: X-Gw-Ims-Org-Id
+  schemas:
+    Base64URLId:
+      description: Defines a `base64url` with no padding encoded ID.
+      type: string
+      pattern: ^[A-Za-z0-9_\-]+$
+    ContentFragmentModel:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Base64URLId'
+        path:
+          type: string
+          description: The path where this model is currently stored.
+        name:
+          type: string
+          description: A human-readable name for this model.
+        description:
+          type: string
+          description: A human-readable description for this model.
+        lastModified:
+          type: number
+          description: |
+            A Unix time value that indicates when this model was last modified.
+        lastModifiedBy:
+          type: string
+          description: The user ID that last modified this model.
+        locked:
+          type: boolean
+          description: |
+            If a model is locked, then no edits can be performed on this model,
+            except for unlocking it.
+        status:
+          type: string
+          description: |
+            The status of this model. A model is in `draft` as soon as it's
+            created, unless the user specifically marks the model as `enabled`.
+            A model is in `disabled` state only when a user explicitly disables
+            the model.
+          enum:
+            - enabled
+            - disabled
+            - draft
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentFragmentModelField'
+      required:
+        - id
+        - path
+        - name
+        - lastModified
+        - lastModifiedBy
+        - locked
+        - status
+        - fields
+    ContentFragmentModelField:
+      description: Defines a Content Fragment Model field.
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of this field.
+        label:
+          type: string
+          description: |
+            A label to be used when rendering this field in an editable form.
+        description:
+          type: string
+          description: |
+            A human-readable description for this field.
+        required:
+          type: boolean
+          description: Defines whether this field is required or optional.
+        multiple:
+          type: boolean
+          description: Defines if this field should store multiple values.
+        type:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The id of the `DataType` that backs this field.
+            metadata:
+              type: object
+              description: The `DataType` metadata that applies to this field.
+    Cursor:
+      description: >
+        A cursor is an opaque string that can be used in API calls which support
+
+        paginating the response. A non-existent cursor signifies that the
+        returned list does not have more elements.
+      type: string
+      minLength: 1
+      nullable: false
+    DataType:
+      description: |
+        A Data Type defines the type of field belonging to a Content Fragment
+        Model / Content Fragment.
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique value that determines this type.
+        description:
+          type: string
+          description: A human-readable description of the type.
+        metadata:
+          type: array
+          description: An array of properties specific to each data type.
+          items:
+            properties:
+              key:
+                type: string
+                description: The metadata key.
+              description:
+                type: string
+                description: >-
+                  A human-readable string describing the purpose of this
+                  metadata entry.
+    ErrorResponse:
+      description: An RFC7807 JSON Problem Details Object
+      type: object
+      properties:
+        type:
+          type: string
+          description: A URI reference [RFC3986] that identifies the problem type.
+        title:
+          type: string
+          description: A short, human-readable summary of the problem type.
+        status:
+          type: number
+          description: The HTTP status code.
+        detail:
+          type: string
+          description: >-
+            A human-readable explanation specific to this occurrence of the
+            problem.
+        instance:
+          type: string
+          description: >
+            A URI reference that identifies the specific occurrence of the
+            problem.
+
+            It may or may not yield further information if dereferenced.
+      required:
+        - type
+        - status
+        - title
+        - detail
+    PatchBody:
+      type: array
+      items:
+        oneOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              path:
+                type: string
+              op:
+                enum:
+                  - add
+                  - replace
+                  - test
+              value:
+                description: The value to be used within the operations.
+            required:
+              - path
+              - op
+              - value
+          - type: object
+            additionalProperties: false
+            properties:
+              path:
+                type: string
+              op:
+                enum:
+                  - remove
+            required:
+              - path
+              - op
+          - type: object
+            additionalProperties: false
+            properties:
+              from:
+                type: string
+              path:
+                type: string
+              op:
+                enum:
+                  - move
+                  - copy
+            required:
+              - from
+              - op
+              - path
+    Actions:
+      type: string
+      description: |
+        The user actions
+         * `READ` - The user is allowed to read a specific Content Fragment.
+         * `EDIT` - The user is allowed to edit a specific Content Fragment.
+         * `RENAME` - The user is allowed to rename a specific Content Fragment.
+         * `DELETE` - The user is allowed to delete a specific Content Fragment.
+         * `PUBLISH` - The user is allowed to publish/un-publish a specific Content Fragment.
+         * `CREATE_CONTENT_FRAGMENT` - The user is allowed to crete a Content Fragment in a specific folder.
+      enum:
+        - READ
+        - EDIT
+        - RENAME
+        - DELETE
+        - PUBLISH
+        - CREATE_CONTENT_FRAGMENT
+    ResourceStatus:
+      description: Status of a given Resource
+      type: string
+      enum:
+        - NEW
+        - DRAFT
+        - PUBLISHED
+        - MODIFIED
+        - UNPUBLISHED
+    GraphQLErrorResponse:
+      description: The error response describing the error.
+      properties:
+        errors:
+          type: array
+          description: >-
+            The `errors` field, where all the errors accumulated during the
+            execution of the operation are kept.
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The error message describing the error.
+              locations:
+                type: array
+                description: A list of graph coordinates where the errors have occurred.
+                items:
+                  type: object
+                  properties:
+                    line:
+                      type: integer
+                    column:
+                      type: integer
+              extensions:
+                type: object
+                description: >-
+                  An optional extensions field with arbitrary contents, usually
+                  meta-data about the response.
+    GraphQLSuccessResponse:
+      properties:
+        data:
+          type: object
+          description: The `data` field, where the result of the operation is stored`.
+    AuthoringInfo:
+      readOnly: true
+      nullable: false
+      description: Information about the content fragment authoring operation.
+      properties:
+        at:
+          type: string
+          format: date-time
+          description: Date and time of the operation.
+          example: '2021-01-30T08:30:00Z'
+        by:
+          type: string
+          description: The identifier of the author who performed the operation.
+    FragmentModel:
+      readOnly: true
+      nullable: false
+      description: Information about the content fragment model.
+      properties:
+        path:
+          type: string
+          description: Content fragment model path.
+        title:
+          type: string
+          description: Content fragment model description.
+    Elements:
+      type: object
+      description: A collection of elements, single and multivalued.
+      additionalProperties:
+        oneOf:
+          - $ref: '#/components/schemas/Value'
+          - $ref: '#/components/schemas/Values'
+    References:
+      type: object
+      description: An information about referenced assets.
+      additionalProperties:
+        oneOf:
+          - $ref: '#/components/schemas/ReferencedFragment'
+          - $ref: '#/components/schemas/ReferencedAsset'
+    Value:
+      description: A field value of one of the supported types.
+      oneOf:
+        - type: string
+        - type: integer
+        - type: number
+        - type: boolean
+    Values:
+      type: array
+      description: An array of values of one of the supported types.
+      items:
+        $ref: '#/components/schemas/Value'
+    Variation:
+      description: A representation of a content fragment variation.
+      type: object
+      properties:
+        title:
+          description: Variation title
+          type: string
+        description:
+          description: Variation description.
+          type: string
+        tags:
+          description: A collection of tags, associated with variation.
+          type: array
+          items:
+            type: string
+        elements:
+          $ref: '#/components/schemas/Elements'
+        references:
+          $ref: '#/components/schemas/References'
+    Fragment:
+      description: A representation of a content fragment.
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          format: uuid
+          nullable: false
+          description: Content fragment unique identifier.
+        path:
+          type: string
+          readOnly: true
+          nullable: false
+          description: Content fragment path.
+        title:
+          type: string
+          description: Content fragment title.
+        description:
+          type: string
+          description: Content fragment description.
+        model:
+          $ref: '#/components/schemas/FragmentModel'
+        metadata:
+          type: object
+          readOnly: true
+          description: Content fragment metadata.
+          properties:
+            key:
+              type: string
+            value:
+              type: object
+        created:
+          $ref: '#/components/schemas/AuthoringInfo'
+        modified:
+          $ref: '#/components/schemas/AuthoringInfo'
+        published:
+          $ref: '#/components/schemas/AuthoringInfo'
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+        elements:
+          $ref: '#/components/schemas/Elements'
+        references:
+          $ref: '#/components/schemas/References'
+        variations:
+          type: object
+          description: Content fragment variations.
+          additionalProperties:
+            allOf:
+              - $ref: '#/components/schemas/Variation'
+    ReferencedFragment:
+      type: object
+      readOnly: true
+      description: >-
+        Minimal information about referenced content fragment, can be used to
+        generate preview.
+      properties:
+        title:
+          type: string
+          description: Content fragment title.
+        model:
+          $ref: '#/components/schemas/FragmentModel'
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+    FragmentPreviewUrls:
+      type: array
+      readOnly: true
+      description: List of objects containing variation name and preview URL.
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            nullable: false
+            description: Name of the variant
+          url:
+            type: string
+            description: Preview URL for given variant
+    ReferencedAsset:
+      type: object
+      readOnly: true
+      description: >-
+        Minimal information about referenced asset, can be used to generate
+        preview.
+      properties:
+        name:
+          type: string
+          nullable: false
+          description: Asset name.
+        title:
+          type: string
+          description: Asset title.
+        size:
+          type: integer
+          description: Asset size (bytes).
+        mimeType:
+          type: string
+          description: Asset MIME type.
+        width:
+          type: integer
+          description: Asset width (if applicable).
+        height:
+          type: integer
+          description: Asset height (if applicable).
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+    JsonPatch:
+      type: object
+      description: A single operation to be applied to the target JSON document.
+      required:
+        - op
+        - path
+      properties:
+        op:
+          type: string
+          description: The operation to be performed.
+          enum:
+            - add
+            - remove
+            - replace
+            - test
+        path:
+          type: string
+          description: A JSON-Pointer.
+        value:
+          type: object
+          description: The value to be used within the operations.
+    JsonPatchDocument:
+      type: array
+      description: >-
+        A JSON Patch document is a JSON <a
+        href="https://datatracker.ietf.org/doc/html/rfc4627">[RFC4627]</a>
+        document that represents an array of objects.  Each object represents a
+        single operation to be applied to the target JSON document.
+      items:
+        $ref: '#/components/schemas/JsonPatch'
+  requestBodies:
+    RequestContentFragmentModel:
+      description: The request payload for creating a new Content Fragment Model.
+      content:
+        application/json:
+          schema:
+            properties:
+              configurationFolder:
+                type: string
+                description: The configuration folder where the model should be created.
+              name:
+                type: string
+                description: A human-readable name for this model.
+              description:
+                type: string
+                description: A human-readable description for this model.
+              locked:
+                type: boolean
+                description: >
+                  If a model is locked, then no edits can be performed on this
+                  model,
+
+                  except for unlocking it.
+              status:
+                type: string
+                description: >
+                  The status of this model. A model is in `draft` as soon as
+                  it's
+
+                  created, unless the user specifically marks the model as
+                  `enabled`.
+
+                  A model is in `disabled` state only when a user explicitly
+                  disables
+
+                  the model.
+                enum:
+                  - enabled
+                  - disabled
+                  - draft
+              fields:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContentFragmentModelField'
+            required:
+              - name
+              - fields
+    Permissions:
+      description: Request parameters to retrieve permissions.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              paths:
+                type: array
+                description: >-
+                  The list of resource paths to check the user permissions for.
+                  The resource paths are restricted to resources of type
+                  `content fragment` and `folder` stored under `/content/dam`.
+                items:
+                  type: string
+              preferredActions:
+                type: array
+                description: The preferred list of actions to return.
+                items:
+                  $ref: '#/components/schemas/Actions'
+            example:
+              paths:
+                - /path/to/fragment-1
+                - /path/to/folder-1
+                - /path/to/fragment-2
+                - /path/to/folder-2
+              preferredActions:
+                - READ
+                - DELETE
+                - CREATE_CONTENT_FRAGMENT
+            required:
+              - paths
+    ContentFragmentPublish:
+      description: Request parameters to publish content fragments.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              paths:
+                type: array
+                description: The list of content fragment paths.
+                items:
+                  type: string
+              filterReferencesByStatus:
+                type: string
+                description: Provides the option to filter the refernces by status.
+                enum:
+                  - DRAFT
+                  - UNPUBLISHED
+                  - MODIFIED
+              workflowModelId:
+                type: string
+                description: >-
+                  The workflow model id used for initiating the workflow
+                  instance to handle the publication. AEM provides the
+                  designated model
+                  `/etc/workflow/models/scheduled_activation_with_references`
+                  for publishing contents including references.
+              workflowTitle:
+                type: string
+                description: >-
+                  A freely defined non-empty string used to identify the
+                  workflow when it executes.
+              scheduledTime:
+                type: integer
+                description: The scheduled time as an epoch timestamp.
+            example:
+              paths:
+                - /path/to/fragment-1
+                - /path/to/fragment-2
+              filterReferencesByStatus:
+                - DRAFT
+                - UNPUBLISHED
+              workflowModelId: /etc/workflow/models/scheduled_activation_with_references
+              workflowTitle: Workflow Title
+              scheduledTime: 1635244063701
+            required:
+              - paths
+              - workflowModelId
+    ContentFragmentsReferencedBy:
+      description: Request parameters to retrieve parent references.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              paths:
+                type: array
+                description: The list of paths.
+                items:
+                  type: string
+              limit:
+                type: integer
+                default: 100
+                description: The maximum number of items to return per path.
+            example:
+              paths:
+                - /path/to/fragment-1
+                - /path/to/fragment-2
+              limit: 10
+            required:
+              - paths
+    RequestContentFragmentLanguageCopies:
+      description: Returns the language copies / main translation of a given resource.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              paths:
+                type: array
+                description: The list of paths.
+                items:
+                  type: string
+            example:
+              paths:
+                - /path/to/fragment-1
+                - /path/to/fragment-2
+            required:
+              - paths
+    GraphQLRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              query:
+                type: object
+              variables:
+                type: object
+                description: >-
+                  Variables simplify GraphQL queries by letting you pass data
+                  separately. Can be declared after the query are passed like
+                  arguments to a function and begin with `$`.
+            required:
+              - query
+    FragmentPatch:
+      description: >-
+        A request to patch content fragment with a JSON patch <a
+        href="https://datatracker.ietf.org/doc/html/rfc4627">[RFC4627]</a>.
+      content:
+        application/json-patch+json:
+          schema:
+            $ref: '#/components/schemas/JsonPatchDocument'
+          examples:
+            test and replace:
+              value:
+                - op: test
+                  path: /title
+                  value: aem-cloud-service-from-a-developer-perspective
+                - op: replace
+                  path: /title
+                  value: aem-cloud-service-from-a-developer-perspective, revisited
+              description: Test title value and replace with new value.
+            remove and add element:
+              value:
+                - op: remove
+                  path: /variations/mobile/elements/endTime
+                - op: add
+                  path: /variations/mobile/elements/speakers/1
+                  value: /content/dam/adaptto/speakers/bertrand-delacretaz
+              description: >-
+                Remove a property and add a 1st element in the multi-valued
+                property.
+            set rich-text as markdown:
+              value:
+                - op: replace
+                  path: /elements/outline
+                  value:
+                    contentType: text/x-markdown
+                    value: >-
+                      AEM is an extensible and rich platform made for
+                      developers, ranging from backend developers integrating
+                      with customer systems to frontend developers creating the
+                      user experience.
+
+                       This session looks at a day in the life of an AEM developer. It starts with local development leveraging the SDK and using all the available tools for developing and testing locally. Different strategies on how to manage team development with git and Cloud Manager are covered as well as how to finally test and deploy the change in Cloud Service. The session covers the latest available features of AEM as a Cloud Service and will provide a glimpse into the future.
+              description: >-
+                Replace current rich-text value with markdown-formatted value.
+                Please note that the patch <i>value</i> is passed as JSON
+                object.
+            add new variation:
+              value:
+                - op: add
+                  path: /variations/myNewVariation
+                  value:
+                    title: New Variation
+                    description: Some optional description
+            remove variation:
+              value:
+                - op: remove
+                  path: /variations/myNewVariation
+              description: Removes existing variation
+  responses:
+    NotModified:
+      description: Not Modified
+      headers:
+        ETag:
+          schema:
+            type: string
+          description: A strong entity tag.
+        Last-Modified:
+          schema:
+            type: string
+          description: >
+            The date and time when the origin server believes the resource was
+            last modified. See [RFC7232](https://httpwg
+
+            .org/specs/rfc7232.html#header.last-modified) for a description of
+            the format.
+    BadRequest:
+      description: >-
+        Bad Request. The Problem Details object will provide more information
+        about the exact cause.
+      content:
+        application/problem+json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+            properties:
+              status:
+                type: number
+                default: 400
+              title:
+                type: string
+                default: Bad Request
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/problem+json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+            properties:
+              status:
+                type: number
+                default: 401
+              title:
+                type: string
+                default: Unauthorized
+    Forbidden:
+      description: Forbidden
+      content:
+        application/problem+json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+            properties:
+              status:
+                type: number
+                default: 403
+              title:
+                type: string
+                default: Forbidden
+    NotFound:
+      description: Not Found
+      content:
+        application/problem+json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+            properties:
+              status:
+                type: number
+                default: 404
+              title:
+                type: string
+                default: Not Found
+    Conflict:
+      description: Conflict
+      content:
+        application/problem+json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+            properties:
+              status:
+                type: number
+                default: 409
+              title:
+                type: string
+                default: Conflict
+    PreconditionFailed:
+      description: Precondition Failed
+      content:
+        application/problem+json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+            properties:
+              title:
+                type: string
+                default: Precondition Failed
+              status:
+                type: number
+                default: 412
+    UnsupportedMediaType:
+      description: >
+        Unsupported Media Type. When provided as a response to a `PATCH`
+        request,
+
+        the response will provide an `Accept-Patch` response header to notify
+
+        the client what patch document media types are supported.
+      content:
+        application/problem+json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+            properties:
+              title:
+                type: string
+                example: Unsupported Media Type
+              status:
+                type: number
+                default: 415
+    UnprocessableEntity:
+      description: >
+        Unprocessable Entity. The server understands the patch document and the
+
+        syntax of the patch document appears to be valid, but the server is
+
+        incapable of processing the request.This might include attempts to
+
+        modify a resource in a way that would cause the resource to become
+        invalid.
+      content:
+        application/problem+json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+            properties:
+              status:
+                type: number
+                default: 422
+              title:
+                type: string
+                default: Unprocessable Entity
+    InternalServerError:
+      description: >
+        The server encountered an unexpected error. Retrying the request after a
+        certain time could help.
+      content:
+        application/problem+json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+            properties:
+              status:
+                type: number
+                default: 500
+              title:
+                type: string
+                default: Internal Server Error
+    OK:
+      description: OK
+      content:
+        application/json:
+          schema:
+            properties:
+              status:
+                type: number
+                default: 200
+    NotAcceptable:
+      description: Not Acceptable.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+            properties:
+              status:
+                type: number
+                default: 406
+    PayloadTooLarge:
+      description: Payload Too Large.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+            properties:
+              status:
+                type: number
+                default: 413
+            example:
+              status: 413
+              error:
+                message: Payload is too large.
+                data: {}
+    Permissions:
+      description: >-
+        The list of resource paths and the actions the user is allowed to
+        perform on the given resource. The resource paths are restricted to
+        resources of type `content fragment` and `folder` stored under
+        `/content/dam`.
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                type: object
+                description: >-
+                  An object keyed by the resource paths from the original
+                  request.
+                additionalProperties:
+                  type: array
+                  description: List of actions the user is allowed to perform.
+                  items:
+                    $ref: '#/components/schemas/Actions'
+            example:
+              data:
+                /path/to/fragment-1:
+                  - READ
+                  - DELETE
+                /path/to/folder-1:
+                  - CREATE_CONTENT_FRAGMENT
+                /path/to/fragment-2: []
+                /path/to/folder-2: []
+    ContentFragmentPublish:
+      description: Publish content fragments response.
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                type: object
+                properties:
+                  workflowInstanceId:
+                    type: string
+                    description: >-
+                      The workflow instance id. Can be used to monitor the
+                      status of the given publication workflow using the
+                      Workflow REST API.
+            example:
+              data:
+                workflowInstanceId: >-
+                  /var/workflow/instances/server0/2022-01-21/scheduled_activation_with_references_23
+    ContentFragmentsReferencedBy:
+      description: Defines the content fragment reference search response.
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                type: object
+                description: >-
+                  An object keyed by the resource paths from the original
+                  request.
+                additionalProperties:
+                  type: array
+                  description: List of parent references.
+                  items:
+                    type: object
+                    description: The object describing the parent reference.
+                    properties:
+                      path:
+                        type: string
+                        description: The path of the parent reference.
+                      title:
+                        type: string
+                        description: The title of the parent reference.
+                      status:
+                        $ref: '#/components/schemas/ResourceStatus'
+                      type:
+                        type: string
+                        description: The type of the parent reference.
+                        enum:
+                          - PAGE
+                          - EXPERIENCE_FRAGMENT
+                          - CONTENT_FRAGMENT
+            example:
+              data:
+                /path/to/fragment1:
+                  - path: /path/to/parent/experience-fragment/reference
+                    title: Title
+                    status: DRAFT
+                    type: EXPERIENCE_FRAGMENT
+                  - path: /path/to/parent/page/reference
+                    title: Title
+                    status: NEW
+                    type: PAGE
+                /path/to/fragment2:
+                  - path: /path/to/parent/fragment/reference
+                    title: Title
+                    status: MODIFIED
+                    type: PAGE
+    ResponseContentFragmentLanguageCopies:
+      description: Defines the content fragment translations response.
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                type: object
+                description: >-
+                  An object keyed by the resource paths from the original
+                  request.
+                properties:
+                  locale:
+                    type: string
+                    description: >-
+                      The locale (language and country code as en_us) of the
+                      language copy or missing if the resource does not have the
+                      locale defined.
+                  languageCopies:
+                    type: array
+                    description: List of language copies.
+                    items:
+                      type: object
+                      description: The object describing the language copy.
+                      properties:
+                        path:
+                          type: string
+                          description: The path of the language copy.
+                        title:
+                          type: string
+                          description: The title of the language copy.
+                        locale:
+                          type: string
+                          description: >-
+                            The locale (language and country code as en_us) of
+                            the language copy.
+                        model:
+                          type: string
+                          description: The model of the Content Fragment.
+                        status:
+                          $ref: '#/components/schemas/ResourceStatus'
+            example:
+              data:
+                /path/without/locale/fragment0:
+                  languageCopies: []
+                /path/de_ch/fragment1:
+                  locale: de_ch
+                  languageCopies:
+                    - path: /path/en/fragment1
+                      title: Title EN
+                      locale: en
+                      model: Model Title
+                      status: DRAFT
+                    - path: /path/de_ch/fragment1
+                      title: Title DE
+                      locale: de_ch
+                      model: Model Title
+                      status: DRAFT
+                /path/en/fragment1:
+                  locale: en
+                  languageCopies:
+                    - path: /path/en/fragment1
+                      title: Title EN
+                      locale: en
+                      model: Model Title
+                      status: DRAFT
+                    - path: /path/de_ch/fragment1
+                      title: Title DE
+                      locale: de_ch
+                      model: Model Title
+                      status: DRAFT
+    GraphQLResponse:
+      description: GraphQL response.
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/GraphQLSuccessResponse'
+              - $ref: '#/components/schemas/GraphQLErrorResponse'
+    FragmentPreviewURLResponse:
+      description: A response containing list of variants and preview URLs
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                $ref: '#/components/schemas/FragmentPreviewUrls'
+          example:
+            data:
+              - name: main
+                url: preview/url/for/master/variant
+              - name: variant1
+                url: preview/url/for/variant1/variant
+              - name: variant2
+                url: preview/url/for/variant2/variant
+    FragmentResponse:
+      description: A response containing content fragment.
+      headers:
+        ETag:
+          schema:
+            type: string
+            description: ETag calculated from the content fragment.
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                $ref: '#/components/schemas/Fragment'
+          example:
+            data:
+              id: 49af775d-0e7a-46c3-913d-00f762528373
+              path: >-
+                /content/dam/adaptto/presentations/aem-cloud-service-from-a-developer-perspective
+              title: aem-cloud-service-from-a-developer-perspective
+              description: ''
+              model:
+                path: /conf/adaptto/settings/dam/cfm/models/presentation
+                title: Presentation
+              metadata: {}
+              created:
+                at: '2022-07-04T15:08:23.596+02:00'
+                by: admin
+              modified:
+                at: '2022-07-12T14:51:53.793+02:00'
+                by: admin
+              published:
+                at: '2021-09-24T11:18:54.055Z'
+                by: tugarev@adobe.com
+              status: MODIFIED
+              elements:
+                title: AEM Cloud Service from a Developer Perspective
+                startTime: '13:00:00'
+                endTime: '13:40:00'
+                outline:
+                  contentType: text/html
+                  value: >
+                    <p>AEM is an extensible and rich platform made for
+                    developers, ranging from backend developers integrating with
+                    customer systems to frontend developers creating the user
+                    experience.</p>
+
+                    <p>This session looks at a day in the life of an AEM
+                    developer. It starts with local development leveraging the
+                    SDK and using all the available tools for developing and
+                    testing locally. Different strategies on how to manage team
+                    development with git and Cloud Manager are covered as well
+                    as how to finally test and deploy the change in Cloud
+                    Service. The session covers the latest available features of
+                    AEM as a Cloud Service and will provide a glimpse into the
+                    future.</p>
+                speakers:
+                  - /content/dam/adaptto/speakers/carsten-ziegeler
+              references:
+                speakers:
+                  - title: carsten-ziegeler
+                    model:
+                      path: /conf/adaptto/settings/dam/cfm/models/speaker
+                      title: Speaker
+                    status: PUBLISHED
+              variations:
+                mobile:
+                  title: mobile
+                  description: New variation
+                  elements:
+                    title: AEM Cloud Service from a Developer Perspective
+                    startTime: '13:00:00'
+                    endTime: '13:40:00'
+                    outline:
+                      contentType: text/html
+                      value: >
+                        <p>AEM is an extensible and rich platform made for
+                        developers, ranging from backend developers integrating
+                        with customer systems to frontend developers creating
+                        the user experience.</p>
+
+                        <p>This session looks at a day in the life of an AEM
+                        developer. It starts with local development leveraging
+                        the SDK and using all the available tools for developing
+                        and testing locally. Different strategies on how to
+                        manage team development with git and Cloud Manager are
+                        covered as well as how to finally test and deploy the
+                        change in Cloud Service. The session covers the latest
+                        available features of AEM as a Cloud Service and will
+                        provide a glimpse into the future.</p>
+                    speakers:
+                      - /content/dam/adaptto/speakers/carsten-ziegeler
+                  references:
+                    speakers:
+                      - title: carsten-ziegeler
+                        model:
+                          path: /conf/adaptto/settings/dam/cfm/models/speaker
+                          title: Speaker
+                        status: PUBLISHED
+    FragmentsResponse:
+      description: A response containing an array of content fragments.
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fragment'
+          example:
+            data:
+              - title: aem-cloud-service-from-a-developer-perspective
+                description: ''
+                model:
+                  path: /conf/adaptto/settings/dam/cfm/models/presentation
+                  title: Presentation
+                metadata: {}
+                path: >-
+                  /content/dam/adaptto/presentations/aem-cloud-service-from-a-developer-perspective
+                id: 49af775d-0e7a-46c3-913d-00f762528373
+                created:
+                  at: '2022-09-01T15:25:46.106+02:00'
+                  by: admin
+                modified:
+                  at: '2021-09-21T15:07:08.975+02:00'
+                  by: reference-adjustment-service
+                published:
+                  at: '2021-09-24T11:18:54.055Z'
+                  by: tugarev@adobe.com
+                status: PUBLISHED
+                elements:
+                  title: AEM Cloud Service from a Developer Perspective
+                  startTime: '13:00:00'
+                  endTime: '13:40:00'
+                  outline:
+                    contentType: text/html
+                    value: >
+                      <p>AEM is an extensible and rich platform made for
+                      developers, ranging from backend developers integrating
+                      with customer systems to frontend developers creating the
+                      user experience.</p>
+
+                      <p>This session looks at a day in the life of an AEM
+                      developer. It starts with local development leveraging the
+                      SDK and using all the available tools for developing and
+                      testing locally. Different strategies on how to manage
+                      team development with git and Cloud Manager are covered as
+                      well as how to finally test and deploy the change in Cloud
+                      Service. The session covers the latest available features
+                      of AEM as a Cloud Service and will provide a glimpse into
+                      the future.</p>
+                  speakers:
+                    - /content/dam/adaptto/speakers/carsten-ziegeler
+                references:
+                  speakers:
+                    - title: carsten-ziegeler
+                      model:
+                        path: /conf/adaptto/settings/dam/cfm/models/speaker
+                        title: Speaker
+                      id: 93378ee0-c444-4237-8374-c0ac4b3e2bbe
+                      status: PUBLISHED
+                variations: {}
+              - title: aem-commerce-extensibility-using-adobe-io
+                description: ''
+                model:
+                  path: /conf/adaptto/settings/dam/cfm/models/presentation
+                  title: Presentation
+                metadata: {}
+                path: >-
+                  /content/dam/adaptto/presentations/aem-commerce-extensibility-using-adobe-io
+                id: 374fd77f-cb87-4033-9f78-2247be2bd43f
+                created:
+                  at: '2022-09-01T15:25:46.122+02:00'
+                  by: admin
+                modified:
+                  at: '2021-09-25T16:03:55.659Z'
+                  by: tugarev@adobe.com
+                published:
+                  at: '2021-09-25T16:04:13.358Z'
+                  by: tugarev@adobe.com
+                status: PUBLISHED
+                elements:
+                  title: AEM Commerce extensibility using Adobe I/O
+                  startTime: '15:40:00'
+                  endTime: '16:35:00'
+                  outline:
+                    contentType: text/html
+                    value: >
+                      <p>AEM Content &amp; Commerce using the Commerce
+                      Integration Framework (CIF) provide a flexible
+                      architecture to connect AEM with Adobe Commerce or any
+                      other commerce solution – of the shelf or in house.
+                      GraphQL plays an essential role for AEM Content &amp;
+                      Commerce and the CIF.</p>
+
+                      <p>This talk discusses the patterns and architecture for
+                      commerce solutions which are not compatible out of the box
+                      with the APIs used by the CIF. We introduce Adobe I/O
+                      Firefly to serve as a middleware and connect your commerce
+                      solution with AEM. In this talk we give an introduction
+                      into how a flexible GraphQL API mapping and transformation
+                      layer can be implemented using Adobe I/O Runtime.</p>
+
+                      <p>The talk consists of 3 blocks.</p>
+
+                      <ul>
+
+                      <li>We start with an introduction &amp; architecture
+                      overview of the integration pattern for AEM Content &amp;
+                      Commerce using CIF.</li>
+
+                      <li>Going to hands on code and getting started with Adobe
+                      I/O Firefly and deploy our CIF GraphQL reference
+                      implementation.</li>
+
+                      <li>And showing a real-world integration of AEM + CIF +
+                      SAP Commerce using a CIF GraphQL build for Adobe I/O
+                      Firefly.</li>
+
+                      </ul>
+
+                      <p>While the showcased integration is focused on commerce
+                      use case the general integration pattern and usage of
+                      Adobe I/O Firefly is adaptable to many other use cases as
+                      well.</p>
+                  speakers:
+                    - /content/dam/adaptto/speakers/carlos-duque
+                    - /content/dam/adaptto/speakers/markus-haack
+                references:
+                  speakers:
+                    - title: carlos-duque
+                      model:
+                        path: /conf/adaptto/settings/dam/cfm/models/speaker
+                        title: Speaker
+                      id: 2c095ae8-f402-4ae5-8811-0723c1e97efa
+                      status: PUBLISHED
+                    - title: markus-haack
+                      model:
+                        path: /conf/adaptto/settings/dam/cfm/models/speaker
+                        title: Speaker
+                      id: f2afd35b-d621-402c-b144-19a1cfe2f5a4
+                      status: PUBLISHED
+                variations: {}
+    PreconditionFailedResponse:
+      description: >-
+        A response, indicating that modification of content fragment or work in
+        progress content fragment is not possible due to mismatching ETag.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+            properties:
+              status:
+                type: number
+                default: 412
+              data:
+                $ref: '#/components/schemas/Fragment'
+  parameters:
+    X-Adobe-Accept-Unsupported-API:
+      name: X-Adobe-Accept-Unsupported-API
+      in: header
+      required: true
+      schema:
+        enum:
+          - 1
+    fragmentId:
+      name: fragmentId
+      description: Content fragment unique identifier.
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 49af775d-0e7a-46c3-913d-00f762528373

@@ -1,0 +1,35 @@
+# See https://redocly.com/docs/cli/configuration/
+
+apis:
+  Sites@Experimental:
+    root: static/experimental/sites/openapi.yaml
+  Stats@Experimental:
+    root: static/experimental/stats/openapi.yaml
+  Sites@Production:
+    root: static/production/sites/openapi.yaml
+
+extends:
+  - recommended
+  
+rules:
+  # A sample custom rule. Read more about rules: https://redocly.com/docs/cli/rules/
+  assert/operation-description:
+    subject: 
+      type: Operation
+      property: description
+    assertions:
+      defined: true
+      minLength: 30
+
+features.openapi:
+  htmlTemplate: ./static/index.html
+  theme:
+    colors:
+      primary:
+        main: "#32329f"
+  generateCodeSamples:
+    languages:  # Array of language config objects; indicates in which languages to generate code samples.
+      - lang: curl
+      - lang: Java
+      - lang: Node.js
+      - lang: JavaScript

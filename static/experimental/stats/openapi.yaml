@@ -1,0 +1,1934 @@
+openapi: 3.0.3
+info:
+  title: AEM Data Service API
+  version: 2023.01-experimental
+servers:
+  - url: /adobe/stats
+tags:
+  - name: Reports
+    description: Reports API
+  - name: Statistic
+    description: Statistic API
+paths:
+  /reports:
+    get:
+      tags:
+        - Reports
+      summary: Get all reports for the given repository
+      description: >-
+        Get all async reports created for a given repository and limit the
+        number of results based on permissible pagination limits
+      operationId: getReports
+      parameters:
+        - name: repositoryId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: reportType
+          in: query
+          description: Pass the reportType to filter the list reports by Report Type
+          required: false
+          schema:
+            type: string
+            enum:
+              - assetDownload
+              - assetUpload
+              - smartTags
+        - name: cursor
+          in: query
+          description: |
+            An opaque cursor used for pagination. When working with
+            `limit`, the `cursor` allows retrieving the next elements from the
+            list. The value for the `cursor` parameter is provided in the
+            response, in the `cursor` property.
+          required: false
+          schema:
+            type: string
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization in which the repository exists
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedItemsOfReportListItem'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+    post:
+      tags:
+        - Reports
+      summary: Create a report in the given repository
+      description: >-
+        Create an async report for the given repository with the given query
+        criteria
+      operationId: createReport
+      parameters:
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+        - name: repositoryId
+          in: query
+          description: repositoryId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportReq'
+      responses:
+        '202':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportRes'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+  /reports/{reportId}:
+    get:
+      tags:
+        - Reports
+      summary: Get a report based on reportId
+      description: >-
+        Get a report based on reportId and the response would be the same
+        irrespective of the report type
+      operationId: getReportById
+      parameters:
+        - name: repositoryId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportRes'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+    delete:
+      tags:
+        - Reports
+      summary: Delete a report by reportId
+      description: Delete the report for a given reportId in a repository
+      operationId: deleteReport
+      parameters:
+        - name: reportId
+          in: path
+          description: reportId
+          required: true
+          schema:
+            type: string
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+        - name: repositoryId
+          in: query
+          description: repositoryId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+  /reports/{reportId}/download:
+    get:
+      tags:
+        - Reports
+      summary: Get a download URL link to CSV report by reportId
+      description: >-
+        Generates download Url for given reportId and returns the generated URL
+        as a json response
+      operationId: getReportDownloadURL
+      parameters:
+        - name: reportId
+          in: path
+          description: reportId
+          required: true
+          schema:
+            type: string
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+        - name: repositoryId
+          in: query
+          description: repositoryId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDownloadURL'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+  /statistics/assetsDelivered:
+    get:
+      tags:
+        - Statistic
+      summary: Get Assets Delivery Statistics
+      description: Get the Assets Delivery data
+      operationId: getAssetDeliveryStatistics
+      parameters:
+        - name: repositoryId
+          in: query
+          description: repositoryId
+          required: true
+          schema:
+            type: string
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+        - name: assetId
+          in: query
+          description: only metrics for requests for the matching asset will be returned
+          schema:
+            type: string
+        - name: requestReferer
+          in: query
+          description: only metrics for requests with the matching referer will be returned
+          schema:
+            type: string
+        - name: requestCampaignId
+          in: query
+          description: >-
+            only metrics for requests with the matching campaignId will be
+            returnedmetrics
+          schema:
+            type: string
+        - name: requestExperienceId
+          in: query
+          description: >-
+            only metrics for requests with the matching experienceId will be
+            returned
+          schema:
+            type: string
+        - name: requestCountry
+          in: query
+          description: only metrics for requests from the matching country will be returned
+          schema:
+            type: string
+        - name: requestRegion
+          in: query
+          description: only metrics for requests from the matching region will be returned
+          schema:
+            type: string
+        - name: requestOs
+          in: query
+          description: >-
+            only metrics for requests from the matching Operating System will be
+            returned
+          schema:
+            type: string
+        - name: requestBrowser
+          in: query
+          description: only metrics for requests from the matching browser will be returned
+          schema:
+            type: string
+        - name: responseStatus
+          in: query
+          description: only metrics for requests from the matching status will be returned
+          schema:
+            type: integer
+        - name: groupBy
+          in: query
+          description: the responses will be grouped by the specified field
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - assetId
+                - requestTransformations
+                - requestReferer
+                - requestCampaignId
+                - requestExperienceId
+                - requestCountry
+                - requestRegion
+                - requestOs
+                - requestBrowser
+                - responseStatus
+                - month
+                - day
+        - name: statsMethod
+          in: query
+          description: how the metric will be calculated
+          schema:
+            type: string
+            enum:
+              - count
+              - sum
+        - name: statsField
+          in: query
+          description: the field to operate on
+          schema:
+            type: string
+            enum:
+              - responseBodySize
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/StatisticViewOfCountFilterAndEnvironmentOfCountStatistic
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+  /statistics/assetDownloads:
+    get:
+      tags:
+        - Statistic
+      summary: Get Assets Download Statistics
+      description: Get the Assets Download usage data
+      operationId: getAssetDownloadStatistics
+      parameters:
+        - name: repositoryId
+          in: query
+          description: repositoryId
+          required: true
+          schema:
+            type: string
+        - name: timeUnit
+          in: query
+          description: timeUnit
+          required: true
+          schema:
+            type: string
+            enum:
+              - DAILY
+              - MONTHLY
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/StatisticViewOfCountFilterAndEnvironmentOfCountStatistic
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+  /statistics/assetDownloads/{assetId}:
+    get:
+      tags:
+        - Statistic
+      summary: Get Assets Download Count Statistics
+      description: Get the Assets Download Count usage data by asset URN
+      operationId: getAssetDownloadCountStatistics
+      parameters:
+        - name: repositoryId
+          in: query
+          description: repositoryId
+          required: true
+          schema:
+            type: string
+        - name: assetId
+          in: path
+          description: assetId
+          required: true
+          schema:
+            type: string
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/StatisticViewOfAssetDownloadCountFilterAndAssetDownloadCountStatistic
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+  /statistics/topDownloadedAssets:
+    get:
+      tags:
+        - Statistic
+      summary: Get Top 10 Downloaded Assets Statistics
+      description: Get the Assets Download usage data
+      operationId: getAssetTopDownloadStatistics
+      parameters:
+        - name: repositoryId
+          in: query
+          description: repositoryId
+          required: true
+          schema:
+            type: string
+        - name: since
+          in: query
+          description: timeUnit
+          required: true
+          schema:
+            type: string
+            enum:
+              - 30_DAYS_AGO
+              - 360_DAYS_AGO
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/StatisticViewOfTopDownloadFilterAndTopDownloadStatistic
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+  /statistics/assetUploads:
+    get:
+      tags:
+        - Statistic
+      summary: Get Assets Download Statistics
+      description: Get the Assets Download usage data
+      operationId: getAssetUploadStatistics
+      parameters:
+        - name: repositoryId
+          in: query
+          description: repositoryId
+          required: true
+          schema:
+            type: string
+        - name: timeUnit
+          in: query
+          description: timeUnit
+          required: true
+          schema:
+            type: string
+            enum:
+              - DAILY
+              - MONTHLY
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/StatisticViewOfCountFilterAndEnvironmentOfCountStatistic
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+  /statistics/entitlements:
+    get:
+      tags:
+        - Statistic
+      summary: Get Entitlements Statistics
+      description: Get the Entitlements usage data
+      operationId: getEntitlementStatistics
+      parameters:
+        - name: imsOrgId
+          in: query
+          description: >-
+            IMS Organization ID will be used for filtering data within the
+            organization
+          required: true
+          schema:
+            type: string
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/StatisticViewOfEntitlementFilterAndOrganizationOfEntitlementStatistic
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+  /statistics/contentRequestsUsage:
+    get:
+      tags:
+        - Statistic
+      summary: Get Sites Content Requests Usage Statistics
+      description: >-
+        Get time series data of content requests usage statistics for the time
+        range monthly or daily filtered by an organization or program
+      operationId: getContentRequestUsageStatistics
+      parameters:
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+        - name: imsOrgId
+          in: query
+          description: >-
+            IMS Organization ID will be used for filtering data within the
+            organization
+          required: true
+          schema:
+            type: string
+        - name: programId
+          in: query
+          description: >-
+            IMS Organization ID will be used for filtering data within the
+            organization
+          required: false
+          schema:
+            type: string
+        - name: timeUnit
+          in: query
+          description: timeUnit
+          required: true
+          schema:
+            type: string
+            enum:
+              - DAILY
+              - MONTHLY
+        - name: startDate
+          in: query
+          description: startDate
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: '2022-07-14 08:10:10'
+            description: Format will be yyyy-MM-dd HH:mm:ss
+        - name: endDate
+          in: query
+          description: endDate
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: '2022-07-16 08:10:10'
+            description: Format will be yyyy-MM-dd HH:mm:ss
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: >-
+                      #/components/schemas/StatisticViewOfContentRequestFilterAndProgramOfContentRequestStatistic
+                  - $ref: >-
+                      #/components/schemas/StatisticViewOfContentRequestFilterAndOrganizationOfProgramOfContentRequestStatistic
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+  /statistics/riskFactors:
+    get:
+      tags:
+        - Statistic
+      summary: Get Risk Factors Statistics
+      description: >-
+        Get latest risk factors data associated to programs in the Cloud Manager
+        for an organization, and also possible to filter by programs, and
+        risk-factors which are at risk or not
+      operationId: getRiskFactorStatistics
+      parameters:
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+        - name: imsOrgId
+          in: query
+          description: >-
+            IMS Organization ID will be used for filtering data within the
+            organization
+          required: true
+          schema:
+            type: string
+        - name: programIds
+          in: query
+          description: >-
+            List of program ids in Cloud Manager Prod will be used to filter the
+            risk factors for these program
+          required: false
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+        - name: atRisk
+          in: query
+          description: Filters only riskfactors which are at risk if true
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: >-
+                      #/components/schemas/StatisticViewOfRiskFactorFilterAndProgramWithRiskFactorStatistic
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+  /statistics/storageUsage:
+    get:
+      tags:
+        - Statistic
+      summary: Get Assets Storage Usage data in Bytes
+      description: >-
+        Get Assets Storage Usage Statistics for an environment(repository),
+        program or organization in Bytes
+      operationId: getStorageUsageStatistics
+      parameters:
+        - name: repositoryId
+          in: query
+          description: repositoryId
+          required: false
+          schema:
+            type: string
+        - name: programId
+          in: query
+          description: programId
+          required: false
+          schema:
+            type: string
+        - name: imsOrgId
+          in: query
+          description: imsOrgId
+          required: false
+          schema:
+            type: string
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: >-
+                      #/components/schemas/StatisticViewOfStorageFilterAndEnvironmentOfStorageStatistic
+                  - $ref: >-
+                      #/components/schemas/StatisticViewOfStorageFilterAndProgramOfStorageStatistic
+                  - $ref: >-
+                      #/components/schemas/StatisticViewOfStorageFilterAndOrganizationOfProgramOfStorageStatistic
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+  /statistics/topSearchPhrases:
+    get:
+      tags:
+        - Statistic
+      summary: Get the assets top search phrases with their count
+      description: >-
+        Get the assets top search phrase for a repository in the last 30 days or
+        365 days
+      operationId: getAssetsTopSearchPhraseStatistics
+      parameters:
+        - name: repositoryId
+          in: query
+          description: repositoryId
+          required: true
+          schema:
+            type: string
+        - name: x-gw-ims-org-id
+          in: header
+          description: >-
+            IMS Organization ID header will be used for authentication and
+            authorization
+          required: true
+          schema:
+            type: string
+        - name: since
+          in: query
+          description: Predefined days for which we need statistics
+          required: true
+          schema:
+            type: string
+            enum:
+              - 30_DAYS_AGO
+              - 360_DAYS_AGO
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/StatisticViewOfWordCountFilterAndEnvironmentOfWordCountStatistic
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      security:
+        - Authorization:
+            - global
+components:
+  schemas:
+    ContentRequestStatistic:
+      title: ContentRequestStatistic
+      type: object
+      properties:
+        apiCalls:
+          type: integer
+          format: int64
+        contentRequests:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date
+          example: '2022-07-16'
+          description: Format will be yyyy-MM-dd
+        pageViews:
+          type: integer
+          format: int64
+    ContentRequestFilter:
+      title: ContentRequestFilter
+      type: object
+      properties:
+        dateRange:
+          $ref: '#/components/schemas/DateRange'
+        imsOrgId:
+          type: string
+        programId:
+          type: integer
+          format: int64
+        timeUnit:
+          type: string
+          enum:
+            - DAILY
+            - MONTHLY
+        version:
+          type: string
+    AssetDownloadCountStatistic:
+      title: Count
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+    CountStatistic:
+      title: CountStatistic
+      type: object
+      properties:
+        timeStamp:
+          type: string
+          format: date
+          example: '2022-07-16'
+          description: Format will be yyyy-MM-dd
+        count:
+          type: integer
+          format: int64
+    WordCountStatistic:
+      title: WordCountStatistic
+      type: object
+      properties:
+        phrase:
+          type: string
+          description: the tag or search phrase used in the use case
+        count:
+          type: integer
+          format: int64
+    AssetDownloadCountFilter:
+      title: AssetDownloadCountFilter
+      type: object
+      properties:
+        dateRange:
+          $ref: '#/components/schemas/DateRange'
+        repositoryId:
+          type: string
+        assetId:
+          type: string
+    CountFilter:
+      title: CountFilter
+      type: object
+      properties:
+        dateRange:
+          $ref: '#/components/schemas/DateRange'
+        environmentId:
+          type: integer
+          format: int64
+        imsOrgId:
+          type: string
+        programId:
+          type: integer
+          format: int64
+        repositoryId:
+          type: string
+        timeUnit:
+          type: string
+          enum:
+            - DAILY
+            - MONTHLY
+    TopDownloadFilter:
+      title: TopDownloadFilter
+      type: object
+      properties:
+        eventType:
+          type: string
+        repositoryId:
+          type: string
+        startDateTime:
+          type: string
+        endDateTime:
+          type: string
+        since:
+          type: string
+          enum:
+            - 30_DAYS_AGO
+            - 360_DAYS_AGO
+    TopDownloadStatistic:
+      title: TopDownloadStatistic
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        assetId:
+          type: string
+        path:
+          type: string
+    RiskFactorStatistic:
+      title: RiskFactorStatistic
+      type: object
+      properties:
+        name:
+          type: string
+        date:
+          type: string
+          format: date
+          example: '2022-07-16'
+          description: Format will be yyyy-MM-dd
+        value:
+          type: number
+          format: float
+        atRisk:
+          type: boolean
+        thresholdValue:
+          type: number
+          format: float
+        thresholdText:
+          type: string
+    RiskFactorFilter:
+      title: RiskFactorFilter
+      type: object
+      properties:
+        imsOrgId:
+          type: string
+        programIds:
+          type: string
+          format: int64
+        atRisk:
+          type: boolean
+    StorageStatistic:
+      title: StorageStatistic
+      type: object
+      properties:
+        timeStamp:
+          type: string
+          format: date
+          example: '2022-07-16'
+          description: Format will be yyyy-MM-dd
+        storage:
+          type: integer
+          description: Storage data in Bytes
+          format: int64
+    StorageFilter:
+      title: StorageFilter
+      type: object
+      properties:
+        dateRange:
+          $ref: '#/components/schemas/DateRange'
+        environmentId:
+          type: integer
+          format: int64
+        imsOrgId:
+          type: string
+        programId:
+          type: integer
+          format: int64
+        repositoryId:
+          type: string
+        timeUnit:
+          type: string
+          enum:
+            - DAILY
+            - MONTHLY
+    EntitlementStatistic:
+      title: EntitlementStatistic
+      type: object
+      properties:
+        available:
+          type: integer
+          format: int32
+        programs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Program'
+        type:
+          type: string
+        used:
+          type: integer
+          format: int32
+    EntitlementFilter:
+      title: EntitlementFilter
+      type: object
+      properties:
+        imsOrgId:
+          type: string
+    WordCountFilter:
+      title: WordCountFilter
+      type: object
+      properties:
+        dateRange:
+          $ref: '#/components/schemas/DateRange'
+        environmentId:
+          type: integer
+          format: int64
+        repositoryId:
+          type: string
+        since:
+          type: string
+          description: Predefined days for which we need statistics
+          enum:
+            - 30_DAYS_AGO
+            - 360_DAYS_AGO
+    EnvironmentOfStorageStatistic:
+      title: Environment<StorageStatistic>
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+            - DEV
+            - PROD
+            - STAGE
+        usage:
+          type: array
+          items:
+            $ref: '#/components/schemas/StorageStatistic'
+    EnvironmentOfCountStatistic:
+      title: Environment<CountStatistic>
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+            - DEV
+            - PROD
+            - STAGE
+        usage:
+          type: array
+          items:
+            $ref: '#/components/schemas/CountStatistic'
+    EnvironmentOfWordCountStatistic:
+      title: Environment<WordCountStatistic>
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+            - DEV
+            - PROD
+            - STAGE
+        usage:
+          type: array
+          items:
+            $ref: '#/components/schemas/WordCountStatistic'
+    Environment:
+      title: Environment
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+            - DEV
+            - PROD
+            - STAGE
+        usage:
+          type: array
+          items:
+            type: object
+    ProgramWithRiskFactorsStatistic:
+      title: ProgramWithRiskFactorsStatistic
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        riskFactors:
+          type: array
+          items:
+            $ref: '#/components/schemas/RiskFactorStatistic'
+    ProgramOfStorageStatistic:
+      title: Program<StorageStatistic>
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        usage:
+          type: array
+          items:
+            $ref: '#/components/schemas/StorageStatistic'
+    ProgramOfContentRequestStatistic:
+      title: Program<ContentRequestStatistic>
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        usage:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentRequestStatistic'
+    Program:
+      title: Program
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        usage:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/CountStatistic'
+              - $ref: '#/components/schemas/StorageStatistic'
+              - $ref: '#/components/schemas/ContentRequestStatistic'
+    OrganizationOfProgramOfContentRequestStatistic:
+      title: Organization<Program<ContentRequestStatistic>>
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        usage:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProgramOfContentRequestStatistic'
+    OrganizationOfProgramOfStorageStatistic:
+      title: Organization<Program<StorageStatistic>>
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        usage:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProgramOfStorageStatistic'
+    OrganizationOfEntitlementStatistic:
+      title: Organization<EntitlementStatistic>
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        usage:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitlementStatistic'
+    Organization:
+      title: Organization
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        usage:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/ProgramOfStorageStatistic'
+              - $ref: '#/components/schemas/ProgramOfContentRequestStatistic'
+              - $ref: '#/components/schemas/EntitlementStatistic'
+    DateRange:
+      title: DateRange
+      type: object
+      properties:
+        endDate:
+          type: string
+          format: date-time
+          example: '2022-07-16 08:10:10'
+          description: Format will be yyyy-MM-dd HH:mm:ss
+        startDate:
+          type: string
+          format: date-time
+          example: '2022-07-14 08:10:10'
+          description: Format will be yyyy-MM-dd HH:mm:ss
+    PaginatedItemsOfReportListItem:
+      title: PaginatedItems<ReportListItem>
+      type: object
+      properties:
+        items:
+          type: array
+          description: Collection of ReportListItem
+          items:
+            $ref: '#/components/schemas/ReportListItem'
+        cursor:
+          type: string
+          description: |
+            An opaque cursor used for pagination. When working with
+            `limit`, the `cursor` allows retrieving the next elements from the
+            list. The value for the `cursor` parameter is provided in the
+            response, in the `cursor` property.
+    ReportListItem:
+      title: ReportListItem
+      type: object
+      properties:
+        completedDate:
+          type: string
+          format: date-time
+          description: Completed date and time
+          example: '2022-09-13T16:49:04.133+00:00'
+        createdDate:
+          type: string
+          format: date-time
+          description: Created date and time
+          example: '2022-09-13T16:48:54.133+00:00'
+        creator:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        reportType:
+          type: string
+          enum:
+            - assetDownload
+            - assetUpload
+        status:
+          type: string
+          enum:
+            - COMPLETED
+            - FAILED
+            - PROCESSING
+            - QUEUED
+        statusMessage:
+          type: string
+        title:
+          type: string
+    ReportReq:
+      title: ReportReq
+      description: Report Request with all metadata and filter properties
+      type: object
+      properties:
+        columns:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+              - AUTHOR
+              - CREATION_DATE
+              - DOWNLOADED_BY
+              - DOWNLOADED_BY_USER_NAME
+              - DOWNLOADED_DATE
+              - DOWNLOAD_ID
+              - EXPIRED
+              - MODIFIED_DATE
+              - PATH
+              - SIZE
+              - TITLE
+              - TYPE
+        creator:
+          type: string
+        dateRange:
+          $ref: '#/components/schemas/DateRange'
+        description:
+          type: string
+        path:
+          type: string
+        title:
+          type: string
+        reportType:
+          type: string
+          enum:
+            - assetDownload
+            - assetUpload
+            - smartTags
+    ReportRes:
+      title: ReportRes
+      description: Report Response with all metadata, filter properties and id
+      type: object
+      properties:
+        columns:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+              - AUTHOR
+              - CREATION_DATE
+              - DOWNLOADED_BY
+              - DOWNLOADED_BY_USER_NAME
+              - DOWNLOADED_DATE
+              - DOWNLOAD_ID
+              - EXPIRED
+              - MODIFIED_DATE
+              - PATH
+              - SIZE
+              - TITLE
+              - TYPE
+              - UPLOAD_ID
+        completedDate:
+          type: string
+          format: date-time
+          description: Completed date and time
+          example: '2022-09-13T16:49:04.133+00:00'
+        createdDate:
+          type: string
+          format: date-time
+          description: Created date and time
+          example: '2022-09-13T16:48:54.133+00:00'
+        creator:
+          type: string
+        dateRange:
+          $ref: '#/components/schemas/DateRange'
+        description:
+          type: string
+        id:
+          type: string
+        path:
+          type: string
+        status:
+          type: string
+          enum:
+            - COMPLETED
+            - FAILED
+            - PROCESSING
+            - QUEUED
+        statusMessage:
+          type: string
+        title:
+          type: string
+    ReportDownloadURL:
+      title: ReportDownloadURL
+      type: object
+      properties:
+        href:
+          type: string
+          description: PreSigned URL
+          example: https://presignedurl
+    StatisticViewOfEntitlementFilterAndOrganizationOfEntitlementStatistic:
+      title: StatisticView<EntitlementFilter,Organization<EntitlementStatistic>>
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/OrganizationOfEntitlementStatistic'
+        filters:
+          $ref: '#/components/schemas/EntitlementFilter'
+    StatisticViewOfContentRequestFilterAndOrganizationOfProgramOfContentRequestStatistic:
+      title: >-
+        StatisticView<SitesContentRequestFilter,Organization<Program<ContentRequestStatistic>>>
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/OrganizationOfProgramOfContentRequestStatistic'
+        filters:
+          $ref: '#/components/schemas/ContentRequestFilter'
+    StatisticViewOfContentRequestFilterAndProgramOfContentRequestStatistic:
+      title: >-
+        StatisticView<SitesContentRequestFilter,Program<ContentRequestStatistic>>
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProgramOfContentRequestStatistic'
+        filters:
+          $ref: '#/components/schemas/ContentRequestFilter'
+    StatisticViewOfRiskFactorFilterAndProgramWithRiskFactorStatistic:
+      title: StatisticView<RiskFactorFilter,ProgramWithRiskFactors>
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProgramWithRiskFactorsStatistic'
+        filters:
+          $ref: '#/components/schemas/RiskFactorFilter'
+    StatisticViewOfStorageFilterAndEnvironmentOfStorageStatistic:
+      title: StatisticView<StorageFilter,<Environment<StorageStatistic>>
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EnvironmentOfStorageStatistic'
+        filters:
+          $ref: '#/components/schemas/StorageFilter'
+    StatisticViewOfStorageFilterAndProgramOfStorageStatistic:
+      title: StatisticView<StorageFilter,<Program<StorageStatistic>>
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProgramOfStorageStatistic'
+        filters:
+          $ref: '#/components/schemas/StorageFilter'
+    StatisticViewOfStorageFilterAndOrganizationOfProgramOfStorageStatistic:
+      title: StatisticView<CountFilter,Organization<Program<StorageStatistic>>>
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/OrganizationOfProgramOfStorageStatistic'
+        filters:
+          $ref: '#/components/schemas/StorageFilter'
+    StatisticViewOfAssetDownloadCountFilterAndAssetDownloadCountStatistic:
+      title: StatisticView<AssetDownloadCountFilter,AssetDownloadCountStatistic>
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AssetDownloadCountStatistic'
+        filters:
+          $ref: '#/components/schemas/AssetDownloadCountFilter'
+    StatisticViewOfCountFilterAndEnvironmentOfCountStatistic:
+      title: StatisticView<CountFilter,Environment<CountStatistic>>
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EnvironmentOfCountStatistic'
+        filters:
+          $ref: '#/components/schemas/CountFilter'
+    StatisticViewOfTopDownloadFilterAndTopDownloadStatistic:
+      title: StatisticView<TopDownloadFilter,TopDownloadStatistic>
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopDownloadStatistic'
+        filters:
+          $ref: '#/components/schemas/TopDownloadFilter'
+    StatisticViewOfWordCountFilterAndEnvironmentOfWordCountStatistic:
+      title: StatisticView<WordCountFilter,Environment<WordCountStatistic>>
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EnvironmentOfWordCountStatistic'
+        filters:
+          $ref: '#/components/schemas/WordCountFilter'
+    ApiErrorResponse:
+      title: ApiErrorResponse
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+        detail:
+          type: string
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
