@@ -3,7 +3,17 @@ info:
   title: Sites API
   version: 2023.01-experimental
 servers:
-  - url: /adobe/sites
+  - url: https://{tier}-p{program}-e{environment}-cmstg.adobeaemcloud.com/adobe/sites
+    variables:
+      tier:
+        default: author
+        enum:
+          - author
+          - publish
+      program:
+        default: ''
+      environment:
+        default: ''
 tags:
   - name: Fragments
     description: Content Fragments Operations
@@ -325,312 +335,7 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /cf/fragments:
-    get:
-      summary: Request to get a list of the content fragments.
-      description: >
-        Returns the list of the content fragments.<br><br>
 
-        <b>Important!</b> Current implementation limitation is to return at most
-        25 content fragments ordered by created date.
-      parameters:
-        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
-        - in: query
-          name: path
-          description: >-
-            Optional UTF-8 encoded parameter to specify a path where to start
-            looking for content fragments.
-          schema:
-            type: string
-          examples:
-            one fragment:
-              value: >-
-                /content/dam/adaptto/presentations/aem-cloud-service-from-a-developer-perspective
-              description: >-
-                Get exaclty one
-                '/aem-cloud-service-from-a-developer-perspective' content
-                fragment.
-            multiple fragments:
-              value: /content/dam/adaptto/presentations
-              description: Get all child content fragments under '/presentations' folder.
-      tags:
-        - Headless UI
-        - experimental
-      responses:
-        '200':
-          $ref: '#/components/responses/FragmentsResponse'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /cf/fragments/{fragmentId}:
-    patch:
-      summary: Request to patch content fragment with new changes.
-      description: >
-        ## Patch format
-
-        The changes to a content fragment are passed as a JSON patch, see <a
-        href="https://datatracker.ietf.org/doc/html/rfc6902">[RFC6902]</a> for
-        details.
-
-
-        ##  Detecting save conflicts
-
-        Save conflicts are detected by leveraging conditional HTTP requests, see
-        <a href="https://datatracker.ietf.org/doc/html/rfc7232">[RFC7232]</a>
-        for details.
-
-
-        ## Resolving conflicts
-
-        When conflict happens server sends respective response and correct ETag
-        header to the caller. It becomes the caller's responsibility to resolve
-        the conflict,
-
-        either by accepting values from the server, or by overwrite them.
-        Subsequent save requests should pass correct ETag received from the
-        server.
-      parameters:
-        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
-        - in: header
-          name: If-Match
-          description: Content fragment ETag to match.
-          schema:
-            type: string
-          required: true
-        - $ref: '#/components/parameters/fragmentId'
-        - in: query
-          name: validated
-          description: >-
-            An indication for backend that content fragment is a work in
-            progress and not ready for publishing. It may also contain errors or
-            incomplete data. This parameter will be removed from the final API
-            version or as soon as backend validation is implemented.
-          schema:
-            type: boolean
-            default: true
-      tags:
-        - Headless UI
-        - experimental
-      requestBody:
-        $ref: '#/components/requestBodies/FragmentPatch'
-      responses:
-        '200':
-          $ref: '#/components/responses/FragmentResponse'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/Conflict'
-        '412':
-          $ref: '#/components/responses/PreconditionFailedResponse'
-        '413':
-          $ref: '#/components/responses/PayloadTooLarge'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-    get:
-      summary: Request to get a content fragment with the given fragmentId.
-      description: Returns the content fragment.
-      parameters:
-        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
-        - in: header
-          name: If-None-Match
-          description: Content fragment ETag, if known.
-          schema:
-            type: string
-        - $ref: '#/components/parameters/fragmentId'
-      tags:
-        - Headless UI
-        - experimental
-      responses:
-        '200':
-          $ref: '#/components/responses/FragmentResponse'
-        '304':
-          $ref: '#/components/responses/NotModified'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /cf/fragments/{fragmentId}/previewUrl:
-    get:
-      summary: >-
-        Request to get a list of variants with a preview URL for the fragment
-        identified by the provided `fragmentId`.
-      description: Returns the content fragment preview URL.
-      parameters:
-        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
-        - $ref: '#/components/parameters/fragmentId'
-      tags:
-        - Headless UI
-        - experimental
-      responses:
-        '200':
-          $ref: '#/components/responses/FragmentPreviewURLResponse'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /cf/fragments/permissions:
-    post:
-      summary: Returns the permissions of the requesting-user on a list of resources.
-      description: >
-        Returns the list of permissions the user has over the provided list of
-        resources. Accepts resources of type `content fragment` and `folder`
-        stored under `/content/dam`.
-
-        <br><br><b>Warning: This API is experimental and is not intended for
-        public usage. The API might change or disappear at any time.</b>
-      tags:
-        - Headless UI
-        - experimental
-      parameters:
-        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
-      requestBody:
-        $ref: '#/components/requestBodies/Permissions'
-      responses:
-        '200':
-          $ref: '#/components/responses/Permissions'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '413':
-          $ref: '#/components/responses/PayloadTooLarge'
-        '415':
-          $ref: '#/components/responses/UnsupportedMediaType'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /cf/fragments/publish:
-    post:
-      summary: Request to publish content fragments.
-      description: >
-        Request to publish content fragments. Causes an AEM workflow to be
-        executed for the publication. If all goes well, the path of the workflow
-        job is returned in the 200 response.
-
-        <br><br><b>Warning: This API is experimental and is not intended for
-        public usage. The API might change or disappear at any time.</b>
-      tags:
-        - Headless UI
-        - experimental
-      parameters:
-        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
-      requestBody:
-        $ref: '#/components/requestBodies/ContentFragmentPublish'
-      responses:
-        '200':
-          $ref: '#/components/responses/ContentFragmentPublish'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '413':
-          $ref: '#/components/responses/PayloadTooLarge'
-        '415':
-          $ref: '#/components/responses/UnsupportedMediaType'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /cf/fragments/referencedBy:
-    post:
-      summary: Request to fetch the parent references of a given list of resources.
-      description: >
-        Returns the parent references of type Page, Experience Fragment and
-        Content Fragments which are referencing the resource specified in the
-        paths parameter.<br><br><b>Warning: This API is experimental and is not
-        intended for public usage. The API might change or disappear at any
-        time.</b>
-      tags:
-        - Headless UI
-        - experimental
-      parameters:
-        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
-      requestBody:
-        $ref: '#/components/requestBodies/ContentFragmentsReferencedBy'
-      responses:
-        '200':
-          $ref: '#/components/responses/ContentFragmentsReferencedBy'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '413':
-          $ref: '#/components/responses/PayloadTooLarge'
-        '415':
-          $ref: '#/components/responses/UnsupportedMediaType'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /cf/fragments/translations:
-    post:
-      summary: >-
-        Request to fetch locales and all language copies of a given list of
-        resources.
-      description: >
-        <b>Warning: This API is experimental and is not intended for public
-        usage. The API might change or disappear at any time.</b>
-      tags:
-        - Headless UI
-        - experimental
-      parameters:
-        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
-      requestBody:
-        $ref: '#/components/requestBodies/RequestContentFragmentLanguageCopies'
-      responses:
-        '200':
-          $ref: '#/components/responses/ResponseContentFragmentLanguageCopies'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '415':
-          $ref: '#/components/responses/UnsupportedMediaType'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /cf/fragments/cf/graphql:
-    post:
-      summary: GraphQL POST request
-      description: >
-        <br><b>Warning: This API is experimental and is not intended for public
-        usage. The API might change or disappear at any time.</b>
-      tags:
-        - Headless UI
-        - experimental
-      parameters:
-        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
-      requestBody:
-        $ref: '#/components/requestBodies/GraphQLRequest'
-      responses:
-        '200':
-          $ref: '#/components/responses/GraphQLResponse'
-    get:
-      summary: GraphQL GET request
-      description: >
-        <br><b>Warning: This API is experimental and is not intended for public
-        usage. The API might change or disappear at any time.</b>
-      tags:
-        - Headless UI
-        - experimental
-      parameters:
-        - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
-        - in: query
-          name: query
-          schema:
-            type: string
-          required: true
-          description: GraphQL query string
-        - in: query
-          name: variables
-          schema:
-            type: string
-          description: >-
-            Variables simplify GraphQL queries by letting you pass data
-            separately. Can be declared after the query are passed like
-            arguments to a function and begin with `$`.
-      responses:
-        '200':
-          $ref: '#/components/responses/GraphQLResponse'
 components:
   securitySchemes:
     Bearer:
@@ -902,6 +607,7 @@ components:
           description: The `data` field, where the result of the operation is stored`.
     AuthoringInfo:
       readOnly: true
+      type: string
       nullable: false
       description: Information about the content fragment authoring operation.
       properties:
@@ -915,6 +621,7 @@ components:
           description: The identifier of the author who performed the operation.
     FragmentModel:
       readOnly: true
+      type: string
       nullable: false
       description: Information about the content fragment model.
       properties:
@@ -1298,7 +1005,7 @@ components:
           schema:
             $ref: '#/components/schemas/JsonPatchDocument'
           examples:
-            test and replace:
+            test_and_replace:
               value:
                 - op: test
                   path: /title
@@ -1307,7 +1014,7 @@ components:
                   path: /title
                   value: aem-cloud-service-from-a-developer-perspective, revisited
               description: Test title value and replace with new value.
-            remove and add element:
+            remove_and_add_element:
               value:
                 - op: remove
                   path: /variations/mobile/elements/endTime
@@ -1317,7 +1024,7 @@ components:
               description: >-
                 Remove a property and add a 1st element in the multi-valued
                 property.
-            set rich-text as markdown:
+            set_rich-text_as_markdown:
               value:
                 - op: replace
                   path: /elements/outline
@@ -1334,14 +1041,14 @@ components:
                 Replace current rich-text value with markdown-formatted value.
                 Please note that the patch <i>value</i> is passed as JSON
                 object.
-            add new variation:
+            add_new_variation:
               value:
                 - op: add
                   path: /variations/myNewVariation
                   value:
                     title: New Variation
                     description: Some optional description
-            remove variation:
+            remove_variation:
               value:
                 - op: remove
                   path: /variations/myNewVariation

@@ -3,7 +3,7 @@ info:
   title: AEM Data Service API
   version: 2023.01-experimental
 servers:
-  - url: https://{tier}-p{program}-e{environment}-cmstg.adobeaemcloud.com/adobe/sites
+  - url: https://{tier}-p{program}-e{environment}-cmstg.adobeaemcloud.com/adobe/stats
     variables:
       tier:
         default: author
