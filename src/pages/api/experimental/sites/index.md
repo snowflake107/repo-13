@@ -1,4 +1,4 @@
 ---
 title: Sites API Experimental
-openAPISpec:  /static/experimental/sites/openapi.yaml
+frameSrc: https://sharp-pug-18.redoc.ly/
 --- 

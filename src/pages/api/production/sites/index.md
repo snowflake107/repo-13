@@ -1,4 +1,4 @@
 ---
 title: Sites API
-openAPISpec:  /static/production/sites/openapi.yaml
+frameSrc: https://tender-cobra-83.redoc.ly/
 --- 
