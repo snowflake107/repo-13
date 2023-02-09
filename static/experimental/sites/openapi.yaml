@@ -40,10 +40,12 @@ paths:
       parameters:
         - in: query
           name: cursor
+          required: false
           schema:
             $ref: '#/components/schemas/Cursor'
         - in: query
           name: limit
+          required: false
           schema:
             type: integer
             minimum: 1
