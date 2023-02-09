@@ -1,6 +1,6 @@
 ---
-title: Guides - Cat Analytics
-description: This is the guides overview page of Cat Analytics 
+title: Guides - AEM
+description: This is the guides overview page of AEM 
 ---
 
 # Get Started
