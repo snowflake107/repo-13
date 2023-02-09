@@ -3,7 +3,17 @@ info:
   title: AEM Data Service API
   version: 2023.01-experimental
 servers:
-  - url: /adobe/stats
+  - url: https://{tier}-p{program}-e{environment}-cmstg.adobeaemcloud.com/adobe/sites
+    variables:
+      tier:
+        default: author
+        enum:
+          - author
+          - publish
+      program:
+        default: ''
+      environment:
+        default: ''
 tags:
   - name: Reports
     description: Reports API
