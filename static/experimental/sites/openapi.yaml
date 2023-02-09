@@ -20,6 +20,7 @@ tags:
   - name: Models
     description: Content Fragment Models Operations
   - name: Headless UI
+
 paths:
   /cf/models:
     parameters:
@@ -65,6 +66,8 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '403':
           $ref: '#/components/responses/Forbidden'
+      security:
+        - Bearer: []
     post:
       operationId: models/createModel
       tags:
@@ -90,6 +93,8 @@ paths:
           $ref: '#/components/responses/UnsupportedMediaType'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+        - Bearer: []
   /cf/models/{id}:
     parameters:
       - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
@@ -1715,3 +1720,4 @@ components:
       schema:
         type: string
       example: 49af775d-0e7a-46c3-913d-00f762528373
+
