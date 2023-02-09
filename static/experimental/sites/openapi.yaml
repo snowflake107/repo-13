@@ -25,6 +25,7 @@ paths:
   /cf/models:
     parameters:
       - $ref: '#/components/parameters/X-Adobe-Accept-Unsupported-API'
+      - $ref: '#/components/parameters/x-adobe-accept-experimental'
     get:
       operationId: models/getModels
       tags:
@@ -1709,6 +1710,13 @@ components:
   parameters:
     X-Adobe-Accept-Unsupported-API:
       name: X-Adobe-Accept-Unsupported-API
+      in: header
+      required: true
+      schema:
+        enum:
+          - 1
+    x-adobe-accept-experimental:
+      name: x-adobe-accept-experimental
       in: header
       required: true
       schema:
