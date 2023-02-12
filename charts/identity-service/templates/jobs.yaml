@@ -56,15 +56,6 @@ spec:
           {{- end }}
           {{- end }}
           env:
-          {{- range $secret_name, $localValues := $values.configuration.secrets }}
-          {{- range $key, $value := $localValues }}
-            - name: {{ $key }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secret_name }}
-                  key: {{ $value }}
-          {{- end }}
-          {{- end }}
           {{- range $config_name, $localValues := $values.configuration.map }}
           {{- range $key, $value :=  $localValues }}
             - name: {{ $key }}
@@ -77,8 +68,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "identity-service.fullname" $top }}-configmap
-            - secretRef:
-                name: {{ include "identity-service.fullname" $top }}-secret
           {{- with .args }}
           args:
             {{- toYaml . | nindent 12 }}

@@ -20,7 +20,6 @@ spec:
         app.frontegg.com/appVersion: {{ .Values.appVersion | quote }}
           {{- include "identity-service.workerLabels" . | nindent 8 }}
       annotations:
-        checksum/secret: {{ (print .Values.secret) | sha256sum }}
         checksum/config: {{ (print .Values.configmap) | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
@@ -63,15 +62,6 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
-            {{- range $secret_name, $values := .Values.configuration.secrets }}
-            {{- range $key, $value :=  $values}}
-            - name: {{ $key }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secret_name }}
-                  key: {{ $value }}
-            {{- end }}
-            {{- end }}
             {{- range $config_name, $values := .Values.configuration.map }}
             {{- range $key, $value :=  $values}}
             - name: {{ $key }}
@@ -84,8 +74,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "identity-service.fullname" . }}-configmap
-            - secretRef:
-                name: {{ include "identity-service.fullname" . }}-secret
           resources:
             {{- toYaml .Values.offline.resources | nindent 12 }}
           args:
