@@ -35,20 +35,27 @@ spec:
       imagePullSecrets :
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if $.Values.externalSecret }}
+      {{- if $.Values.externalSecret.enabled }}
+      volumes:
+        - name: vol-secret
+          secret:
+            secretName: {{ include "event-service.fullname" $ }}-external-secret
+      {{- end }}
+      {{- end }}
       containers:
         - name: {{ include "event-service.fullname" $top }}-{{ $jobName }}
           image : {{ $values.image.repository }}:{{ $values.appVersion }}
           imagePullPolicy : {{ $values.image.pullPolicy }}
+          {{- if $.Values.externalSecret }}
+          {{- if $.Values.externalSecret.enabled }}
+          volumeMounts:
+            - name: vol-secret
+              mountPath: /etc/config/config.env
+              subPath: config
+          {{- end }}
+          {{- end }}
           env:
-          {{- range $secret_name, $localValues := $values.configuration.secrets }}
-          {{- range $key, $value := $localValues }}
-            - name: {{ $key }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secret_name }}
-                  key: {{ $value }}
-          {{- end }}
-          {{- end }}
           {{- range $config_name, $localValues := $values.configuration.map }}
           {{- range $key, $value :=  $localValues }}
             - name: {{ $key }}
@@ -61,8 +68,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "event-service.fullname" $top }}-configmap
-            - secretRef:
-                name: {{ include "event-service.fullname" $top }}-secret
           {{- with .args }}
           args:
             {{- toYaml . | nindent 12 }}
