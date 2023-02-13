@@ -5,9 +5,6 @@ metadata:
   labels:
   {{- include "connectors-worker.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
   {{- include "connectors-worker.selectorLabels" . | nindent 6 }}
@@ -17,18 +14,33 @@ spec:
         app.frontegg.com/appVersion: {{ .Values.appVersion | quote}}
       {{- include "connectors-worker.selectorLabels" . | nindent 8 }}
       annotations:
-        checksum/secret: {{ (print .Values.secret) | sha256sum }}
         checksum/config: {{ (print .Values.configmap) | sha256sum }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
       {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.externalSecret }}
+      {{- if .Values.externalSecret.enabled }}
+      volumes :
+        - name : vol-secret
+          secret :
+            secretName : {{ include "connectors-worker.fullname" . }}-external-secret
+      {{- end }}
+      {{- end }}
 
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.appVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.externalSecret }}
+          {{- if .Values.externalSecret.enabled }}
+          volumeMounts:
+            - name: vol-secret
+              mountPath: /etc/config/config.env
+              subPath: config
+          {{- end }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
@@ -46,15 +58,6 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
           env:
-            {{- range $secret_name, $values := .Values.configuration.secrets }}
-            {{- range $key, $value :=  $values}}
-            - name: {{ $key }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secret_name }}
-                  key: {{ $value }}
-            {{- end }}
-            {{- end }}
             {{- range $config_name, $values := .Values.configuration.map }}
             {{- range $key, $value :=  $values}}
             - name: {{ $key }}
@@ -67,9 +70,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "connectors-worker.fullname" . }}-configmap
-            - secretRef:
-                name: {{ include "connectors-worker.fullname" . }}-secret
-
           resources:
       {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

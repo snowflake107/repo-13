@@ -1,8 +1,0 @@
-autoscaling:
-  enabled: false
-
-configmap:
-  data:
-    CLOUD_ENVIRONMENT: prod
-    NODE_ENV: production
-    FRONTEGG_TWILIO_SENDER: "+12055578527"
