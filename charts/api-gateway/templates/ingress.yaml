@@ -30,8 +30,10 @@ spec:
         - path: /
           backend:
             service:
+              #name: frontegg-{{ $name }}-2
               name: frontegg-{{ $name }}
               port:
                 number: {{ $svcPort }}
           pathType: ImplementationSpecific
   {{- end }}
+

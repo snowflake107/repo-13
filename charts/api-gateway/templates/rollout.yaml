@@ -14,6 +14,9 @@ spec:
       {{- include "api-gateway.selectorLabels" . | nindent 6 }}
   strategy:
     blueGreen:
+      activeMetadata:
+        labels:
+          role: active
       activeService: frontegg-{{ include "api-gateway.name" . }}
       autoPromotionEnabled: true
   {{- end }}
