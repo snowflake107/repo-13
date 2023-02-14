@@ -20,7 +20,6 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       annotations:
-        checksum/secret: {{ (print .Values.secret) | sha256sum }}
         checksum/config: {{ (print .Values.configmap) | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
@@ -30,11 +29,26 @@ spec:
       imagePullSecrets:
       {{- toYaml . | nindent 8 }}
       {{- end }}
-
+      {{- if .Values.externalSecret }}
+      {{- if .Values.externalSecret.enabled }}
+      volumes:
+        - name: vol-secret
+          secret:
+            secretName: {{ include "team-management-service.fullname" . }}-external-secret
+      {{- end }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.appVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.externalSecret }}
+          {{- if .Values.externalSecret.enabled }}
+          volumeMounts:
+            - name: vol-secret
+              mountPath: /etc/config/config.env
+              subPath: config
+          {{- end }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }} # change this to 80 in the future
@@ -52,15 +66,6 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
           env:
-            {{- range $secret_name, $values := .Values.configuration.secrets }}
-            {{- range $key, $value :=  $values}}
-            - name: {{ $key }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secret_name }}
-                  key: {{ $value }}
-            {{- end }}
-            {{- end }}
             {{- range $config_name, $values := .Values.configuration.map }}
             {{- range $key, $value :=  $values}}
             - name: {{ $key }}
@@ -73,9 +78,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "team-management-service.fullname" . }}-configmap
-            - secretRef:
-                name: {{ include "team-management-service.fullname" . }}-secret
-
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
