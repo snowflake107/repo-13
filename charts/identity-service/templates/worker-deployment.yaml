@@ -80,7 +80,7 @@ spec:
             - "npm"
             - "run"
             - "start:prod:worker"
-      {{- with .Values.nodeSelector }}
+      {{- with .Values.offline.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
       {{- end }}
