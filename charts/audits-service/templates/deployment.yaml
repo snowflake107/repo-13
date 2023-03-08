@@ -17,18 +17,32 @@ spec:
         app.frontegg.com/appVersion: {{ .Values.appVersion | quote}}
       {{- include "audits-service.selectorLabels" . | nindent 8 }}
       annotations:
-        checksum/secret: {{ (print .Values.secret) | sha256sum }}
         checksum/config: {{ (print .Values.configmap) | sha256sum }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
       {{- toYaml . | nindent 8 }}
       {{- end }}
-
+      {{- if .Values.externalSecret }}
+      {{- if .Values.externalSecret.enabled }}
+      volumes:
+        - name: vol-secret
+          secret:
+            secretName: {{ include "audits-service.fullname" . }}-external-secret
+      {{- end }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.appVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.externalSecret }}
+          {{- if .Values.externalSecret.enabled }}
+          volumeMounts:
+            - name: vol-secret
+              mountPath: /etc/config/config.env
+              subPath: config
+          {{- end }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }} # change this to 80 in the future
@@ -46,15 +60,6 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
           env:
-          {{- range $secret_name, $values := .Values.configuration.secrets }}
-          {{- range $key, $value :=  $values}}
-            - name: {{ $key }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secret_name }}
-                  key: {{ $value }}
-          {{- end }}
-          {{- end }}
           {{- range $config_name, $values := .Values.configuration.map }}
           {{- range $key, $value :=  $values}}
             - name: {{ $key }}
@@ -67,9 +72,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "audits-service.fullname" . }}-configmap
-            - secretRef:
-                name: {{ include "audits-service.fullname" . }}-secret
-
           resources:
       {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
