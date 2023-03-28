@@ -11,7 +11,6 @@
  */
 
 module.exports = {
-  pathPrefix: process.env.PATH_PREFIX || '/experience-cloud/experience-manager-apis/',
   siteMetadata: {
     pages: [
       {
@@ -36,6 +35,10 @@ module.exports = {
         ]
       },
       {
+        title: 'Guides',
+        path: '/guides/'
+      }
+      {
         title: 'Support',
         path: '/support/'
       }
@@ -52,7 +55,19 @@ module.exports = {
           }
         ]
       }
+       {
+        title: 'how to use',
+        path: '/guides/how-to/',
+        header: true,
+        pages: [
+          {
+            title: 'How to use',
+            path: '/guides/how-to/'
+          }
+        ]
+      }
     ]
   },
   plugins: [`@adobe/gatsby-theme-aio`]
+  pathPrefix: process.env.PATH_PREFIX || '/experience-cloud/experience-manager-apis/',
 };
