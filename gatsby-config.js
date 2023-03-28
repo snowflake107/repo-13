@@ -54,7 +54,7 @@ module.exports = {
             path: '/support/community/'
           }
         ]
-      }
+      },
        {
         title: 'how to use',
         path: '/guides/how-to/',
