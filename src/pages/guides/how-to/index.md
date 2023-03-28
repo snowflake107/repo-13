@@ -11,6 +11,7 @@ keywords:
 <DiscoverBlock slots="heading, link, text"/>
 
 ### How to use
+
 [Receiving Events](api-usage/receiving-events.md)
 
 Understand how events are structured.
