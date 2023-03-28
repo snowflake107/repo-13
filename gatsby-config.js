@@ -11,7 +11,7 @@
  */
 
 module.exports = {
-  pathPrefix: process.env.PATH_PREFIX || '/aemcs-sandbox/',
+  pathPrefix: process.env.PATH_PREFIX || '/experience-cloud/experience-manager-apis/',
   siteMetadata: {
     pages: [
       {
