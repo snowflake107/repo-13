@@ -37,7 +37,7 @@ module.exports = {
       {
         title: 'Guides',
         path: '/guides/'
-      }
+      },
       {
         title: 'Support',
         path: '/support/'
