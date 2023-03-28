@@ -18,7 +18,7 @@ A comprehensive content management solution for building websites, mobile apps a
 
 ## Overview
 
-This documentation provides instructions for and allows you to test AEM APIs. For working with AEM APIs, see [AEM API Documentation](https://github.com/AdobeDocs/aemcs-sandbox).
+This documentation provides instructions for and allows you to test AEM APIs. For working with AEM APIs, see [AEM API Documentation](https://github.com/AdobeDocs/experience-manager-apis).
 
 ### Get Started
 
