@@ -5,6 +5,51 @@ description: This is the API Usage guides overview page of Cloud Manager API
 
 <DiscoverBlock slots="heading, link, text"/>
 
-### How to use
+## How to use
 
-Test
+### Data Models
+
+should be defined in an Adobe AEM repository (are they?)
+
+### Collections: Pagination and sorting
+
+Pagination:
+
+typically an API will have query parameter called limit, which is a hint (but not guaranteed to be respected) to the API of how many results in the list to return. An API's documentation will state the default limit and any minimum or maximum values.
+If there are more resources in the collection, the output result will include a parameter "cursor", which can be used in the LIST API call to retrieve the next set of resources in the collection.
+empty collections are an empty array
+If API documentation states that results are sortable, pass in the sorting criteria as a comma separated list for the orderBy query parameter. The API may support an asc (ascending) or desc (descending)  value, which should follow the property name by a space. Ascending is the default. 
+
+### Defending against concurrent update
+
+If a resource is potentially update-able by multiple clients, first GET the resource, whose result will include an ETag. In the attempt to update, pass the ETag as a value in an If-Match header. If the resource has been modified by a 412 Precondition Failed error code
+
+### Long-running operations
+
+Some API operations may require many seconds or minutes to process the request and respond with the result. In those cases, the API's reference documentation will include 202 Accepted as a possible  HTTP response status, in which case the client must be coded to inspect the result; if make subsequent requests to retrieve the result.
+
+The client can include the Prefer header, whose value is set to its preference for either an asynchronous or synchronous response, which may influence, but does not guarantee, the response pattern. For asynchronous, pass in the value "respond-async"; for synchronous, pass in the value "wait" with the maximum number of seconds it would be willing to wait. If the Prefer header value is honored, the result will set the Preference-Applied header. 
+
+If a 202 Accepted is returned, the Location header will include the URI to poll, with the recommending time interval to start polling dictated by the Retry-After header.
+
+If, when polled at the URI, the operation is still running, a 202 Accepted is again returned, and Retry-After header may have a new value to signal the recommending time interval to continue polling.
+
+When the operation has completed processing, it will in many cases return with an HTTP response status "303 See Other" and a Location header indicating the URI to retrieve the output, as well as JSON output with more information about the final state of processing. Invoking that URI will return an HTTP code of "200 OK" if successful, or the appropriate error code.
+
+However, note that in the case where the original operation was a GET, instead of a "303 See other" response status and Location header, the client may receive a response of "200 OK" with a status property set to terminated and a result in the "result" property.
+
+If the client has taken too much time to poll, the result may be lost and the URI's HTTP status would return 404 Not Found.
+
+### Versioning
+
+The full set of AEM APIs gets a version associated with the timing of its release. For example, 2023.9.
+
+Changes to a particular API from one version to the next can only be additive and thus always backwards compatible. 
+
+Adobe may deprecate an API by communicating via documentation, which will specify the API's targeted removal date.
+
+### Experimental and Unsupported APIs
+
+Some APIs are marked in documentation as experimental, which implies that Adobe may modify or remove them without warning. Clients must acknowledge that understanding by including a header X-Adobe-Accept-Experimental with value of "1". If the invocation of an experimental API does not include this header and value, an HTTP status code of 400 status code is returned.
+
+Some APIs may be discoverable and even documented, but not intended for the use of customers, and are thus unsupported; they may be modified or removed by Adobe at any time. It should be noted that these APIs will only be processed if invoked with a header X-Adobe-Accept-Unsupported-API with a value of "1".
