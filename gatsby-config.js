@@ -18,6 +18,10 @@ module.exports = {
         path: '/'
       },
       {
+        title: 'Guides',
+        path: '/guides/'
+      },
+      {
         title: 'API Reference',
         menu: [
           {
@@ -33,10 +37,6 @@ module.exports = {
             path: '/api/experimental/stats/index.md'
           }
         ]
-      },
-      {
-        title: 'Guides',
-        path: '/guides/'
       },
       {
         title: 'Support',
