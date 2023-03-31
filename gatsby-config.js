@@ -56,13 +56,25 @@ module.exports = {
         ]
       },
        {
-        title: 'how to use',
-        path: '/guides/how-to/',
+        title: 'Overview',
+        path: '/guides/',
         header: true,
         pages: [
           {
             title: 'How to use',
             path: '/guides/how-to/'
+          },
+          {
+            title: 'Projects',
+            path: '/guides/projects/'
+          },
+          {
+            title: 'The API Experience',
+            path: '/guides/using/'
+          },
+          {
+            title: 'Events',
+            path: '/guides/events/'
           }
         ]
       }
