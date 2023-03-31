@@ -14,11 +14,13 @@ A comprehensive content management solution for building websites, mobile apps a
 #### Resources
 
 * [Quickstart Guide](https://developer.adobe.com)
-* [AEM](https://github.com/AdobeDocs/dev-site)
+* [AEM documentation](https://experienceleague.adobe.com/docs)
 
 ## Overview
 
-This documentation provides instructions for and allows you to test AEM APIs. For working with AEM APIs, see [AEM API Documentation](https://github.com/AdobeDocs/experience-manager-apis).
+AEM is a platform to customize solutions including content management, digital assets management, and forms management. There are a plethora of powerful APIs exposed to developers to meet the requirements of their organizations. Recently, AEM has unleashed its Cloud Services APIs, which offer consistent syntax, semantics, and reference documentation, and are backed by OpenAPI and GraphQL specifications. It is recommended to use the Cloud Services APIs if it covers your team's use case. 
+AEM has a other APIs as well, see [AEM Reference Materials](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/reference-materials.html) for more information.
+
 
 ### Get Started
 
