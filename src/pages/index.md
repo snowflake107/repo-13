@@ -11,30 +11,27 @@ A comprehensive content management solution for building websites, mobile apps a
 
 <Resources slots="heading, links"/>
 
-#### Resources
-
-* [Quickstart Guide](https://developer.adobe.com)
-* [AEM documentation](https://experienceleague.adobe.com/docs)
-
 ## Overview
 
-AEM is a platform to customize solutions including content management, digital assets management, and forms management. There are a plethora of powerful APIs exposed to developers to meet the requirements of their organizations. Recently, AEM has unleashed its Cloud Services APIs, which offer consistent syntax, semantics, and reference documentation, and are backed by OpenAPI and GraphQL specifications. It is recommended to use the Cloud Services APIs if it covers your team's use case. 
-AEM has a other APIs as well, see [AEM Reference Materials](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/reference-materials.html) for more information.
+Adobe Experience Manager (AEM) is a powerful platform for organizations to customize solutions that span content management, digital assets management, and forms management.
+
+Learn about AEM's APIs in Experience League documentation:
+* [AEM as a Cloud Service APIs](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/reference-materials.html)
+* [AEM 6.5 APIs](https://experienceleague.adobe.com/docs/experience-manager-65/developing/introduction/reference-materials.html)
+
+AEM as a Cloud Service is building out a set of APIs that follow the OpenAPI specification. Learn about them below. 
 
 
 ### Get Started
 
-[Quickstart Guide](guides/)
-    
-Get started with the Adobe Experience Manager APIs.
+[Guides to AEM as a Cloud Service OpenAPI-based APIs](guides/)
 
 <DiscoverBlock slots="heading, link, text"/> 
 
 ### API References
 
-[Try the API](/src/pages/api/experimental/stats/index.md) 
+[Try out the AEM as a Cloud Service OpenAPI-based APIs](/src/pages/api/experimental/stats/index.md) 
 
-Try the AEM Data Service API.
 
 ## Contributing 
 
