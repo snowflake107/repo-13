@@ -5,24 +5,36 @@ description: This is the guides overview page of AEM
 
 ## Introduction 
 
-Use Cloud Service APIs by first creating a project in the Adobe Developer Console and then using the generated credentials as a header in the API request.
+Learn about AEM's APIs in Experience League documentation:
+* [AEM as a Cloud Service APIs](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/reference-materials.html)
+* [AEM 6.5 APIs](https://experienceleague.adobe.com/docs/experience-manager-65/developing/introduction/reference-materials.html)
 
-### How to use AEM APIs
+Guides for AEM as a Cloud Service's OpenAPI-based APIs can be found below.
 
-Learn about the API syntax and structure, as well as concepts including authentication, error handling, and experimental APIs: [How to use AEM APIs](/src/pages/guides/how-to/index.md)
+### Adobe Developer Console Projects
 
-### Creating AEM Project docs
+Create a project in the Adobe Developer Console, where you will select your API. The generated credentials will be used in your API request.
 
-Learn how to declare a project, which lets you call the APIs: [AEM Projects](/src/pages/guides/how-to/index.md)
+[Learn how](/src/pages/guides/how-to/index.md)
 
-### How to navigate the reference APIs and Playgrounds
 
-Learn about how to consume our reference docs and playground: [The API Experience](/src/pages/guides/using/index.md)
+### Coding with the APIs
+
+Program with AEM as a Cloud Service's OpenAPI-based APIs, following patterns including authentication, error handling, and selecting between stable and experiemental versions.
+
+[Learn more](/src/pages/guides/how-to/index.md)
+
+
+### How to use the API Playground
+
+AEM as a Cloud Service offers reference documentation for each of its OpenAPI-based APIs, as well as interactive API playgrounds.
+
+[Learn more](/src/pages/guides/how-to/index.md)
+
 
 ### Events
 
-Learn about [events](/src/pages/guides/events/index.md).
+Subscribe to AEM as a Cloud Service events. 
 
-## Other AEM APIs
-  
-For other AEM APIs, see [AEM Reference Materials](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/reference-materials.html)
+[Learn more](/src/pages/guides/events/index.md)
+
