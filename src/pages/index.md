@@ -9,8 +9,6 @@ description: A collection of high-level references for all endpoints provided by
 
 A comprehensive content management solution for building websites, mobile apps and forms.
 
-<Resources slots="heading, links"/>
-
 ## Overview
 
 Adobe Experience Manager (AEM) is a powerful platform for organizations to customize solutions that span content management, digital assets management, and forms management.
