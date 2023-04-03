@@ -1,10 +1,11 @@
 ---
 title: APIs
+Description: APIs
 --- 
 
 # APIs
 
-# Variant 1: Table
+## Variant 1: Table
 
 | API    |        |              |
 | :----- | :----- | :----------- |
@@ -13,30 +14,30 @@ title: APIs
 | Forms  | Stable | Experimental |
 | Stats  | Stable | Experimental |
 
-# Variant 2: By solution
+## Variant 2: By solution
 
-## Sites
+### Sites
 
-- stable
-- experimental
+* stable
+* experimental
 
-## Assets
+### Assets
 
-- stable
-- experimental
+* stable
+* experimental
 
-# Variante 2: By stability
+## Variant 3: By stability
 
-## Stable
+### Stable
 
-- Sites
-- Assets
-- Forms
-- Stats
+* Sites
+* Assets
+* Forms
+* Stats
 
-## Experimental
+### Experimental
 
-- Sites
-- Assets
-- Forms
-- Stats
+* Sites
+* Assets
+* Forms
+* Stats
