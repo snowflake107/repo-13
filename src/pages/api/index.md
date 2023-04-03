@@ -5,39 +5,22 @@ Description: APIs
 
 # APIs
 
-## Variant 1: Table
-
-| API    |        |              |
-| :----- | :----- | :----------- |
-| Sites  | Stable | Experimental |
-| Assets | Stable | Experimental |
-| Forms  | Stable | Experimental |
-| Stats  | Stable | Experimental |
-
-## Variant 2: By solution
-
-### Sites
+## Assets
 
 - stable
-- experimental
+- [experimental](https://polite-cobra-64.redoc.ly/)
 
-### Assets
+## Sites
+
+- [stable](https://proud-horse-2.redoc.ly/)
+- [experimental](https://cuddly-parrot-13.redoc.ly/)
+
+## Forms
 
 - stable
-- experimental
+- [experimental](https://modern-otter-46.redoc.ly/)
 
-## Variant 3: By stability
+## Stats
 
-### Stable
-
-- Sites
-- Assets
-- Forms
-- Stats
-
-### Experimental
-
-- Sites
-- Assets
-- Forms
-- Stats
+- [stable](https://heavy-moose-61.redoc.ly/)
+- [experimental](https://bitter-fly-74.redoc.ly/)
