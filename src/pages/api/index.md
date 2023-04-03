@@ -18,26 +18,26 @@ Description: APIs
 
 ### Sites
 
-* stable
-* experimental
+- stable
+- experimental
 
 ### Assets
 
-* stable
-* experimental
+- stable
+- experimental
 
 ## Variant 3: By stability
 
 ### Stable
 
-* Sites
-* Assets
-* Forms
-* Stats
+- Sites
+- Assets
+- Forms
+- Stats
 
 ### Experimental
 
-* Sites
-* Assets
-* Forms
-* Stats
+- Sites
+- Assets
+- Forms
+- Stats
