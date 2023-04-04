@@ -28,8 +28,7 @@ AEM as a Cloud Service is building out a set of APIs that follow the OpenAPI spe
 
 ### API References
 
-[Try out the AEM as a Cloud Service OpenAPI-based APIs](/src/pages/api/experimental/stats/index.md) 
-
+[Try out the AEM as a Cloud Service OpenAPI-based APIs](/src/pages/api) 
 
 ## Contributing 
 
