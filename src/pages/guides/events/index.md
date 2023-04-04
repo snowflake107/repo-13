@@ -3,7 +3,7 @@ title: Events
 description: Events
 ---
 
-# Introduction 
+## Introduction 
 
 Great content about Events.
  
