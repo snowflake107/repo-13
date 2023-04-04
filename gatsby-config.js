@@ -24,25 +24,10 @@ module.exports = {
       {
         title: 'API Reference',
         path: '/api'
-      },
-      {
-        title: 'Support',
-        path: '/support/'
       }
     ],
     subPages: [
-      {
-        title: 'Community',
-        path: '/support/community/',
-        header: true,
-        pages: [
-          {
-            title: 'Information',
-            path: '/support/community/'
-          }
-        ]
-      },
-       {
+         {
         title: 'Overview',
         path: '/guides/',
         header: true,
