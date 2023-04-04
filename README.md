@@ -1,4 +1,16 @@
-# Adobe I/O Documentation Template
+# Adobe Experience Manager APIs
+
+[Generated site](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/).
+
+## Validating content
+
+After editing content, try it locally using yarn dev. Then create a branch and PR and wait for it to be linted before merging. 
+
+## Pusblishing content
+
+To publish content use the github action "deploy" and select the desired branch and stage to publish to.
+
+## Working with gatsby
 
 This is a site template built with the [Adobe I/O Theme](https://github.com/adobe/aio-theme).
 
