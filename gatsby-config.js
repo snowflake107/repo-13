@@ -23,20 +23,7 @@ module.exports = {
       },
       {
         title: 'API Reference',
-        menu: [
-          {
-            title: 'Sites',
-            path: '/api/production/sites/index.md'
-          },
-          {
-            title: 'Sites - Experimental',
-            path: '/api/experimental/sites/index.md'
-          },
-          {
-            title: 'Stats - Experimental',
-            path: '/api/experimental/stats/index.md'
-          }
-        ]
+        path: '/api'
       },
       {
         title: 'Support',

@@ -30,7 +30,7 @@ code-fence-style:
   style: "backtick"
 emphasis-style:
   style: "consistent"
-fenced-code-language: true    # Fenced code blocks should have a language specified
+fenced-code-language: false   # Fenced code blocks should have a language specified
 heading-start-left: true      # Headings must start at the beginning of the line
 heading-style:
   style: "atx"
