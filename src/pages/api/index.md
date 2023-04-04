@@ -8,19 +8,19 @@ Description: APIs
 ## Assets
 
 - stable
-- [experimental](https://polite-cobra-64.redoc.ly/)
+- [experimental](/api/experimental/assets)
 
 ## Sites
 
-- [stable](https://proud-horse-2.redoc.ly/)
-- [experimental](https://cuddly-parrot-13.redoc.ly/)
+- [stable](/api/stable/sites)
+- [experimental](/api/experimental/sites)
 
 ## Forms
 
 - stable
-- [experimental](https://modern-otter-46.redoc.ly/)
+- [experimental](/api/experimental/forms)
 
 ## Stats
 
-- [stable](https://heavy-moose-61.redoc.ly/)
-- [experimental](https://bitter-fly-74.redoc.ly/)
+- [stable](/api/stable/stats)
+- [experimental](/api/experimental/stats)
