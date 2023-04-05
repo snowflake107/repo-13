@@ -14,8 +14,9 @@ A comprehensive content management solution for building websites, mobile apps a
 Adobe Experience Manager (AEM) is a powerful platform for organizations to customize solutions that span content management, digital assets management, and forms management.
 
 Learn about AEM's APIs in Experience League documentation:
-* [AEM as a Cloud Service APIs](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/reference-materials.html)
-* [AEM 6.5 APIs](https://experienceleague.adobe.com/docs/experience-manager-65/developing/introduction/reference-materials.html)
+
+- [AEM as a Cloud Service APIs](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/reference-materials.html)
+- [AEM 6.5 APIs](https://experienceleague.adobe.com/docs/experience-manager-65/developing/introduction/reference-materials.html)
 
 AEM as a Cloud Service is building out a set of APIs that follow the OpenAPI specification. Learn about them below. 
 
@@ -36,4 +37,4 @@ AEM as a Cloud Service is building out a set of APIs that follow the OpenAPI spe
 
 We encourage you to participate in our open documentation initiative, if you have suggestions, corrections, additions or deletions for this documentation, check out the source from [this github repo](https://github.com/AdobeDocs/experience-manager-apis), and submit a pull request with your contribution.
 
-&nbsp;
+&nbsp;&nbsp;
