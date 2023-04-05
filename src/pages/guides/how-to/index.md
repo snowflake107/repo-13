@@ -18,7 +18,7 @@ This page describes how to use AEM APIs.
 
 describe how to pass the Authorization header with value Bearer ```<IMS access token>```
 
-- ```curl -H "Authorization: Bearer <your_ims_access_token>"  <URI> ```
+- ```curl -H "Authorization: Bearer <your_ims_access_token>" <URI>```
 
 Describe how to, from code, generate the access token from a JWT token
   
