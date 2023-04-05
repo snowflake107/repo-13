@@ -9,8 +9,8 @@ description: How to use AEM APIs
 
 ### Introduction
 
-- List (GET) which returns a collection, GET, CREATE, UPDATE, DELETE, custom operations
-- Functionality is grouped at a high level using the API name, e.g. assets or reports
+List (GET) which returns a collection, GET, CREATE, UPDATE, DELETE, custom operations.
+Functionality is grouped at a high level using the API name, e.g. assets or reports.
 
 ### Authentication
 
