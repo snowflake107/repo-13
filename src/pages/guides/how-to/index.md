@@ -7,6 +7,8 @@ description: How to use AEM APIs
 
 ## How to use AEM APIs
 
+This page describes how to use AEM APIs.
+
 ### Introduction 
 
 - List (GET) which returns a collection, GET, CREATE, UPDATE, DELETE, custom operations 
@@ -14,7 +16,7 @@ description: How to use AEM APIs
 
 ### Authentication
 
-describe how to oass the Authorization header with value Bearer ```<IMS access token>```
+describe how to pass the Authorization header with value Bearer ```<IMS access token>```
 
 - ```curl -H "Authorization: Bearer <your_ims_access_token>"  <URI> ```
 
