@@ -20,7 +20,6 @@ Learn about AEM's APIs in Experience League documentation:
 
 AEM as a Cloud Service is building out a set of APIs that follow the OpenAPI specification. Learn about them below. 
 
-
 ### Get Started
 
 [Guides to AEM as a Cloud Service OpenAPI-based APIs](guides/)
