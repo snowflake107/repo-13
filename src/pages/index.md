@@ -36,5 +36,3 @@ AEM as a Cloud Service is building out a set of APIs that follow the OpenAPI spe
 ### Contributing 
 
 We encourage you to participate in our open documentation initiative, if you have suggestions, corrections, additions or deletions for this documentation, check out the source from [this github repo](https://github.com/AdobeDocs/experience-manager-apis), and submit a pull request with your contribution.
-
-&nbsp;&nbsp;
