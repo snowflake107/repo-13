@@ -24,7 +24,7 @@ The slack channel #adobeio-onsite-onboarding is our main point of contact for he
 
 For local development, simply use :
 
-```
+```bash
 $ yarn install
 $ yarn dev
 ```
