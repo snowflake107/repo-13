@@ -1,48 +1,62 @@
-# HTTP APIs
+## HTTP APIs
 
-<DiscoverBlock slots="heading, link, text"/>
+<DiscoverBlock slots="heading, text"/>
 
-## Delivery
+### Delivery
 
 <DiscoverBlock slots="link, text"/>
 
 Structured [GraphQL](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/headless/graphql-api/content-fragments.html)
 
+<DiscoverBlock slots="link, text"/>
+
 Unstructured (content services) [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/components-templates/json-exporter.html?lang=en)
+
+<DiscoverBlock slots="link, text"/>
 
 Dynamic images [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/developing/web-optimized-image-delivery.html?lang=en)
 
-<DiscoverBlock slots="heading, link, text"/>
+<DiscoverBlock slots="heading, text"/>
 
-## Applications and Authoring
+### Applications and Authoring
 
-<DiscoverBlock slots="link, text"/>
+<DiscoverBlock slots=" heading, link, text"/>
 
-Sites [OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#sites)
+#### Sites
 
-<DiscoverBlock slots="link, text"/>
-
-Assets [OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#assets), [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/assets/admin/mac-api-assets.html?lang=en), [Assets Compute HTTP API](https://experienceleague.adobe.com/docs/asset-compute/using/api.html?lang=en)
-
-<DiscoverBlock slots="link, text"/>
-
-Forms [OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#forms)
-
-<DiscoverBlock slots="link, text"/>
-
-Events [Guide](https://developer.adobe.com/events/docs/guides/using/aem/)
-
-<DiscoverBlock slots="link, text"/>
-
-Search [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en)
-
-<DiscoverBlock slots="link, text"/>
-
-Workflows [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-65/developing/extending-aem/extending-workflows/workflows-program-interaction.html?lang=en)
+[OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#sites)
 
 <DiscoverBlock slots="heading, link, text"/>
 
-## Reporting and Infrastructure
+#### Assets
+
+[OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#assets), [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/assets/admin/mac-api-assets.html?lang=en), [Assets Compute HTTP API](https://experienceleague.adobe.com/docs/asset-compute/using/api.html?lang=en)
+
+<DiscoverBlock slots=" heading, link, text"/>
+
+#### Forms
+
+[OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#forms)
+
+<DiscoverBlock slots="heading, link, text"/>
+
+#### Events [Guide](https://developer.adobe.com/events/docs/guides/using/aem/)
+
+<DiscoverBlock slots="heading, link, text"/>
+
+#### Search 
+
+[HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en)
+
+<DiscoverBlock slots="heading, link, text"/>
+
+#### Workflows
+
+[HTTP API](https://experienceleague.adobe.com/docs/experience-manager-65/developing/extending-aem/extending-workflows/workflows-program-interaction.html?lang=en)
+
+<DiscoverBlock slots="heading, text"/>
+
+### Reporting and Infrastructure
 
 <DiscoverBlock slots="link, text"/>
 
@@ -54,11 +68,11 @@ Cloud Manager [APIs](https://developer.adobe.com/experience-cloud/cloud-manager/
 
 <DiscoverBlock slots="heading, link, text"/>
 
-# App Builder Extensibility
+## App Builder Extensibility
 
 <DiscoverBlock slots="heading, link, text"/>
 
-## App Builder
+### App Builder
 
 <DiscoverBlock slots="link, text"/>
 
@@ -70,7 +84,7 @@ Cloud Manager [APIs](https://developer.adobe.com/experience-cloud/cloud-manager/
 
 <DiscoverBlock slots="heading, link, text"/>
 
-# Non-HTTP APIs and Frameworks
+## Non-HTTP APIs and Frameworks
 
 ## Delivery
 
@@ -80,7 +94,7 @@ Foundation [Apache Sling](https://sling.apache.org/apidocs/sling11/)
 
 <DiscoverBlock slots="heading, link, text"/>
 
-## Applications and Authoring
+### Applications and Authoring
 
 <DiscoverBlock slots="link, text"/>
 
@@ -106,9 +120,9 @@ Foundation [Apache Jackrabbit Oak (JCR)](https://jackrabbit.apache.org/oak/docs/
 
 UI [Core components](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/introduction.html?lang=en), [UI Widgets](https://developer.adobe.com/experience-manager/reference-materials/6-5/granite-ui/api/jcr_root/libs/granite/ui/index.html), [Coral UI]( https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/index.html) or [this?](https://opensource.adobe.com/coral-spectrum/documentation/)
 
-<DiscoverBlock slots="heading, link, text"/>
+<DiscoverBlock slots="heading, text"/>
 
-# About OpenAPI-style APIs
+## About OpenAPI-style APIs
 
 <DiscoverBlock slots="link, text"/>
 
