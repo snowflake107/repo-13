@@ -10,13 +10,13 @@ Structured
 
 <DiscoverBlock slots="link, test"/>
 
-Unstructured (content services) 
+Unstructured (content services)
 
 [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/components-templates/json-exporter.html?lang=en)
 
 <DiscoverBlock slots="link, test"/>
 
-Dynamic images 
+Dynamic images
 
 [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/developing/web-optimized-image-delivery.html?lang=en)
 
@@ -48,7 +48,7 @@ Events
 
 <DiscoverBlock slots="link, test"/>
 
-Search 
+Search
 
 [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en)
 
@@ -68,7 +68,7 @@ Stats
 
 <DiscoverBlock slots="link, test"/>
 
-Cloud Manager 
+Cloud Manager
 
 [APIs](https://developer.adobe.com/experience-cloud/cloud-manager/reference/api/), [Events](https://developer.adobe.com/experience-cloud/cloud-manager/reference/events/), [Playground](https://developer.adobe.com/experience-cloud/cloud-manager/reference/playground/), [CLI](https://developer.adobe.com/experience-cloud/cloud-manager/cli-and-sdks/), [Guides](https://developer.adobe.com/experience-cloud/cloud-manager/)
 
@@ -122,7 +122,7 @@ Search
 
 <DiscoverBlock slots="link, test"/>
 
-Foundation 
+Foundation
 
 [Apache Jackrabbit Oak (JCR)](https://jackrabbit.apache.org/oak/docs/oak_api/overview.html), [Apache Felix (OSGI)](https://felix.apache.org/documentation/index.html)
 
