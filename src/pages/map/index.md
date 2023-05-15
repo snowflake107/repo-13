@@ -6,7 +6,7 @@
 
 <DiscoverBlock slots="link, text"/>
 
-Structured [GraphQL](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/headless/graphql-api/content-fragments.html)
+Structurred [GraphQL](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/headless/graphql-api/content-fragments.html)
 
 <DiscoverBlock slots="link, text"/>
 
