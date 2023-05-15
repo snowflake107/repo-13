@@ -2,6 +2,7 @@
 {{- $fullName := include "fastify-api-gateway.fullname" . -}}
 {{- $name := include "fastify-api-gateway.name" . -}}
 {{- $svcPort := .Values.service.port -}}
+{{- $values := .Values }}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1
 {{- else -}}
@@ -17,22 +18,26 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.ingress.tls.enabled}}
   tls:
     - hosts:
-        - {{ include "fastify-api-gateway.hostname" . | quote }}
-      secretName: {{ .Values.ingress.tls.secretName }}
-{{- end }}
+        {{- range $host := .Values.ingress.hosts }}
+        {{- if $host.tls }}
+        - {{ $host.name | quote }}
+        {{- end }}
+        {{- end }}
+      secretName: {{ $values.ingress.tls.secretName }}s
   rules:
-    - host: {{ include "fastify-api-gateway.hostname" . | quote }}
+    {{- range $host := .Values.ingress.hosts }}
+    - host: {{ $host.name | quote }}
       http:
         paths:
-        - path: /
-          backend:
-            service:
-              name: frontegg-{{ $name }}
-              port:
-                number: {{ $svcPort }}
-          pathType: ImplementationSpecific
+          - path: /
+            backend:
+              service:
+                name: frontegg-{{ $name }}
+                port:
+                  number: {{ $svcPort }}
+            pathType: ImplementationSpecific
+    {{- end }}
   {{- end }}
 

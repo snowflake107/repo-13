@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "fastify-api-gatewayfullname" . }}-deployment
+  name: {{ include "fastify-api-gateway.fullname" . }}-deployment
   labels:
     {{- include "fastify-api-gateway.labels" . | nindent 4 }}
 spec:

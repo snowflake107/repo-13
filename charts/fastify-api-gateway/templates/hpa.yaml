@@ -4,7 +4,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "fastify-api-gateway.fullname" . }}-rollout-hpa
   labels:
-  {{- include "api-gateway.labels" . | nindent 4 }}
+  {{- include "fastify-api-gateway.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     {{- if .Values.argoRollouts }}

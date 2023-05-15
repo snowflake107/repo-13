@@ -1,11 +1,11 @@
 apiVersion: v2
-name: api-gateway
-description: Frontegg Api Gateway Helm Chart
+name: fastify-api-gateway
+description: Frontegg Fastify Api Gateway Helm Chart
 type: application
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
-version: 0.4.96
+version: 0.1.0
 
 maintainers:
   - name: "Guy Ludvig"

@@ -48,16 +48,16 @@ Common labels
 {{- define "fastify-api-gateway.labels" -}}
 helm.sh/chart: {{ include "fastify-api-gateway.chart" . }}
 {{ include "fastify-api-gateway.selectorLabels" . }}
-app.frontegg.io/version: {{ .Chart.Version | quote }}
-app.frontegg.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/version: {{ .Chart.Version | quote }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{/*
 Selector labels
 */}}
 {{- define "fastify-api-gateway.selectorLabels" -}}
-app.frontegg.com/name: {{ include "fastify-api-gateway.name" . }}
-app.frontegg.com/instance: {{ .Release.Name }}
+app.kubernetes.io/name: {{ include "fastify-api-gateway.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 
