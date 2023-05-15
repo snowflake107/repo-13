@@ -1,6 +1,6 @@
 ## HTTP APIs
 
-<DiscoverBlock slots="heading, text, link"/>
+<DiscoverBlock slots="heading, link, test"/>
 
 ### Delivery
 
@@ -8,19 +8,19 @@ Structured
 
 [GraphQL](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/headless/graphql-api/content-fragments.html)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 Unstructured (content services) 
 
 [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/components-templates/json-exporter.html?lang=en)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 Dynamic images 
 
 [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/developing/web-optimized-image-delivery.html?lang=en)
 
-<DiscoverBlock slots="heading, text, link"/>
+<DiscoverBlock slots="heading, link, test"/>
 
 ### Applications and Authoring
 
@@ -28,37 +28,37 @@ Sites
 
 [OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#sites)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 Assets
 
 [OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#assets), [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/assets/admin/mac-api-assets.html?lang=en), [Assets Compute HTTP API](https://experienceleague.adobe.com/docs/asset-compute/using/api.html?lang=en)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 Forms
 
 [OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#forms)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 Events
 
 [Guide](https://developer.adobe.com/events/docs/guides/using/aem/)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 Search 
 
 [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 Workflows
 
 [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-65/developing/extending-aem/extending-workflows/workflows-program-interaction.html?lang=en)
 
-<DiscoverBlock slots="heading, text, link"/>
+<DiscoverBlock slots="heading, link, test"/>
 
 ### Reporting and Infrastructure
 
@@ -66,7 +66,7 @@ Stats
 
 [OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#stats)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 Cloud Manager 
 
@@ -86,7 +86,7 @@ Cloud Manager
 
 ## Non-HTTP APIs and Frameworks
 
-<DiscoverBlock slots="heading, text, link"/>
+<DiscoverBlock slots="heading, link, test"/>
 
 ### Delivery
 
@@ -94,7 +94,7 @@ Foundation
 
 [Apache Sling](https://sling.apache.org/apidocs/sling11/)
 
-<DiscoverBlock slots="heading, text, link"/>
+<DiscoverBlock slots="heading, link, test"/>
 
 ### Applications and Authoring
 
@@ -102,31 +102,31 @@ Sites
 
 [Java API](https://javadoc.io/doc/com.adobe.aem/aem-sdk-api/latest/com/day/cq/wcm/api/package-summary.html)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 Assets
 
 [Java API](https://javadoc.io/doc/com.adobe.aem/aem-sdk-api/latest/com/day/cq/dam/api/package-summary.html)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 Forms
 
 [Java API](https://javadoc.io/doc/com.adobe.aem/aem-sdk-api/latest/index.html)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 Search
 
 [Java API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en#example-query-builder-api-usage)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 Foundation 
 
 [Apache Jackrabbit Oak (JCR)](https://jackrabbit.apache.org/oak/docs/oak_api/overview.html), [Apache Felix (OSGI)](https://felix.apache.org/documentation/index.html)
 
-<DiscoverBlock slots="text, link"/>
+<DiscoverBlock slots="link, test"/>
 
 UI
 
