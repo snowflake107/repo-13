@@ -4,7 +4,7 @@
 
 ### Delivery
 
-Structuredd
+Structured
 
 [GraphQL](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/headless/graphql-api/content-fragments.html)
 
@@ -12,13 +12,13 @@ Structuredd
 
 Unstructured (content services)
 
-[HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/components-templates/json-exporter.html?lang=en)
+[Content Services](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/components-templates/json-exporter.html?lang=en)
 
 <DiscoverBlock slots="link, text"/>
 
-Dynamic images
+Assets
 
-[HTTP API](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/developing/web-optimized-image-delivery.html?lang=en)
+[Web-optimized image delivery](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/developing/web-optimized-image-delivery.html?lang=en)
 
 <DiscoverBlock slots="heading, link, text"/>
 
@@ -26,19 +26,25 @@ Dynamic images
 
 Sites
 
-[OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#sites)
+[Content fragments and content models](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#sites), [Older Content Fragment HTTP APIs?]()
 
 <DiscoverBlock slots="link, text"/>
 
 Assets
 
-[OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#assets), [HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/assets/admin/mac-api-assets.html?lang=en), [Assets Compute HTTP API](https://experienceleague.adobe.com/docs/asset-compute/using/api.html?lang=en)
+[APIs](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/assets/admin/mac-api-assets.html?lang=en), [Assets Compute HTTP API](https://experienceleague.adobe.com/docs/asset-compute/using/api.html?lang=en)
 
 <DiscoverBlock slots="link, text"/>
 
 Forms
 
-[OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#forms)
+[TBD](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#forms)
+
+<DiscoverBlock slots="link, text"/>
+
+Search
+
+[Query Builder](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en)
 
 <DiscoverBlock slots="link, text"/>
 
@@ -48,15 +54,9 @@ Events
 
 <DiscoverBlock slots="link, text"/>
 
-Search
-
-[HTTP API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en)
-
-<DiscoverBlock slots="link, text"/>
-
 Workflows
 
-[HTTP API](https://experienceleague.adobe.com/docs/experience-manager-65/developing/extending-aem/extending-workflows/workflows-program-interaction.html?lang=en)
+[Wprkflow API](https://experienceleague.adobe.com/docs/experience-manager-65/developing/extending-aem/extending-workflows/workflows-program-interaction.html?lang=en)
 
 <DiscoverBlock slots="heading, link, text"/>
 
@@ -131,13 +131,3 @@ Foundation
 UI
 
 [Core components](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/introduction.html?lang=en), [UI Widgets](https://developer.adobe.com/experience-manager/reference-materials/6-5/granite-ui/api/jcr_root/libs/granite/ui/index.html), [Coral UI]( https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/index.html) or [this?](https://opensource.adobe.com/coral-spectrum/documentation/)
-
-## About OpenAPI-style APIs
-
-<DiscoverBlock slots="text"/>
-
-[Learn how](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/guides/how-to/) to program with AEM as a Cloud Service's OpenAPI-based APIs, following patterns including authentication, error handling, and selecting between stable and experiemental versions.
-
-<DiscoverBlock slots="text"/>
-
-[How to use](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/guides/using/) the interactive API playgrounds.
