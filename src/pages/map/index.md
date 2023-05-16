@@ -26,7 +26,7 @@ Assets
 
 Sites
 
-[Content fragments and content models](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#sites), [Older Content Fragment HTTP APIs?]()
+[Content fragments and content models](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#sites), Older Content Fragment HTTP APIs?
 
 <DiscoverBlock slots="link, text"/>
 
