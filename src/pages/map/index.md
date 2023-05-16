@@ -56,7 +56,7 @@ Events
 
 Workflows
 
-[Wprkflow API](https://experienceleague.adobe.com/docs/experience-manager-65/developing/extending-aem/extending-workflows/workflows-program-interaction.html?lang=en)
+[Workflow API](https://experienceleague.adobe.com/docs/experience-manager-65/developing/extending-aem/extending-workflows/workflows-program-interaction.html?lang=en)
 
 <DiscoverBlock slots="heading, link, text"/>
 
