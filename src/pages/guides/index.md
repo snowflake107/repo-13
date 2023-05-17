@@ -3,7 +3,7 @@ title: Guides - AEM
 description: This is the guides overview page of AEM 
 ---
 
-## Introduction 
+## Introduction
 
 Learn about AEM's APIs in the Experience League documentation:
 * [AEM as a Cloud Service APIs](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/reference-materials.html)
