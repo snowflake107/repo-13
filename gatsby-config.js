@@ -20,33 +20,16 @@ module.exports = {
       {
         title: 'Guides',
         path: '/guides/'
-      },
-      {
-        title: 'API Reference',
-        path: '/api'
       }
     ],
     subPages: [
          {
-        title: 'Overview',
-        path: '/guides/',
-        header: true,
+        title: 'introduction',
+        path: '/guides/index.md',
         pages: [
           {
             title: 'How to use',
             path: '/guides/how-to/'
-          },
-          {
-            title: 'Projects',
-            path: '/guides/projects/'
-          },
-          {
-            title: 'The API Experience',
-            path: '/guides/using/'
-          },
-          {
-            title: 'Events',
-            path: '/guides/events/'
           }
         ]
       }
