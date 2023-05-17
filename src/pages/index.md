@@ -9,25 +9,136 @@ description: A collection of high-level references for all endpoints provided by
 
 A comprehensive content management solution for building websites, mobile apps and forms.
 
-## Overview
+## HTTP APIs
 
-Adobe Experience Manager (AEM) is a powerful platform for organizations to customize solutions that span content management, digital assets management, and forms management.
+<DiscoverBlock slots="heading, link, text"/>
 
-Learn about AEM's APIs in Experience League documentation:
+### Delivery
 
-- [AEM as a Cloud Service APIs](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/reference-materials.html)
-- [AEM 6.5 APIs](https://experienceleague.adobe.com/docs/experience-manager-65/developing/introduction/reference-materials.html)
+Structured
 
-AEM as a Cloud Service is building out a set of APIs that follow the OpenAPI specification. Learn about them below.
+[GraphQL](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/headless/graphql-api/content-fragments.html)
 
-### Get Started
+<DiscoverBlock slots="link, text"/>
 
-[Guides to AEM as a Cloud Service OpenAPI-based APIs](guides/)
+Unstructured (content services)
 
-### API References
+[Content Services](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/components-templates/json-exporter.html?lang=en)
 
-[Try out the AEM as a Cloud Service OpenAPI-based APIs](api/)
+<DiscoverBlock slots="link, text"/>
 
-### Contributing
+Assets
 
-We encourage you to participate in our open documentation initiative, if you have suggestions, corrections, additions or deletions for this documentation, check out the source from [this github repo](https://github.com/AdobeDocs/experience-manager-apis), and submit a pull request with your contribution.
+[Web-optimized image delivery](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/developing/web-optimized-image-delivery.html?lang=en)
+
+<DiscoverBlock slots="heading, link, text"/>
+
+### Applications and Authoring
+
+Sites
+
+[Content fragments and content models](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#sites), Older Content Fragment HTTP APIs?
+
+<DiscoverBlock slots="link, text"/>
+
+Assets
+
+[APIs](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/assets/admin/mac-api-assets.html?lang=en), [Assets Compute HTTP API](https://experienceleague.adobe.com/docs/asset-compute/using/api.html?lang=en)
+
+<DiscoverBlock slots="link, text"/>
+
+Forms
+
+[TBD](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#forms)
+
+<DiscoverBlock slots="link, text"/>
+
+Search
+
+[Query Builder](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en)
+
+<DiscoverBlock slots="link, text"/>
+
+Events
+
+[Guide](https://developer.adobe.com/events/docs/guides/using/aem/)
+
+<DiscoverBlock slots="link, text"/>
+
+Workflows
+
+[Workflow API](https://experienceleague.adobe.com/docs/experience-manager-65/developing/extending-aem/extending-workflows/workflows-program-interaction.html?lang=en)
+
+<DiscoverBlock slots="heading, link, text"/>
+
+### Reporting and Infrastructure
+
+Stats
+
+[OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#stats)
+
+<DiscoverBlock slots="link, text"/>
+
+Cloud Manager
+
+[APIs](https://developer.adobe.com/experience-cloud/cloud-manager/reference/api/), [Events](https://developer.adobe.com/experience-cloud/cloud-manager/reference/events/), [Playground](https://developer.adobe.com/experience-cloud/cloud-manager/reference/playground/), [CLI](https://developer.adobe.com/experience-cloud/cloud-manager/cli-and-sdks/), [Guides](https://developer.adobe.com/experience-cloud/cloud-manager/)
+
+## App Builder Extensibility
+
+<DiscoverBlock slots="heading, link"/>
+
+### App Builder
+
+[Assets Compute](https://experienceleague.adobe.com/docs/asset-compute/using/extend/understand-extensibility.html?lang=en)
+
+<DiscoverBlock slots="link"/>
+
+[UI Extensions for content fragments](https://developer.adobe.com/uix/docs/)
+
+## Non-HTTP APIs and Frameworks
+
+<DiscoverBlock slots="heading, link, text"/>
+
+### Delivery
+
+Foundation
+
+[Apache Sling](https://sling.apache.org/apidocs/sling11/)
+
+<DiscoverBlock slots="heading, link, text"/>
+
+### Applications and Authoring
+
+Sites
+
+[Java API](https://javadoc.io/doc/com.adobe.aem/aem-sdk-api/latest/com/day/cq/wcm/api/package-summary.html)
+
+<DiscoverBlock slots="link, text"/>
+
+Assets
+
+[Java API](https://javadoc.io/doc/com.adobe.aem/aem-sdk-api/latest/com/day/cq/dam/api/package-summary.html)
+
+<DiscoverBlock slots="link, text"/>
+
+Forms
+
+[Java API](https://javadoc.io/doc/com.adobe.aem/aem-sdk-api/latest/index.html)
+
+<DiscoverBlock slots="link, text"/>
+
+Search
+
+[Java API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en#example-query-builder-api-usage)
+
+<DiscoverBlock slots="link, text"/>
+
+Foundation
+
+[Apache Jackrabbit Oak (JCR)](https://jackrabbit.apache.org/oak/docs/oak_api/overview.html), [Apache Felix (OSGI)](https://felix.apache.org/documentation/index.html)
+
+<DiscoverBlock slots="link, text"/>
+
+UI
+
+[Core components](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/introduction.html?lang=en), [UI Widgets](https://developer.adobe.com/experience-manager/reference-materials/6-5/granite-ui/api/jcr_root/libs/granite/ui/index.html), [Coral UI]( https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/index.html) or [this?](https://opensource.adobe.com/coral-spectrum/documentation/)
