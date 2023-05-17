@@ -136,7 +136,7 @@ Assets
 Forms
 
 [Java API](https://javadoc.io/doc/com.adobe.aem/aem-forms-sdk-api/latest/index.html)  
-[Javascript API](https://developer.adobe.com/experience-manager/reference-materials/6-5/forms/javascript-api/index.html)  
+[Javascript API](https://developer.adobe.com/experience-manager/reference-materials/cloud-service/jsdoc/aem-forms-cloud-service-jsdoc/index.html)  
 [Adaptive Form Core Components](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/adaptive-forms/introduction.html)
 
 
