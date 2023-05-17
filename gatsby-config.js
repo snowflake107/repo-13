@@ -24,9 +24,8 @@ module.exports = {
     ],
     subPages: [
          {
-        title: 'Overview',
-        path: '/guides/',
-        header: true,
+        title: 'introduction',
+        path: '/guides/index.md',
         pages: [
           {
             title: 'How to use',
