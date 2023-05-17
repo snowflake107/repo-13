@@ -139,7 +139,6 @@ Forms
 [Javascript API](https://developer.adobe.com/experience-manager/reference-materials/cloud-service/jsdoc/aem-forms-cloud-service-jsdoc/index.html)  
 [Adaptive Form Core Components](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/adaptive-forms/introduction.html)
 
-
 <DiscoverBlock slots="link, text"/>
 
 Search
