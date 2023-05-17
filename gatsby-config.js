@@ -20,10 +20,6 @@ module.exports = {
       {
         title: 'Guides',
         path: '/guides/'
-      },
-      {
-        title: 'API Reference',
-        path: '/api'
       }
     ],
     subPages: [
@@ -35,18 +31,6 @@ module.exports = {
           {
             title: 'How to use',
             path: '/guides/how-to/'
-          },
-          {
-            title: 'Projects',
-            path: '/guides/projects/'
-          },
-          {
-            title: 'The API Experience',
-            path: '/guides/using/'
-          },
-          {
-            title: 'Events',
-            path: '/guides/events/'
           }
         ]
       }
