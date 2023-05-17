@@ -50,17 +50,8 @@ Assets
 Forms
 
 [Adaptive Forms Runtime API](https://opensource.adobe.com/aem-forms-af-runtime/api)
-
-<DiscoverBlock slots="link, text"/>
-
 [Document Generation Synchronous API](https://developer.adobe.com/experience-manager-forms-cloud-service-developer-reference/references/output-sync)
-
-<DiscoverBlock slots="link, text"/>
-
 [Document Generation Asynchronous API](https://developer.adobe.com/experience-manager-forms-cloud-service-developer-reference/references/output-batch)
-
-<DiscoverBlock slots="link, text"/>
-
 [Document Manipulation Synchronous API](https://developer.adobe.com/experience-manager-forms-cloud-service-developer-reference/references/assembler-sync)
 
 <DiscoverBlock slots="link, text"/>
