@@ -49,7 +49,19 @@ Assets
 
 Forms
 
-[TBD](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#forms)
+[Adaptive Forms Runtime API](https://opensource.adobe.com/aem-forms-af-runtime/api)
+
+<DiscoverBlock slots="link, text"/>
+
+[Document Generation Synchronous API](https://developer.adobe.com/experience-manager-forms-cloud-service-developer-reference/references/output-sync)
+
+<DiscoverBlock slots="link, text"/>
+
+[Document Generation Asynchronous API](https://developer.adobe.com/experience-manager-forms-cloud-service-developer-reference/references/output-batch)
+
+<DiscoverBlock slots="link, text"/>
+
+[Document Manipulation Synchronous API](https://developer.adobe.com/experience-manager-forms-cloud-service-developer-reference/references/assembler-sync)
 
 <DiscoverBlock slots="link, text"/>
 
@@ -123,7 +135,10 @@ Assets
 
 Forms
 
-[Java API](https://javadoc.io/doc/com.adobe.aem/aem-sdk-api/latest/index.html)
+[Java API](https://javadoc.io/doc/com.adobe.aem/aem-forms-sdk-api/latest/index.html)  
+[Javascript API](https://developer.adobe.com/experience-manager/reference-materials/6-5/forms/javascript-api/index.html)  
+[Adaptive Form Core Components](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/adaptive-forms/introduction.html)
+
 
 <DiscoverBlock slots="link, text"/>
 
