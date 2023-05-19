@@ -7,7 +7,7 @@ description: How to use AEM OpenAPI-based APIs
 
 ### Introduction
 
-AEM as a Cloud Service offers a growing list APIs that adhere to the [OpenAPI Specification] (https://swagger.io/specification/v2/) (version 2), including operations on [Content Fragment Model](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/stable/sites/) resources.
+AEM as a Cloud Service offers a growing list of APIs that adhere to the [OpenAPI Specification] (https://swagger.io/specification/v2/) (version 2), including operations on [Content Fragment Model](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/stable/sites/) resources.
 
 See each resource's reference documentation for its available operations.
 
@@ -49,17 +49,15 @@ When updating a resource, which may also be updated by other clients, first GET 
 
 ### Long-running operations
 
-Some API operations may require many seconds or minutes to process the request and respond with the result. In those cases, the API's reference documentation will include 202 Accepted as a possible  HTTP response status, in which case the client must be coded to inspect the result; if make subsequent requests to retrieve the result.
+Some endpoints may take several seconds or minutes to process the request and respond with the result. In those cases, the API's reference documentation will include **202 Accepted** as a possible HTTP response status, which indicates that the client must be coded to inspect the result, and be prepared to make additional requests.
 
-The client can include the Prefer header, whose value is set to its preference for either an asynchronous or synchronous response, which may influence, but does not guarantee, the response pattern. For asynchronous, pass in the value "respond-async"; for synchronous, pass in the value "wait" with the maximum number of seconds it would be willing to wait. If the Prefer header value is honored, the result will set the Preference-Applied header.
+If a 202 Accepted is returned, the **Location header** will include the URI to poll, with the recommending time interval to start polling dictated by the **Retry-After header**. If, when polled at the URI, the operation is still running, a 202 Accepted is again returned, and Retry-After header may have a new value to signal the recommending time interval to continue polling.
 
-If a 202 Accepted is returned, the Location header will include the URI to poll, with the recommending time interval to start polling dictated by the Retry-After header.
+When the operation has completed processing, it will in many cases return with the HTTP response status **303 See Other** and a Location header indicating the URI to retrieve the output, as well as JSON output with more information about the final state of processing. Invoking that URI will return an HTTP code of "200 OK" if successful, or the appropriate error code.
 
-If, when polled at the URI, the operation is still running, a 202 Accepted is again returned, and Retry-After header may have a new value to signal the recommending time interval to continue polling.
+However, note that in the case where the original operation was a GET, instead of a "303 See other" response status and Location header, the client may receive a response of "200 OK" with a status property set to terminated and a result in the **result** property.
 
-When the operation has completed processing, it will in many cases return with an HTTP response status "303 See Other" and a Location header indicating the URI to retrieve the output, as well as JSON output with more information about the final state of processing. Invoking that URI will return an HTTP code of "200 OK" if successful, or the appropriate error code.
-
-However, note that in the case where the original operation was a GET, instead of a "303 See other" response status and Location header, the client may receive a response of "200 OK" with a status property set to terminated and a result in the "result" property.
+The client can include the Prefer header, whose value is set to its preference for either an asynchronous or synchronous response, which may influence, but does not guarantee, the response pattern. For asynchronous, pass in the value **respond-async**; for synchronous, pass in the value **wait** with the maximum number of seconds it would be willing to wait. If the Prefer header value is honored, the result will set the **Preference-Applied** header.
 
 If the client has taken too much time to poll, the result may be lost and the URI's HTTP status would return 404 Not Found.
 
