@@ -1,23 +1,23 @@
 ---
-title: How to use AEM APIs
-description: How to use the AEM OpenAPI-based APIs
+title: AEM OpenAPI-based APIs
+description: How to use AEM OpenAPI-based APIs
 ---
 
 ## Using the OpenAPI-based APIs
 
 ### Introduction
 
-List (GET) which returns a collection, GET, CREATE, UPDATE, DELETE, custom operations.
+AEM as a Cloud Service offers a growing list APIs that adhere to the [OpenAPI Specification] (https://swagger.io/specification/v2/) (version 2), including operations on [Content Fragment Model](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/stable/sites/) entities.
 
-Functionality is grouped at a high level using the API name, e.g. assets or reports.
+See each entity's reference documentation for its available operations.
 
 ### Authentication
 
-Describe how to pass the Authorization header with value Bearer ```<IMS access token>```
+Credentials should be generated using the AEM Developer Console. A short-lived [development access token](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/generating-access-tokens-for-server-side-apis.html#generating-the-access-token) can be generated for one-off API usage, while for persistent code, [a longer-lived JWT token](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/generating-access-tokens-for-server-side-apis.html?lang=en#generate-a-jwt-token-and-exchange-it-for-an-access-token) can be generated to exchange for an access token.  
 
-- ```curl -H "Authorization: Bearer <your_ims_access_token>" <URI>```
+Pass the token as the value of the Authorization header as follows:
 
-Describe how to, from code, generate the access token from a JWT token
+curl -H "Authorization: Bearer <access_token>" <https://<endpoint_url>
   
 ### Error handling
   
