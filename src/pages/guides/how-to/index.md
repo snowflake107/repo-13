@@ -1,9 +1,9 @@
 ---
 title: How to use AEM APIs
-description: How to use AEM APIs
+description: How to use the AEM OpenAPI-based APIs
 ---
 
-## How to use AEM APIs
+## Using the OpenAPI-based APIs
 
 ### Introduction
 
