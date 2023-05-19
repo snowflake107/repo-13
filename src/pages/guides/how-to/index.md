@@ -74,3 +74,4 @@ Adobe may deprecate an element of an API by flaggng it in documentation as depre
 Some APIs are marked in documentation as experimental, which implies that Adobe may modify or remove them without warning. Clients must acknowledge that understanding by including a header **X-Adobe-Accept-Experimental** with value of "1". If the invocation of an experimental API does not include this header and value, an 400 status code is returned.
 
 Some APIs may be discoverable and potentially documented, but not intended for the use of customers, and are thus unsupported; there is a risk of being modified or removed by Adobe without warning. It should be noted that these APIs will only be processed if invoked with a header **X-Adobe-Accept-Unsupported-API** with a value of "1".
+
