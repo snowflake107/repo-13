@@ -28,7 +28,7 @@ module.exports = {
         path: '/guides/index.md',
         pages: [
           {
-            title: 'How to use',
+            title: 'OpenAPI guide',
             path: '/guides/how-to/'
           }
         ]
