@@ -63,14 +63,14 @@ If the client has taken too much time to poll, the result may be lost and the UR
 
 ### Versioning
 
-The full set of AEM APIs gets a version associated with the timing of its release. For example, 2023.9.
+The full set of AEM OpenAPI-based APIs gets a version associated with the timing of its release. For example, 2023.9.
 
-Changes to a particular API from one version to the next can only be additive and thus always backwards compatible.
+Changes to a particular API from one version to the next can only be additive and are thus always backwards compatible.
 
-Adobe may deprecate an API by communicating via documentation, which will specify the API's targeted removal date.
+Adobe may deprecate an element of an API by flaggng it in documentation as deprecated. If a complete endpoint is deprecated, the response returns a **Sunset** header, indicating the targeted removal date. 
 
 ### Experimental and Unsupported APIs
 
-Some APIs are marked in documentation as experimental, which implies that Adobe may modify or remove them without warning. Clients must acknowledge that understanding by including a header X-Adobe-Accept-Experimental with value of "1". If the invocation of an experimental API does not include this header and value, an HTTP status code of 400 status code is returned.
+Some APIs are marked in documentation as experimental, which implies that Adobe may modify or remove them without warning. Clients must acknowledge that understanding by including a header **X-Adobe-Accept-Experimental** with value of "1". If the invocation of an experimental API does not include this header and value, an 400 status code is returned.
 
-Some APIs may be discoverable and even documented, but not intended for the use of customers, and are thus unsupported; they may be modified or removed by Adobe at any time. It should be noted that these APIs will only be processed if invoked with a header X-Adobe-Accept-Unsupported-API with a value of "1".
+Some APIs may be discoverable and potentially documented, but not intended for the use of customers, and are thus unsupported; there is a risk of being modified or removed by Adobe without warning. It should be noted that these APIs will only be processed if invoked with a header **X-Adobe-Accept-Unsupported-API** with a value of "1".
