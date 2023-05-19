@@ -7,9 +7,9 @@ description: How to use AEM OpenAPI-based APIs
 
 ### Introduction
 
-AEM as a Cloud Service offers a growing list APIs that adhere to the [OpenAPI Specification] (https://swagger.io/specification/v2/) (version 2), including operations on [Content Fragment Model](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/stable/sites/) entities.
+AEM as a Cloud Service offers a growing list APIs that adhere to the [OpenAPI Specification] (https://swagger.io/specification/v2/) (version 2), including operations on [Content Fragment Model](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/stable/sites/) resources.
 
-See each entity's reference documentation for its available operations.
+See each resource's reference documentation for its available operations.
 
 ### Authentication
 
@@ -35,17 +35,17 @@ Per [RFC 7808](https://datatracker.ietf.org/doc/html/rfc7807), the response may 
 
 ### Collections: Pagination and sorting
 
-Usually an API will support a "limit" query parameter to indicate the desired number of results to return. Documentation will state the default limit and any minimum or maximum values.
+Usually an API will support a **limit** query parameter to indicate the desired number of results to return. Documentation will state the default limit and any minimum or maximum values.
 
-If there are more resources in the collection than returend, the output result will include a parameter named "cursor", which can be used in the LIST API call to retrieve the next set of resources in the collection.
+If there are more resources in the collection than returend, the output result will include a parameter named **cursor**, which can be used in the LIST API call to retrieve the next set of resources in the collection.
 
 Empty collections are represented as an empty array.
 
-If API documentation states that results are sortable, optionally pass the orderBy query parameter a comma separated list of values, each followed by a space and either asc (ascending, which is the default) or dec (descending).
+If API documentation states that results are sortable, optionally pass the **orderBy** query parameter a comma separated list of values, each followed by a space and either **asc** (ascending, which is the default) or **dec** (descending).
 
 ### Defending against concurrent update
 
-If a resource is potentially update-able by multiple clients, first GET the resource, whose result will include an ETag. In the attempt to update, pass the ETag as a value in an If-Match header. If the resource has been modified by a 412 Precondition Failed error code
+When updating a resource, which may also be updated by other clients, first GET the resource and store the resulting **ETag**. When attempting to update, pass the ETag as a value in an **If-Match** header. If the resource has been modified by a different client, a 412 Precondition Failed error code is returned.
 
 ### Long-running operations
 
