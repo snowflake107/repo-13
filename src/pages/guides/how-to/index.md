@@ -7,7 +7,7 @@ description: How to use AEM OpenAPI-based APIs
 
 ### Introduction
 
-AEM as a Cloud Service offers a growing list of APIs that adhere to the [OpenAPI Specification] (https://swagger.io/specification/v2/) (version 2), including operations on [Content Fragment Model](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/stable/sites/) resources.
+AEM as a Cloud Service offers a growing list of APIs that adhere to the [OpenAPI Specification](https://swagger.io/specification/v2/) (version 2), including operations on [Content Fragment Model](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/stable/sites/) resources.
 
 See each resource's reference documentation for its available operations.
 
