@@ -11,7 +11,7 @@ Browse the [AEM a Cloud Service documentation](https://experienceleague.adobe.co
 
 ## Articles
 
-### OpenAPI-styled API guide
+### Using the OpenAPI-based APIs
 
 Program with AEM as a Cloud Service's OpenAPI-based APIs, following patterns including authentication, error handling, and selecting between stable and experimental versions.
 
