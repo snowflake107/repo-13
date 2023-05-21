@@ -48,11 +48,11 @@ spec:
             - name: http
               containerPort: {{ .Values.service.targetPort }} # change this to 80 in the future
               protocol: TCP
-          {{- with .Values.livenessProbe }}
+          {{- with .Values.offline.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.readinessProbe }}
+          {{- with .Values.offline.readinessProbe }}
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
