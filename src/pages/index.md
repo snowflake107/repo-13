@@ -43,7 +43,7 @@ Sites
 
 Assets
 
-[APIs](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/assets/admin/mac-api-assets.html?lang=en), [Assets Compute HTTP API](https://experienceleague.adobe.com/docs/asset-compute/using/api.html?lang=en)
+[APIs](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/assets/admin/mac-api-assets.html?lang=en), [Asset Compute HTTP API](https://experienceleague.adobe.com/docs/asset-compute/using/api.html?lang=en)
 
 <DiscoverBlock slots="link, text"/>
 
@@ -86,7 +86,7 @@ Cloud Manager
 
 ### App Builder
 
-[Assets Compute](https://experienceleague.adobe.com/docs/asset-compute/using/extend/understand-extensibility.html?lang=en)
+[Asset Compute](https://experienceleague.adobe.com/docs/asset-compute/using/extend/understand-extensibility.html?lang=en)
 
 <DiscoverBlock slots="link"/>
 
