@@ -146,4 +146,3 @@ Foundation
 UI
 
 [Granite UI](https://developer.adobe.com/experience-manager/reference-materials/6-5/granite-ui/api/jcr_root/libs/granite/ui/index.html), [Coral UI]( https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/index.html), [Classic UI Widgets](https://developer.adobe.com/experience-manager/reference-materials/6-5/granite-ui/api/jcr_root/libs/granite/ui/index.html)
-
