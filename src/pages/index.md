@@ -37,7 +37,7 @@ Assets
 
 Sites
 
-[Content fragments and content models](./api/experimental/sites/)
+[Content Fragments and Models](./api/experimental/sites/), [Content Fragments in Assets API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/assets/admin/assets-api-content-fragments.html?lang=en), [Update Pages via Sling Post Servlet](https://sling.apache.org/documentation/bundles/manipulating-content-the-slingpostservlet-servlets-post.html)
 
 <DiscoverBlock slots="link, text"/>
 
@@ -64,7 +64,7 @@ Search
 
 Events
 
-[Guide](https://developer.adobe.com/events/docs/guides/using/aem/)
+[Add-on for consuming Events and Webhooks](https://developer.adobe.com/events/docs/guides/using/aem/)
 
 <DiscoverBlock slots="link, text"/>
 
@@ -96,9 +96,9 @@ Cloud Manager
 
 <DiscoverBlock slots="link"/>
 
-[UI Extensions for content fragments](https://developer.adobe.com/uix/docs/)
+[UI Extensions for Product UI](https://developer.adobe.com/uix/docs/)
 
-## Non-HTTP APIs and Frameworks
+## Java & JavaScript APIs and Frameworks
 
 <DiscoverBlock slots="heading, link, text"/>
 
@@ -114,7 +114,7 @@ Foundation
 
 Sites
 
-[Java API](https://javadoc.io/doc/com.adobe.aem/aem-sdk-api/latest/com/day/cq/wcm/api/package-summary.html)
+[Java API](https://javadoc.io/doc/com.adobe.aem/aem-sdk-api/latest/com/day/cq/wcm/api/package-summary.html), [AEM Headless SDK](https://experienceleague.adobe.com/docs/experience-manager-learn/getting-started-with-aem-headless/how-to/aem-headless-sdk.html?lang=en), [SPA Editor Javascript API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/hybrid/reference-materials.html)
 
 <DiscoverBlock slots="link, text"/>
 
@@ -128,7 +128,6 @@ Forms
 
 [Java API](https://javadoc.io/doc/com.adobe.aem/aem-forms-sdk-api/latest/index.html)  
 [Javascript API](https://developer.adobe.com/experience-manager/reference-materials/cloud-service/jsdoc/aem-forms-cloud-service-jsdoc/index.html)  
-[Adaptive Form Core Components](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/adaptive-forms/introduction.html)
 
 <DiscoverBlock slots="link, text"/>
 
@@ -146,4 +145,4 @@ Foundation
 
 UI
 
-[Core components](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/introduction.html?lang=en), [UI Widgets](https://developer.adobe.com/experience-manager/reference-materials/6-5/granite-ui/api/jcr_root/libs/granite/ui/index.html), [Coral UI]( https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/index.html)
+[Granite UI](https://developer.adobe.com/experience-manager/reference-materials/6-5/granite-ui/api/jcr_root/libs/granite/ui/index.html), [Coral UI]( https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/index.html), [Classic UI Widgets](https://developer.adobe.com/experience-manager/reference-materials/6-5/granite-ui/api/jcr_root/libs/granite/ui/index.html)
