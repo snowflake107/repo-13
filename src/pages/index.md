@@ -37,7 +37,7 @@ Assets
 
 Sites
 
-[Content fragments and content models](./api/experimental/sites/), Older Content Fragment HTTP APIs?
+[Content fragments and content models](./api/experimental/sites/)
 
 <DiscoverBlock slots="link, text"/>
 
@@ -146,4 +146,6 @@ Foundation
 
 UI
 
-[Core components](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/introduction.html?lang=en), [UI Widgets](https://developer.adobe.com/experience-manager/reference-materials/6-5/granite-ui/api/jcr_root/libs/granite/ui/index.html), [Coral UI]( https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/index.html) or [this?](https://opensource.adobe.com/coral-spectrum/documentation/)
+[Core components](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/introduction.html?lang=en), [UI Widgets](https://developer.adobe.com/experience-manager/reference-materials/6-5/granite-ui/api/jcr_root/libs/granite/ui/index.html), [Coral UI]( https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/index.html)
+\
+\
