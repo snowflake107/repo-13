@@ -76,12 +76,6 @@ Workflows
 
 ### Reporting and Infrastructure
 
-Stats
-
-[OpenAPI](https://developer-stage.adobe.com/experience-cloud/experience-manager-apis/api/#stats)
-
-<DiscoverBlock slots="link, text"/>
-
 Cloud Manager
 
 [APIs](https://developer.adobe.com/experience-cloud/cloud-manager/reference/api/), [Events](https://developer.adobe.com/experience-cloud/cloud-manager/reference/events/), [Playground](https://developer.adobe.com/experience-cloud/cloud-manager/reference/playground/), [CLI](https://developer.adobe.com/experience-cloud/cloud-manager/cli-and-sdks/), [Guides](https://developer.adobe.com/experience-cloud/cloud-manager/)
