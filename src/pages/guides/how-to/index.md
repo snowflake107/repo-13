@@ -7,7 +7,7 @@ description: How to use AEM OpenAPI-based APIs
 
 ### Introduction
 
-AEM as a Cloud Service offers a growing list of APIs that adhere to the [OpenAPI Specification](https://swagger.io/specification/v2/) (version 2), including operations on [Content Fragment Model](../../api/experimental/sites/) resources.
+AEM as a Cloud Service offers a growing list of APIs that adhere to the [OpenAPI Specification](https://swagger.io/specification/v2/) (version 2), including operations on [Content Fragments](../../api/experimental/sites/) resources.
 
 See each resource's reference documentation for its available operations.
 
@@ -21,7 +21,7 @@ Pass the token as the value of the Authorization header as follows:
   
 ### Error handling
   
-A 500 error (or other 5xx codes) implies something wrong with the service, while a 400 error (or other 4xx codes) imply the service is rejecting the request due to permissions or data; for example, invalid credentials, incorrect parameters, or unknown version IDs
+A 500 error (or other 5xx codes) implies something wrong with the service, while a 400 error (or other 4xx codes) implies the service is rejecting the request due to permissions or data; for example, invalid credentials, incorrect parameters, or unknown version IDs.
 
 Per [RFC 7808](https://datatracker.ietf.org/doc/html/rfc7807), the response may include the following detaiils:
 
@@ -51,7 +51,7 @@ When updating a resource, which may also be updated by other clients, first GET 
 
 Some endpoints may take several seconds or minutes to process the request and respond with the result. In those cases, the API's reference documentation will include **202 Accepted** as a possible HTTP response status, which indicates that the client must be coded to inspect the result, and be prepared to make additional requests.
 
-If a 202 Accepted is returned, the **Location header** will include the URI to poll, with the recommending time interval to start polling dictated by the **Retry-After header**. If, when polled at the URI, the operation is still running, a 202 Accepted is again returned, and Retry-After header may have a new value to signal the recommending time interval to continue polling.
+If a 202 Accepted is returned, the **Location header** will include the URI to poll, with the recommending time interval to start polling dictated by the **Retry-After header**. If, when polled at the URI, the operation is still running, a 202 Accepted is again returned, and Retry-After header may have a new value to signal the recommended time interval to continue polling.
 
 When the operation has completed processing, it will in many cases return with the HTTP response status **303 See Other** and a Location header indicating the URI to retrieve the output, as well as JSON output with more information about the final state of processing. Invoking that URI will return an HTTP code of "200 OK" if successful, or the appropriate error code.
 
@@ -71,7 +71,6 @@ Adobe may deprecate an element of an API by flaggng it in documentation as depre
 
 ### Experimental and Unsupported APIs
 
-Some APIs are marked in documentation as experimental, which implies that Adobe may modify or remove them without warning. Clients must acknowledge that understanding by including a header **X-Adobe-Accept-Experimental** with value of "1". If the invocation of an experimental API does not include this header and value, an 400 status code is returned.
+Some APIs are marked in documentation as experimental, which implies that Adobe may modify or remove them without warning. Clients must acknowledge that understanding by including a header **X-Adobe-Accept-Experimental** with value of "1". If the invocation of an experimental API does not include this header and value, a 400 status code is returned.
 
 Some APIs may be discoverable and potentially documented, but not intended for the use of customers, and are thus unsupported; there is a risk of being modified or removed by Adobe without warning. It should be noted that these APIs will only be processed if invoked with a header **X-Adobe-Accept-Unsupported-API** with a value of "1".
-
