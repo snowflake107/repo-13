@@ -49,7 +49,7 @@ Assets
 
 Forms
 
-[Adaptive Forms Runtime API](https://opensource.adobe.com/aem-forms-af-runtime/api),
+[Adaptive Forms Runtime API](./api/stable/sites/),
 [Document Generation Synchronous API](https://developer.adobe.com/experience-manager-forms-cloud-service-developer-reference/references/output-sync),
 [Document Generation Asynchronous API](https://developer.adobe.com/experience-manager-forms-cloud-service-developer-reference/references/output-batch),
 [Document Manipulation Synchronous API](https://developer.adobe.com/experience-manager-forms-cloud-service-developer-reference/references/assembler-sync)
