@@ -22,6 +22,7 @@ data:
   FRONTEGG_EVENT_SERVICE_URL: {{ required "A valid .Values.network.eventsServiceUrl entry required!" .eventsServiceUrl }}
   FRONTEGG_IDENTITY_SERVICE_URL: {{ required "A valid .Values.network.identityServiceUrl entry required!" .identityServiceUrl }}
   FRONTEGG_INTEGRATIONS_SERVICE_URL: {{ required "A valid .Values.network.integrationsServiceUrl entry required!" .integrationsServiceUrl }}
+  FRONTEGG_SECURITY_ENGINES_SERVICE_URL: {{ required "A valid .Values.network.securityEnginesUrl entry required!" .securityEnginesUrl }}
   {{- end}}
   FRONTEGG_AUTH_PUBLIC_KEY: "frontegg-api-key"
   FRONTEGG_ADMINS_SERVICE_API_KEY: "frontegg-api-key"
@@ -40,4 +41,5 @@ data:
   FRONTEGG_EVENT_SERVICE_API_KEY: "frontegg-api-key"
   FRONTEGG_INTEGRATIONS_SERVICE_API_KEY:  "frontegg-api-key"
   FRONTEGG_IDENTITY_SERVICE_API_KEY: "frontegg-api-key"
+  FRONTEGG_SECURITY_ENGINES_API_KEY: "frontegg-api-key"
   CLOUD_ENVIRONMENT: prod
