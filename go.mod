@@ -29,3 +29,5 @@ require (
 	golang.org/x/term v0.6.0 // indirect
 	golang.org/x/text v0.3.8 // indirect
 )
+
+replace github.com/muesli/reflow v0.3.0 => github.com/segmentio/reflow v0.3.2-0.20230612110756-18e16cb1e8a4
