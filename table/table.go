@@ -8,6 +8,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/mattn/go-runewidth"
+	"github.com/muesli/reflow/truncate"
 )
 
 // Model defines a state for the table widget.
@@ -393,7 +394,7 @@ func (m *Model) renderRow(rowID int) string {
 	var s = make([]string, 0, len(m.cols))
 	for i, value := range m.rows[rowID] {
 		style := lipgloss.NewStyle().Width(m.cols[i].Width).MaxWidth(m.cols[i].Width).Inline(true)
-		renderedCell := m.styles.Cell.Render(style.Render(runewidth.Truncate(value, m.cols[i].Width, "…")))
+ 		renderedCell := m.styles.Cell.Render(style.Render(truncate.StringWithTail(value, uint(m.cols[i].Width), "…")))
 		s = append(s, renderedCell)
 	}
 
