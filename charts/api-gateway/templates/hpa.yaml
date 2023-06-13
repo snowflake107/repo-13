@@ -16,7 +16,7 @@ spec:
     kind: Deployment
     name: {{ include "api-gateway.fullname" . }}-deployment
     {{- end }}
-  minReplicas: {{ .Values.autoscaling.minReplicas }}
+  minReplicas: {{ (index .Values.minReplicasOverride .Values.componentsCollectionIdentifier).minReplicas | default .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
