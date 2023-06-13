@@ -10,7 +10,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "team-management-service.fullname" . }}-deployment
-  minReplicas: {{ .Values.autoscaling.minReplicas }}
+  minReplicas: {{ (index .Values.minReplicasOverride .Values.componentsCollectionIdentifier).minReplicas | default .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
