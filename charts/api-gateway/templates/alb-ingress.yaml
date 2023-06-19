@@ -17,12 +17,9 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.albIngress.tls.enabled}}
-  tls:
-    - hosts:
-        - {{ include "api-gateway.hostname" . | quote }}
-      secretName: {{ .Values.albIngress.tls.secretName }}
-{{- end }}
+  {{- with .Values.albIngress.ingressClassName }}
+  ingressClassName: {{ . | quote }}
+  {{- end }}
   rules:
     - host: {{ include "api-gateway.hostname" . | quote }}
       http:
@@ -34,5 +31,5 @@ spec:
               port:
                 number: {{ $svcPort }}
           pathType: ImplementationSpecific
-  {{- end }}
+{{- end }}
 
