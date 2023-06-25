@@ -14,8 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        app.frontegg.com/appVersion: {{ .Values.appVersion | quote }}
-      {{- include "team-management-service.selectorLabels" . | nindent 8 }}
+        {{- include "team-management-service.labels" . | nindent 8 }}
         {{- with .Values.podLabels  }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

@@ -43,13 +43,14 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Common labels
+Common labels includes selectorLabels
 */}}
 {{- define "team-management-service.labels" -}}
 helm.sh/chart: {{ include "team-management-service.chart" . }}
 {{ include "team-management-service.selectorLabels" . }}
 app.frontegg.io/version: {{ .Chart.Version | quote }}
 app.frontegg.io/managed-by: {{ .Release.Service }}
+app.frontegg.com/appVersion: {{ .Values.appVersion | quote }}
 {{- end -}}
 
 {{/*
