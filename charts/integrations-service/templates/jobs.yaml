@@ -6,7 +6,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "integrations-service.fullname" $top }}-{{ $jobName }}
+  name: {{ include "integrations-service.fullname" $top }}-{{ $jobName }}-{{ now | unixEpoch }}
   labels:
     {{- include "integrations-service.labels" $top | nindent 4 }}
     app.kubernetes.io/component: {{ $jobName }}
@@ -18,10 +18,11 @@ metadata:
    {{- end }}
 spec:
   {{- with $job.spec }}
+  ttlSecondsAfterFinished: {{ .ttlSecondsAfterFinished | default 600 }}
   backoffLimit: {{ .backoffLimit | default 1 }}
   template:
     metadata:
-      name: {{ include "integrations-service.fullname" $top }}-{{ $jobName }}
+      name: {{ include "integrations-service.fullname" $top }}-{{ $jobName }}-{{ now | unixEpoch }}
       labels:
         {{- include "integrations-service.labels" $top | nindent 8 }}
         app.kubernetes.io/component: {{ $jobName }}

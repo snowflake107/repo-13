@@ -20,8 +20,8 @@ If release name contains chart name it will be used as a full name.
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
 {{- $name := default .Chart.Name .Values.nameOverride -}}
-{{- if contains $name .Release.Name -}}
-{{- .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- if contains .Release.Name $name -}}
+{{- $name | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
@@ -43,6 +43,7 @@ helm.sh/chart: {{ include "integrations-service.chart" . }}
 {{ include "integrations-service.selectorLabels" . }}
 app.frontegg.io/version: {{ .Chart.Version | quote }}
 app.frontegg.io/managed-by: {{ .Release.Service }}
+app.frontegg.com/appVersion: {{ .Values.appVersion | quote }}
 {{- end -}}
 
 {{/*

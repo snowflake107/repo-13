@@ -12,8 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        app.frontegg.com/appVersion: {{ .Values.appVersion }}
-      {{- include "integrations-service.selectorLabels" . | nindent 8 }}
+      {{- include "integrations-service.labels" . | nindent 8 }}
       annotations:
         checksum/config: {{ (print .Values.configmap) | sha256sum }}
         checksum/template.config-map: {{ include (print $.Template.BasePath "/config-map.yaml") . | sha256sum }}
