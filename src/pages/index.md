@@ -17,19 +17,19 @@ A comprehensive content management solution for building websites, mobile apps a
 
 **Structured**
 
-[GraphQL](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/headless/graphql-api/content-fragments.html)
+* [GraphQL](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/headless/graphql-api/content-fragments.html)
 
 <DiscoverBlock slots="link, text"/>
 
 **Unstructured (content services)**
 
-[Content Services](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/components-templates/json-exporter.html?lang=en)
+* [Content Services](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/components-templates/json-exporter.html?lang=en)
 
 <DiscoverBlock slots="link, text"/>
 
 **Assets**
 
-[Web-optimized image delivery](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/developing/web-optimized-image-delivery.html?lang=en)
+* [Web-optimized image delivery](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/developing/web-optimized-image-delivery.html?lang=en)
 
 <DiscoverBlock slots="heading, link, text"/>
 
@@ -61,19 +61,19 @@ A comprehensive content management solution for building websites, mobile apps a
 
 **Search**
 
-[Query Builder](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en)
+* [Query Builder](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en)
 
 <DiscoverBlock slots="link, text"/>
 
 **Events**
 
-[Add-on for consuming Events and Webhooks](https://developer.adobe.com/events/docs/guides/using/aem/)
+* [Add-on for consuming Events and Webhooks](https://developer.adobe.com/events/docs/guides/using/aem/)
 
 <DiscoverBlock slots="link, text"/>
 
 **Workflows**
 
-[Workflow API](https://experienceleague.adobe.com/docs/experience-manager-65/developing/extending-aem/extending-workflows/workflows-program-interaction.html?lang=en)
+* [Workflow API](https://experienceleague.adobe.com/docs/experience-manager-65/developing/extending-aem/extending-workflows/workflows-program-interaction.html?lang=en)
 
 <DiscoverBlock slots="heading, link, text"/>
 
@@ -93,11 +93,11 @@ A comprehensive content management solution for building websites, mobile apps a
 
 ### App Builder
 
-[Asset Compute](https://experienceleague.adobe.com/docs/asset-compute/using/extend/understand-extensibility.html?lang=en)
+* [Asset Compute](https://experienceleague.adobe.com/docs/asset-compute/using/extend/understand-extensibility.html?lang=en)
 
 <DiscoverBlock slots="link"/>
 
-[UI Extensions for Product UI](https://developer.adobe.com/uix/docs/)
+* [UI Extensions for Product UI](https://developer.adobe.com/uix/docs/)
 
 ## Java & JavaScript APIs and Frameworks
 
@@ -107,7 +107,7 @@ A comprehensive content management solution for building websites, mobile apps a
 
 **Foundation**
 
-[Apache Sling](https://sling.apache.org/apidocs/sling11/)
+* [Apache Sling](https://sling.apache.org/apidocs/sling11/)
 
 <DiscoverBlock slots="heading, link, text"/>
 
@@ -123,7 +123,7 @@ A comprehensive content management solution for building websites, mobile apps a
 
 **Assets**
 
-[Java API](https://javadoc.io/doc/com.adobe.aem/aem-sdk-api/latest/com/day/cq/dam/api/package-summary.html)
+* [Java API](https://javadoc.io/doc/com.adobe.aem/aem-sdk-api/latest/com/day/cq/dam/api/package-summary.html)
 
 <DiscoverBlock slots="link, text"/>
 
@@ -136,7 +136,7 @@ A comprehensive content management solution for building websites, mobile apps a
 
 **Search**
 
-[Java API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en#example-query-builder-api-usage)
+* [Java API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/search/query-builder-api.html?lang=en#example-query-builder-api-usage)
 
 <DiscoverBlock slots="link, text"/>
 
