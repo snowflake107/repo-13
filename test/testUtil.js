@@ -46,10 +46,10 @@ async function initTestRequest(returnRaw = false){
         description: 'Example of a ValueRecorder',
     });
     const labels = {pid: "1", environment: 'staging'};
-    requestCounter.bind(labels).add(5);
-    upDownCounter.bind(labels).add(5);
-    histogram.bind(labels).record(6);
-    histogram.bind(labels).record(10);
+    requestCounter.add(5, labels);
+    upDownCounter.add(5, labels);
+    histogram.record(6, labels);
+    histogram.record(10, labels);
     metricExporter.shutdown()
     if (returnRaw) {
         return await convertMetrics([requestCounter, upDownCounter, histogram], metricExporter, returnRaw);
