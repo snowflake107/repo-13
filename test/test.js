@@ -174,7 +174,7 @@ describe('TestExporter', function(){
     });
 
     describe('TestExport', function() {
-            this.timeout(20000)
+            this.timeout(25000)
             it('Send() should success', async  () => {
                 function sleep(ms) {
                     return new Promise(resolve => setTimeout(resolve, ms));
@@ -209,7 +209,7 @@ describe('TestExporter', function(){
                 let response = util.send(metricExporter, rawMetricList);
                 await sleep(5000)
                 assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/0/0")
-                assert.strictEqual(response.attempts,1)
+                assert.strictEqual(response.attempts, 1)
             });
             it('Send() should retry', async  () => {
                 function sleep(ms) {
@@ -226,9 +226,9 @@ describe('TestExporter', function(){
                     .post('/')
                     .reply(500, {"message":"hello world"});
                 let response = util.send(metricExporter, rawMetricList);
-                await sleep(8000);
-                // should retry 3 times and write header
-                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/3/5");
+                await sleep(12000);
+                // 3 attempts - 1 initial + 2 retries (total 3) (start from 0) [0,1,2]
+                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/2/5");
                 assert.strictEqual(response.attempts,3);
                 // should drop 5 ts
             });

@@ -20,7 +20,7 @@ exports.send = exports.onInit = exports.getExportRequestProto = void 0;
 const SnappyJS = require('snappyjs');
 const transform = require('./transformTs');
 const logger = require('./logging').logger
-const request = require('requestretry');
+const axios = require('axios');
 let lost = 0;
 
 let ExportRequestProto;
@@ -35,83 +35,134 @@ function onInit(collector, _config) {
 }
 exports.onInit = onInit;
 
-function exporterRetryStrategy(err, response, body, options){
-    try {
-        const retryCodes = [408, 500, 502, 503, 504, 522, 524];
-        const shouldRetry = retryCodes.includes(response.statusCode);
-        if (shouldRetry){
-            options.headers['logzio-shipper'] = `nodejs-metrics/1.0.0/${response.attempts}/${lost}`;
-            logger.log({level: "warn", message: `Faild to export, attempt number: ${response.attempts}, retrying again in ${options.retryDelay/1000}s`,});
-        }
-        return {
-            mustRetry: shouldRetry,
-            options: options,
-        }
-    }
-    catch (e) {
-        logger.log({
-            level: "error",
-            message: err.message
+function shouldRetry(status, attempts, maxAttempts) {
+    const retryCodes = [408, 500, 502, 503, 504, 522, 524];
+    return retryCodes.includes(status) && attempts < maxAttempts;
+}
+
+function axiosRetry({
+    url,
+    payload,
+    baseHeaders,
+    httpAgent,
+    response,
+    maxAttempts,
+    retryMS,
+    callback
+} = {}) {
+    process.nextTick(execute);
+
+    function execute() {
+        const headers = getRequestHeaders(baseHeaders, response.attempts);
+        const requestOptions = {
+            headers,
+            httpAgent,
+            validateStatus: function (status) {
+                if (status < 200 || status > 204) {
+                    return false;
+                }
+                return true;
+            }
+        };
+
+        response.options = {
+            headers,
+        };
+
+        response.attempts += 1;
+
+        axios.post(url, payload, requestOptions)
+        .then(res => {
+            if (shouldRetry(res.status, response.attempts, maxAttempts)) {
+                setTimeout(() => execute.call(this), retryMS);
+            } else {
+                response.status = res.status;
+                callback(null);
+            }
         })
+        .catch(error => {
+            if (error.response && error.response.status) {
+                if (shouldRetry(error.response.status, response.attempts, maxAttempts)) {
+                    setTimeout(() => execute.call(this), retryMS);
+                } else {
+                    response.status = error.response.status;
+                    callback(error);
+                }
+            } else {
+                callback(error);
+            }
+        });
     }
 }
 
-function send(collector, objects) {
+function makeWriteRequest(collector, objects) {
     const serviceRequest = collector.convert(objects);
-    const write_request = transform.toTimeSeries(serviceRequest);
-    const bytes = write_request.serializeBinary();
+    const writeRequest = transform.toTimeSeries(serviceRequest);
+    return writeRequest;
+}
+
+function makePayload(writeRequest) {
+    const bytes = writeRequest.serializeBinary();
     const payload = SnappyJS.compress(bytes);
-    let response;
-    if (write_request.wrappers_["1"].length > 0) {
-        //Send with htttp
-        const rawHeaders = {
-            "Content-Encoding": "snappy",
-            "Content-Type": "application/x-protobuf",
-            "X-Prometheus-Remote-Write-Version": "0.1.0",
-            "logzio-shipper": `nodejs-metrics/1.0.0/0/${lost}`,
-        };
-        const headers = {...rawHeaders,...collector.headers}
-        const options = {
-            uri: collector.url,
-            method: 'POST',
-            agent: collector.agent,
-            body: payload,
-            headers: headers,
+    return payload;
+}
+
+function getRequestHeaders(baseHeaders, attempts) {
+    const rawHeaders = {
+        "Content-Encoding": "snappy",
+        "Content-Type": "application/x-protobuf",
+        "X-Prometheus-Remote-Write-Version": "0.1.0",
+        "logzio-shipper": `nodejs-metrics/1.0.0/${attempts}/${lost}`,
+    };
+    const headers = {...rawHeaders, ...baseHeaders}
+    return headers;
+}
+
+function send(collector, objects) {
+    const response = {
+        options: {},
+        attempts: 0,
+        status: -1,
+    };
+    const writeRequest = makeWriteRequest(collector, objects);
+    if (!(writeRequest && writeRequest.wrappers_)) {
+        // no data
+        logger.log({level: 'info', message: 'No timeseries to send'});
+        return;
+    }
+    const timeSeriesCount = writeRequest.wrappers_["1"].length;
+    if (0 < timeSeriesCount) {
+        logger.log({level: 'info', message: `Sending bulk of ${timeSeriesCount} timeseries`});
+
+        axiosRetry({
+            url: collector.url,
+            payload: makePayload(writeRequest),
+            httpAgent: collector.agent,
+            baseHeaders: collector.headers,
             maxAttempts: 3,
-            retryDelay: 2000,
-            retryStrategy: exporterRetryStrategy
-        }
-        logger.log({level: 'info', message: `Sending bulk of ${write_request.wrappers_["1"].length} timeseries`});
-        response = request(options, function (err, response, body) {
-            // this callback will only be called when the request succeeded or after maxAttempts or on error
-            try {
-                if (response.statusCode < 200 || response.statusCode > 204 ) {
-                    logger.log({
-                        level: "warn",
-                        message: `Export failed after ${response.attempts} attempts. Status code: ${response.statusCode}`
-                    })
-                    lost += write_request.wrappers_["1"].length;
-                    return response;
-                } else {
-                    logger.log({
-                        level: "info",
-                        message: `Export Succeeded after ${response.attempts} attempts. Status code: ${response.statusCode}`
-                    })
-                    lost = 0;
-                    return response;
-                }
-            }
-            catch (e) {
-                logger.log({
+            retryMS: 2000,
+            response,
+            callback: postRequest
+        });
+
+        function postRequest(err) {
+            if (err) {
+                lost += timeSeriesCount;
+                return logger.log({
                     level: "error",
                     message: `Failed to export error : ${err.message}`
-                })
+                });
             }
-        });
-        return response;
+            lost = 0;
+            logger.log({
+                level: "info",
+                message: `Export Succeeded after ${response.attempts} attempts. Status code: ${response.status}`
+            });
+        }
     } else {
         logger.log({level: "info", message: "No timeseries to send"})
-        return
     }
+
+    return response;
 }
 exports.send = send;
