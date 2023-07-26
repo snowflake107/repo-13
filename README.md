@@ -129,6 +129,10 @@ histogram.record(20), labels;
 ## Update log
 **0.4.0**
 
+Breaking changes:
+-   Drop support for Nodejs `8.*` `10.*`
+
+Changelog:
 -   Fix bug which makes it crash if no metrics created/written before the first interval (@chapost1)
 -   Using `axios` instead of `requestretry` (@chapost1)
 
