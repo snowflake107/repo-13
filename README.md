@@ -14,7 +14,8 @@ Node 8 or higher
 Install the package:
 
 ```
-npm install logzio-nodejs-metrics-sdk@0.3.0
+npm install logzio-nodejs-metrics-sdk@0.4.0
+npm install @opentelemetry/sdk-metrics-base@0.27.0
 ```
 
 Set the variables in the following code snippet:
@@ -50,7 +51,7 @@ const requestCounter = meter.createCounter('Counter', {
 // Define some labels for your metrics
 const labels = { environment: 'prod' };
 // Record some value
-requestCounter.bind(labels).add(1);
+requestCounter.add(1, labels);
 // In logzio Metrics you will see the following metric:
 // Counter_total{environment: 'prod'} 1.0
 ```
@@ -85,7 +86,7 @@ const metricExporter = new sdk.RemoteWriteExporter(collectorOptions);
 // Initialize the meter provider
 const meter = new MeterProvider.MeterProvider({
     exporter: metricExporter,
-    interval: 15000, // Push interval in seconds
+    interval: 15000, // Push interval in miliseconds
 }).getMeter('example-exporter');
 ```
 
@@ -101,9 +102,8 @@ const upDownCounter = meter.createUpDownCounter('UpDownCounter', {
 // Define some labels for your metrics
 const labels = { environment: 'prod' };
 // Record some values
-upDownCounter.bind(labels);
-upDownCounter.add(5);
-upDownCounter.add(-1);
+upDownCounter.add(5, labels);
+upDownCounter.add(-1, labels);
 // In logzio you will see the following metric:
 // UpDownCounter{environment: 'prod'} 4.0
 ```
@@ -118,9 +118,8 @@ const histogram = meter.createHistogram('test_histogram', {
 // Define some labels for your metrics
 const labels = { environment: 'prod' };
 // Record some values
-histogram.bind(labels);
-histogram.record(30);
-histogram.record(20);
+histogram.record(30, labels);
+histogram.record(20), labels;
 // In logzio you will see the following metrics:
 // test_histogram_sum{environment: 'prod'} 50.0
 // test_histogram_count{environment: 'prod'} 2.0
@@ -128,6 +127,10 @@ histogram.record(20);
 ```
 
 ## Update log
+**0.4.0**
+
+-   Fix bug which makes it crash if no metrics created/written before the first interval (@chapost1)
+-   Using `axios` instead of `requestretry` (@chapost1)
 
 **0.3.0**
 
