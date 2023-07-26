@@ -5,6 +5,7 @@ name: Node.js test
 
 on:
   pull_request:
+    branches: [ development, main, dev-yotam ]
 jobs:
   build:
     runs-on: ubuntu-latest
