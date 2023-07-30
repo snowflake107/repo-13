@@ -67,3 +67,12 @@ Create the name of the service account to use
 {{- define "api-gateway.jobs.restart.name" -}}
 {{- printf "%s-%s" .Release.Name .Values.jobs.restart.name | trunc 63 | trimSuffix "-" -}}
 {{- end }}
+
+{{- define "api-gateway.workerLabels" -}}
+app.frontegg.com/name: {{ include "api-gateway.name" . }}-worker
+app.frontegg.com/appVersion: {{ .Values.appVersion | quote }}
+{{- end -}}
+
+{{- define "api-gateway.workerSelectorLabels" -}}
+app.frontegg.com/name: {{ include "api-gateway.name" . }}-worker
+{{- end -}}

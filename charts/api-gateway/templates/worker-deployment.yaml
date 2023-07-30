@@ -1,66 +1,58 @@
+{{- if .Values.offline.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "api-gateway.fullname" . }}-deployment
+  name: {{ include "api-gateway.fullname" . }}-worker-deployment
   labels:
-    {{- include "api-gateway.labels" . | nindent 4 }}
+    {{- include "api-gateway.workerLabels" . | nindent 4 }}
 spec:
-  {{- if .Values.argoRollouts }}
-  replicas: 0
-  {{- else if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.offline.replicaCount }}
   {{- end }}
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
-      {{- include "api-gateway.selectorLabels" . | nindent 6 }}
+      {{- include "api-gateway.workerSelectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.frontegg.com/appVersion: "{{ .Values.appVersion }}"
-        {{- include "api-gateway.selectorLabels" . | nindent 8 }}
-        {{- with .Values.podLabels  }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
+        {{- include "api-gateway.workerLabels" . | nindent 8 }}
       annotations:
-        checksum/configuration.map: {{ (print .Values.configuration.map) | sha256sum }}
-        checksum/configmap: {{ (print .Values.configmap) | sha256sum }}
-        checksum/template.config-map: {{ include (print $.Template.BasePath "/config-map.yaml") . | sha256sum }}
+        checksum/config: {{ (print .Values.configmap) | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- if .Values.externalSecret }}
       {{- if .Values.externalSecret.enabled }}
-      volumes:
-        - name: vol-secret
-          secret:
-            secretName: {{ include "api-gateway.fullname" . }}-external-secret
+      volumes :
+        - name : vol-secret
+          secret :
+            secretName : {{ include "api-gateway.fullname" . }}-external-secret
       {{- end }}
-      {{- end }}
-      {{- with .Values.terminationGracePeriodSeconds }}
-      terminationGracePeriodSeconds: {{ . }}
       {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.appVersion }}"
+        - name: {{ .Chart.Name }}-worker
+          image: {{ .Values.image.repository }}:{{ .Values.appVersion }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.externalSecret }}
           {{- if .Values.externalSecret.enabled }}
-          volumeMounts:
-            - name: vol-secret
+          volumeMounts :
+            - name : vol-secret
               mountPath: /etc/config/config.yaml
-              subPath: config
+              subPath : config
           {{- end }}
           {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }} # change this to 80 in the future
               protocol: TCP
-          {{- with .Values.livenessProbe }}
+          {{- with .Values.offline.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -88,20 +80,21 @@ spec:
             - configMapRef:
                 name: {{ include "api-gateway.fullname" . }}-configmap
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-          args:
+            {{- toYaml .Values.offline.resources | nindent 12 }}
+          args :
             - "/bin/bash"
             - "./entrypoint.sh"
-            - "service"
-      {{- with .Values.nodeSelector }}
+            - "worker"
+      {{- with .Values.offline.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- with .Values.affinity }}
+      {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
+        {{- end }}
+      {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- end }}
+{{- end }}
