@@ -37,7 +37,7 @@ A comprehensive content management solution for building websites, mobile apps a
 
 **Sites**
 
-* [Content Fragments and Models](./api/experimental/sites/)
+* [Content Fragments and Models](./api/stable/sites/)
 * [Content Fragments in Assets API](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/assets/admin/assets-api-content-fragments.html?lang=en)
 * [Update Pages via Sling Post Servlet](https://sling.apache.org/documentation/bundles/manipulating-content-the-slingpostservlet-servlets-post.html)
 
