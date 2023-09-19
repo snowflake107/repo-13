@@ -3,6 +3,84 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.1](https://github.com/spinnaker/deck/compare/@spinnaker/amazon@0.14.0...@spinnaker/amazon@0.14.1) (2023-09-06)
+
+
+### Bug Fixes
+
+* Scaling bounds should parse float not int ([#10026](https://github.com/spinnaker/deck/issues/10026)) ([b763cae](https://github.com/spinnaker/deck/commit/b763cae826039df46b8dbe019689316ff5034e33))
+
+
+
+
+
+# [0.14.0](https://github.com/spinnaker/deck/compare/@spinnaker/amazon@0.13.9...@spinnaker/amazon@0.14.0) (2023-07-20)
+
+
+### Features
+
+* **lambda:** Migrate Lambda plugin to OSS ([#9988](https://github.com/spinnaker/deck/issues/9988)) ([11f1cab](https://github.com/spinnaker/deck/commit/11f1cabb8efe8d7e034faf06ae3cb455eef6369a)), closes [#9984](https://github.com/spinnaker/deck/issues/9984)
+
+
+
+
+
+## [0.13.9](https://github.com/spinnaker/deck/compare/@spinnaker/amazon@0.13.8...@spinnaker/amazon@0.13.9) (2023-06-02)
+
+**Note:** Version bump only for package @spinnaker/amazon
+
+
+
+
+
+## [0.13.8](https://github.com/spinnaker/deck/compare/@spinnaker/amazon@0.13.7...@spinnaker/amazon@0.13.8) (2023-05-11)
+
+**Note:** Version bump only for package @spinnaker/amazon
+
+
+
+
+
+## [0.13.7](https://github.com/spinnaker/deck/compare/@spinnaker/amazon@0.13.6...@spinnaker/amazon@0.13.7) (2023-05-03)
+
+**Note:** Version bump only for package @spinnaker/amazon
+
+
+
+
+
+## [0.13.6](https://github.com/spinnaker/deck/compare/@spinnaker/amazon@0.13.5...@spinnaker/amazon@0.13.6) (2023-04-03)
+
+**Note:** Version bump only for package @spinnaker/amazon
+
+
+
+
+
+## [0.13.5](https://github.com/spinnaker/deck/compare/@spinnaker/amazon@0.13.4...@spinnaker/amazon@0.13.5) (2023-02-02)
+
+
+### Bug Fixes
+
+* **timeout:** Added feature flag for rollback timeout ui input. ([#9937](https://github.com/spinnaker/deck/issues/9937)) ([e239be3](https://github.com/spinnaker/deck/commit/e239be3dbf63dacca84de25901eec708353d3490))
+
+
+
+
+
+## [0.13.4](https://github.com/spinnaker/deck/compare/@spinnaker/amazon@0.13.3...@spinnaker/amazon@0.13.4) (2023-02-01)
+
+
+### Bug Fixes
+
+* **aws:** Fixing AWS AZ auto rebalancing section by setting the default zones ([#9902](https://github.com/spinnaker/deck/issues/9902)) ([10bec86](https://github.com/spinnaker/deck/commit/10bec860ade8de2a4c838746ff3b5b12dd0b4cfd))
+* **aws:** Fixing bugs related to clone CX when instance types are incompatible with image/region ([#9901](https://github.com/spinnaker/deck/issues/9901)) ([d7290c4](https://github.com/spinnaker/deck/commit/d7290c4d61d880c0b5dfa3abb1573e1b0550603e))
+* **aws:** Guard against missing launchConfig.instanceMonitoring ([#9917](https://github.com/spinnaker/deck/issues/9917)) ([b103ed0](https://github.com/spinnaker/deck/commit/b103ed087199aa33b83c59704f5e735f04e81244))
+
+
+
+
+
 ## [0.13.3](https://github.com/spinnaker/deck/compare/@spinnaker/amazon@0.13.2...@spinnaker/amazon@0.13.3) (2022-10-21)
 
 
