@@ -55,6 +55,10 @@ spec:
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- with .Values.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
             {{- if .Values.offline.enabled }}
             - name: FRONTEGG_IS_SERVICE_OFFLINE_PROCESS
