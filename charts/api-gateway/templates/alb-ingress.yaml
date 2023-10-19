@@ -11,7 +11,7 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}-alb-ingress
   labels:
-    {{- include "api-gateway.labels" . | nindent 4 }} # check this in _helper
+    {{- include "api-gateway.labels" . | nindent 4 }}
   {{- with .Values.albIngress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

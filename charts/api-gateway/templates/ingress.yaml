@@ -11,12 +11,15 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}-ingress
   labels:
-    {{- include "api-gateway.labels" . | nindent 4 }} # check this in _helper
+    {{- include "api-gateway.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  {{- with .Values.ingress.ingressClassName }}
+  ingressClassName: {{ . | quote }}
+  {{- end }}
 {{- if .Values.ingress.tls.enabled}}
   tls:
     - hosts:
