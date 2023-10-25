@@ -3,22 +3,47 @@ title: AEM Events as a Cloud Service
 description: Introduction to the all-new AEM Events in AEM as a Cloud Service
 ---
 
-## Introducing the all-new AEM Eventing by AEM as a Cloud Service
+## Introducing Cloud-Native AEM Events in AEM as a Cloud Service
 
-A major strength of AEM has always been interoperability, based on open standards. This has enabled custom extensions and integrations, creating countless additional use cases around AEM. With the new development of AEM Events, AEM CS now offers a cloud-native solution for AEM expandability and thus pursues the following goals:
+A major strength of AEM has always been interoperability, based on open standards. This has enabled custom extensions and integrations and created countless additional use cases with AEM as the content centerpiece. With the new development of AEM Events, AEM CS now offers a cloud-native solution for AEM expandability and thus pursues the following goals:
 
-- A generic eventing platform that standardizes core functions such as event distribution, further processing and security
-- Outsource custom event processing into separate services for improved scalability and maintainability
+- A generic eventing platform that makes it easy to subscribe to events, process them according to your project needs in most lightweight, scalable and secure ways
+- Separation of functions like AEM Events in this case into standardized dedicated services for improved scalability and maintainability
 - Avoidance of custom code in AEM runtimes for better robustness and reduced effort when deploying, testing and maintaining AEM CS
 
-While the existing AEM Eventing [link] solution is still supported for AEM OnPremise installations and AEM on Adobe Managed Service, the new AEM Eventing is by design initiated for AEM as a Cloud Service only. Thi
+While the existing AEM Eventing https://developer.adobe.com/events/docs/guides/using/aem/ solution is still supported for AEM OnPremise installations and AEM on Adobe Managed Service, the new AEM Eventing is by design initiated for AEM as a Cloud Service only. 
 
-## When to use AEM Events
+## Why AEM Events?
+
+Exposing events in AEM CS to external services, both first and third party, can solve a number of problems related to integrating various systems and improving the overall functionality of AEM CS. Here are a few specific problems that can be addressed by exposing events:
+
+- Real-time updates: By exposing events to external services, you can enable real-time updates to content and metadata within AEM. This means that changes made within AEM can be immediately reflected in other systems and platforms that are integrated with it.
+- Cross-system integration: Many organizations use multiple systems to manage different aspects of their business. By exposing events in AEM, you can facilitate integration with other systems, such as customer relationship management (CRM) or marketing automation tools. This allows for a more seamless exchange of data between systems, reducing manual data entry and improving overall efficiency.
+- Customization and flexibility: Exposing events in AEM allows for greater customization and flexibility in how the system is used. Developers can create custom integrations that use the events exposed by AEM to trigger specific actions in other systems or platforms. This allows for a more tailored approach to content management that can meet the unique needs of a particular organization. Traditionally, this comes at the cost of custom code integration in AEM, not so with AEM Events.
+- Improved analytics and reporting: By exposing events in AEM, you can gather more detailed data about how content is being used and consumed across different systems and platforms. This data can be used to generate more robust analytics and reporting, which can help inform content strategy and improve overall performance.
+
+Overall, exposing events in AEM can help to create a more integrated and efficient content ecosystem, while also providing greater flexibility and customization options for organizations.
+
+## Example Use Cases 
  
-For project-specific extensions and integrations with AEM, AEM Events can help inform external systems about all possible events in AEM in real time. This means that a reaction can be defined or implemented for every change in AEM. Below you will find a few examples of how you can use AEM Events.
-- You want to publish headless content in AEM and deploy it elsewhere at the same time, e.g. because you run other native mobile apps in addition to your AEM website.
-- You want to log and archive all activities in AEM in an audit-proof manner. With AEM Events, you obtain relevant changes in AEM and forward them to an external system suitable for archiving.
-- You want to integrate an external search engine for site search on AEM Publish and update the indexes in real time.
-- You want to inform user groups about certain events in AEM in external channels. Forward the events as desired, e.g. to a Slack channel or to an email group.
+For project-specific extensions and integrations with AEM, AEM Events can help to inform external systems about all possible events in AEM in real time. This means that a automated reaction can be defined or implemented upon every event in AEM. Below you will find a few use case examples to illustrate how you could use AEM Events.
 
-In some use cases it is sufficient to forward AEM events as notifications. However, for most application areas, AEM Events must be combined with custom business logic and AEM APIs to access AEM content. Adobe offers comprehensive support here with Adobe Developer Console, Adobe i/o and AEM APIs. This tutorial is intended to give you an overview of AEM Events and step-by-step instructions on how you can effectively extend AEM via Events and integrate it with other systems.
+- You are publishing headless content in AEM and want to forward content changes as webhooks on to e.g. a native mobile app. AEM Events is the perfect realtime trigger.
+- You want to log and archive all activities in AEM in an audit-proof manner. With AEM Events, you obtain relevant changes in AEM and forward them to an external system suitable for info retrieval and archiving.
+- You want to integrate an external search engine for site search on AEM Publish and update the indexes in real time.
+- You want to inform user groups about certain events in AEM in external channels. Forward the events as needed, e.g. to a Slack channel or to an email group.
+
+In some use cases it is sufficient to forward AEM events as notifications. However, in most cases AEM Events must be combined with custom business logic and AEM APIs to access AEM content. Adobe offers comprehensive support here with Adobe Developer Console, Adobe i/o and AEM APIs. This tutorial is intended to give you an overview of AEM Events and step-by-step instructions on how you can effectively extend AEM via Events and integrate it with other systems.
+
+## Available Event Types
+--incl VIP
+## Enable AEM Events for your AEM Cloud Service Environment
+ft, user rights, 
+
+## How to subscribe to AEM Events on Adobe Developer Console
+
+## Event processing options
+
+
+## FAQ see also wiki
+
