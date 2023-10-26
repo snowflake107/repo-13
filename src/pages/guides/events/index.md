@@ -55,15 +55,38 @@ In some use cases it is sufficient to forward AEM events as notifications. Howev
 
 In order to subscribe to AEM Eevents, you first need to create a new project in the Developer Console. You can do this by following these steps:
 
-1. Visit [https://developer.adobe.com/console/projects](https://developer.adobe.com/console/projects) and create a new project 
+1. Visit [https://developer.adobe.com/console/projects](https://developer.adobe.com/console/projects) and create a new project
+
+   ![create new project](https://github.com/AdobeDocs/experience-manager-apis/blob/initial_dump/src/pages/guides/events/images/4.png)
+   
 2. Add a new API by pressing the **Add API** button
+
+   ![Add API](https://github.com/AdobeDocs/experience-manager-apis/blob/initial_dump/src/pages/guides/events/images/5.png)
+   
 3. In the following screen, select the **I/O Management API** card
+
+   ![Press the I/O Management API card](https://github.com/AdobeDocs/experience-manager-apis/blob/initial_dump/src/pages/guides/events/images/6.png)
+     
 4. Then, select the **OAuth Server-To-Server** card and edit the credential name for better identification in the Admin Console
+
+   ![Oauth Server-to-server card](https://github.com/AdobeDocs/experience-manager-apis/blob/initial_dump/src/pages/guides/events/images/7.png)
+   
 5. Press the **Save Configured API** button to save your changes.
 6. Clicking the **Event** link in the left hand side of the screen, as shown below
+
+   ![Event link](https://github.com/AdobeDocs/experience-manager-apis/blob/initial_dump/src/pages/guides/events/images/8.png)
+   
 7. Then, select the solution from which you wish to consume events. In this case, it is **AEM Sites**
+
+   ![Select solution](https://github.com/AdobeDocs/experience-manager-apis/blob/initial_dump/src/pages/guides/events/images/9.png)
+      
 8. Select the AEM instance from which you wish to parse events
+
+   ![Select AEM instance](https://github.com/AdobeDocs/experience-manager-apis/blob/initial_dump/src/pages/guides/events/images/10.png)
+   
 9. Select the event types for your event subscription
+
+   ![Select event types](https://github.com/AdobeDocs/experience-manager-apis/blob/initial_dump/src/pages/guides/events/images/11.png)    
    
    >[!NOTE]
    >
@@ -71,8 +94,11 @@ In order to subscribe to AEM Eevents, you first need to create a new project in 
 
 10. Click **Next** and select **OAuth Server-to-Server** as the type of authentication
 11. Give your event registration a name and a description.
-12. Next, choose how you would want to consume the events for this event registration. This example uses **Journalling**. For more information, consult the Event Processing Options section.
-13. Once you've configured all of the above, you can:
+12. Next, choose how you would want to consume the events for this event registration. This example uses **Journaling**. For more information, consult the Event Processing Options section.
+
+   ![Journaling](https://github.com/AdobeDocs/experience-manager-apis/blob/initial_dump/src/pages/guides/events/images/12.png)
+   
+15. Once you've configured all of the above, you can:
 
    * Copy the Journaling endpoint - specific to your event registration, to access the Journaling API. This can be  done by pressing the **Copy** button next to the **Event Delvery Method** you've chosen
    * Validate event functionality per the subscribed event  
