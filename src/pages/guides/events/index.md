@@ -59,7 +59,7 @@ In order to subscribe to AEM Eevents, you first need to add an Event Registratio
    
    >[!NOTE]
    >
-   >For a list of available event types, see this section of the documentation.
+   >For a list of available event types, see [this section](#available-event-types) of the documentation.
 
 5. Click **Next** and select **OAuth Server-to-Server** as the type of authentication
 6. Give your event registration a name and a description.
