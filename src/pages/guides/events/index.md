@@ -45,11 +45,11 @@ In some use cases it is sufficient to forward AEM events as notifications. Howev
 
 2. Add the developer access ACL to your product profile
 
-   ![add developer access](../../../../../../../images/2.png)        
+   ![add developer access](https://github.com/AdobeDocs/experience-manager-apis/blob/initial_dump/src/pages/guides/events/images/2.png)        
    
 3. Ensure that you have admin rights for the product profile that will have to produce events
 
-   ![ensure admin rights](../../../images/3.png)
+   ![ensure admin rights](https://github.com/AdobeDocs/experience-manager-apis/blob/initial_dump/src/pages/guides/events/images/3.png)
 
 ## How to subscribe to AEM Events on Adobe Developer Console
 
