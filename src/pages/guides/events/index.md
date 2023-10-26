@@ -40,8 +40,16 @@ In some use cases it is sufficient to forward AEM events as notifications. Howev
 ## Enable AEM Events for your AEM Cloud Service Environment
 
 1. First, you need to enable your User Role. You can do this by going to the [Admin Console](https://adminconsole.adobe.com/), login with an Administrator account and assign the AEM Environment that you want to produce events. You can do this going to the **Users** tab in the upper part of the screen, then select the user you wish to change the Product Profile for
+
+   ![enable user role](../../../images/1.png)
+
 2. Add the developer access ACL to your product profile
+
+   ![add developer access](../../../images/2.png)        
+   
 3. Ensure that you have admin rights for the product profile that will have to produce events
+
+   ![ensure admin rights](../../../images/3.png)
 
 ## How to subscribe to AEM Events on Adobe Developer Console
 
