@@ -52,14 +52,14 @@ In some use cases it is sufficient to forward AEM events as notifications. Howev
 
 In order to subscribe to AEM Eevents, you first need to add an Event Registration. You can do this by:
 
-1. clicking the **Event** link in the left hand side of the screen, as shown below
+1. Clicking the **Event** link in the left hand side of the screen, as shown below
 2. Then, select the solution from which you wish to consume events. In this case, it is **AEM Sites**
 3. Select the AEM instance from which you wish to parse events
 4. Select the event types for your event subscription
    
    >[!NOTE]
    >
-   >The available event types are listed in the Developer Console. Other event types will be made available upon request.
+   >For a list of available event types, see this section of the documentation.
 
 5. Click **Next** and select **OAuth Server-to-Server** as the type of authentication
 6. Give your event registration a name and a description.
