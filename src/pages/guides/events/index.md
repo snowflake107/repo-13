@@ -38,12 +38,46 @@ In some use cases it is sufficient to forward AEM events as notifications. Howev
 ## Available Event Types
 --incl VIP
 ## Enable AEM Events for your AEM Cloud Service Environment
-ft, user rights, 
+
+1. First, you need to enable your User Role. You can do this by going to the [Admin Console](https://adminconsole.adobe.com/), login with an Administrator account and assign the AEM Environment that you want to produce events. You can do this going to the **Users** tab in the upper part of the screen, then select the user you wish to change the Product Profile for
+2. Add the developer access ACL to your product profile
+3. Ensure that you have admin rights for the product profile that will have to produce events
+4. Visit [https://developer.adobe.com/console/projects](https://developer.adobe.com/console/projects) and create a new project 
+5. Add a new API by pressing the **Add API** button
+6. In the following screen, select the **I/O Management API** card
+7. Then, select the **OAuth Server-To-Server** card and edit the credential name for better identification in the Admin Console
+8. Press the **Save Configured API** button to save your changes.
 
 ## How to subscribe to AEM Events on Adobe Developer Console
 
-## Event processing options
+In order to subscribe to AEM Eevents, you first need to add an Event Registration. You can do this by:
 
+1. clicking the **Event** link in the left hand side of the screen, as shown below
+2. Then, select the solution from which you wish to consume events. In this case, it is **AEM Sites**
+3. Select the AEM instance from which you wish to parse events
+4. Select the event types for your event subscription
+   
+   >[!NOTE]
+   >
+   >The available event types are listed in the Developer Console. Other event types will be made available upon request.
+
+5. Click **Next** and select **OAuth Server-to-Server** as the type of authentication
+6. Give your event registration a name and a description.
+7. Next, choose how you would want to consume the events for this event registration. This example uses **Journalling**. For more information, consult the Event Processing Options section.
+8. Once you've configured all of the above, you can:
+
+   * Copy the Journaling endpoint - specific to your event registration, to access the Journaling API. This can be  done by pressing the **Copy** button next to the **Event Delvery Method** you've chosen
+   * Validate event functionality per the subscribed event  
+   * Review events in the Journaling Events Browser
+   * Lookup connected credentials
+ 
+## Event Processing Options
+
+Adobe offers three methods of processing events:
+
+* [Journaling](https://developer.adobe.com/events/docs/guides/journaling_intro/)
+* [Webhooks](https://developer.adobe.com/events/docs/guides/)
+* [Runtime action](https://developer.adobe.com/runtime/docs/guides/overview/what_is_runtime/)
 
 ## FAQ see also wiki
 
