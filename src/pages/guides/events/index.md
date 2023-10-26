@@ -45,7 +45,7 @@ In some use cases it is sufficient to forward AEM events as notifications. Howev
 
 2. Add the developer access ACL to your product profile
 
-   ![add developer access](../../../images/2.png)        
+   ![add developer access](../../../../../../../images/2.png)        
    
 3. Ensure that you have admin rights for the product profile that will have to produce events
 
