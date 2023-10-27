@@ -41,7 +41,7 @@ In some use cases it is sufficient to forward AEM events as notifications. Howev
 
 1. First, you need to enable your User Role. You can do this by going to the [Admin Console](https://adminconsole.adobe.com/), login with an Administrator account and assign the AEM Environment that you want to produce events. You can do this going to the **Users** tab in the upper part of the screen, then select the user you wish to change the Product Profile for
 
-   ![enable user role](/initial_dump/src/pages/guides/events/images/1.png)
+   ![enable user role](/src/pages/guides/events/images/1.png)
 
 2. Add the developer access ACL to your product profile
 
