@@ -37,11 +37,19 @@ In some use cases it is sufficient to forward AEM events as notifications. Howev
 
 ## Available Event Types
 
-Current available event types for AEM Sites are considered to be in the headless use-cases area and refer to events related to content fragments and content fragment models. The documentation catalog for this is currently in progress, but is visible on the Adobe Developer Console (see step 9 below).
+Current vailable event types for AEM Sites are considered to be in the headless use-cases area and refer to events related to content fragments and content fragment models. 
 
-Available event types for AEM Assets are currently listed at https://polite-cobra-64.redoc.ly/#tag/Asset-Events.
+| Event Type Name | Event Type Description |
+|-----------------|
+| Asset Processing Completed |  |
 
-The list of available event types for AEM as a Cloud Service is being expanded on a rolling basis. If you are missing the event types you need, please contact the AEM-Eventing team via support, Adobe Consulting or your Technical Account Manager. We can provide you with immediate information about which event types are in progress or how quickly we can provide the event types you need. Your project success is our goal, and accordingly, the AEM Events Team will do everything possible to provide you with the event types you need as quickly as possible.
+Available event types for AEM Assets:
+
+| Event Type Name | Event Type Description  | 
+|---|---|
+| Asset Processing Completed | Event triggered when an asset has completed processing in AEM. This is often used in place of an 'asset created' event for use cases that trigger from asset creation for two reasons - many extensions require some amount of asset metadata, which is extracted during asset processing and acting upon an asset that is in processing has a high chance of running into conflicts and contention issues.
+
+The list of available event types for AEM as a Cloud Service is being expanded on a rolling basis. If you are missing the event types you need, please contact the AEM-Eventing team via support, Adobe Consulting or your Technical Account Manager. We can provide you with immediate information about which event types are in progress or how quickly we can provide the event types you need. Your project success is our goal, and accordingly, the AEM Events Team will do everything possible to provide you with the event types you need as quickly as possible. |
 
 ## Enable AEM Events for your AEM Cloud Service Environment
 
@@ -113,7 +121,9 @@ In order to subscribe to AEM Eevents, you first need to create a new project in 
  
 ## Event Processing Options
 
-Adobe offers three methods of processing events:
+Adobe I/O offers three methods of processing events:
+
+| | | |
 
 * [Journaling](https://developer.adobe.com/events/docs/guides/journaling_intro/)
 * [Webhooks](https://developer.adobe.com/events/docs/guides/)
