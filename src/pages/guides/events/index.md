@@ -36,7 +36,13 @@ For project-specific extensions and integrations with AEM, AEM Events can help t
 In some use cases it is sufficient to forward AEM events as notifications. However, in most cases AEM Events must be combined with custom business logic and AEM APIs to access AEM content. Adobe offers comprehensive support here with Adobe Developer Console, Adobe i/o and AEM APIs. This tutorial is intended to give you an overview of AEM Events and step-by-step instructions on how you can effectively extend AEM via Events and integrate it with other systems.
 
 ## Available Event Types
---incl VIP
+
+Current available event types for AEM Sites are considered to be in the headless use-cases area and refer to events related to content fragments and content fragment models. The documentation catalog for this is currently in progress, but is visible on the Adobe Developer Console (see step 9 below).
+
+Available event types for AEM Assets are currently listed at https://polite-cobra-64.redoc.ly/#tag/Asset-Events.
+
+The list of available event types for AEM as a Cloud Service is being expanded on a rolling basis. If you are missing the event types you need, please contact the AEM-Eventing team via support, Adobe Consulting or your Technical Account Manager. We can provide you with immediate information about which event types are in progress or how quickly we can provide the event types you need. Your project success is our goal, and accordingly, the AEM Events Team will do everything possible to provide you with the event types you need as quickly as possible.
+
 ## Enable AEM Events for your AEM Cloud Service Environment
 
 1. First, you need to enable your User Role. You can do this by going to the [Admin Console](https://adminconsole.adobe.com/), login with an Administrator account and assign the AEM Environment that you want to produce events. You can do this going to the **Users** tab in the upper part of the screen, then select the user you wish to change the Product Profile for
