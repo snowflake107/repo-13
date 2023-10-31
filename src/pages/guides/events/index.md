@@ -37,19 +37,32 @@ In some use cases it is sufficient to forward AEM events as notifications. Howev
 
 ## Available Event Types
 
+### Events for AEM Sites
+
 Current vailable event types for AEM Sites are considered to be in the headless use-cases area and refer to events related to content fragments and content fragment models. 
 
 | Event Type Name | Event Type Description |
-|-----------------|
-| Asset Processing Completed |  |
-
-Available event types for AEM Assets:
-
-| Event Type Name | Event Type Description  | 
 |---|---|
-| Asset Processing Completed | Event triggered when an asset has completed processing in AEM. This is often used in place of an 'asset created' event for use cases that trigger from asset creation for two reasons - many extensions require some amount of asset metadata, which is extracted during asset processing and acting upon an asset that is in processing has a high chance of running into conflicts and contention issues.
+| Content Fragment created | Event triggered when a Content Fragment Model has been created on the AEM Authoring environment. |
+| Content Fragment Deleted | Event triggered when a Content Fragment Model has been deleted on the AEM Authoring environment. |
+| Content Fragment Model Created | Event triggered when a Content Fragment Model has been created on the AEM Authoring environment. |
+| Content Fragment Model Deleted | Event triggered when a Content Fragment Model has been deleted on the AEM Authoring environment. |
+| Content Fragment Model Modified | Event triggered when a Content Fragment Model has been modified on the AEM Authoring environment. |
+| Content Fragment Model Published | Event triggered when a Content Fragment Model has been published. |
+| Content Fragment Model Unpublished | Event triggered when a Content Fragment Model has been unpublished. |
+| Content Fragment Modified | Event triggered when a Content Fragment has been modified on the AEM Authoring environment. |
+| Content Fragment Published | Event triggered when a Content Fragment has been published. |
+| Content Fragment Unpublished | Event triggered when a Content Fragment has been unpublished. |
+| Content Fragment Variation Change | Event triggered when a Content Fragment Variation has been modified on the AEM Authoring environment. |
 
-The list of available event types for AEM as a Cloud Service is being expanded on a rolling basis. If you are missing the event types you need, please contact the AEM-Eventing team via support, Adobe Consulting or your Technical Account Manager. We can provide you with immediate information about which event types are in progress or how quickly we can provide the event types you need. Your project success is our goal, and accordingly, the AEM Events Team will do everything possible to provide you with the event types you need as quickly as possible. |
+## Available event types for AEM Assets: ##
+
+| Event Type Name | Event Type Description | 
+|---|---|
+| Asset Processing Completed | Event triggered when an asset has completed processing in AEM. This is often used in place of an 'asset created' event for use cases that trigger from asset creation for two reasons - many extensions require some amount of asset metadata, which is extracted during asset processing and acting upon an asset that is in processing has a high chance of running into conflicts and contention issues. |
+
+**Please note:** The list of available event types for AEM as a Cloud Service is being expanded on a rolling basis. If you are missing the event types you need, please contact the AEM-Eventing team via support, Adobe Consulting or your Technical Account Manager. We can provide you with immediate information about which event types are in progress or how quickly we can provide the event types you need. Your project success is our goal, and accordingly, the AEM Events Team will do everything possible to provide you with the event types you need as fast as possible. 
+
 
 ## Enable AEM Events for your AEM Cloud Service Environment
 
