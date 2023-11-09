@@ -45,6 +45,7 @@ A comprehensive content management solution for building websites, mobile apps a
 
 **Assets**
 
+* [Assets Author API (Experimental)](./api/experimental/assets/author/)
 * [APIs](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/assets/admin/mac-api-assets.html?lang=en)
 * [Asset Compute HTTP API](https://experienceleague.adobe.com/docs/asset-compute/using/api.html?lang=en)
 

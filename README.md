@@ -6,7 +6,11 @@
 
 After editing content, try it locally using yarn dev. Then create a branch and PR and wait for it to be linted before merging.
 
-## Pusblishing content
+To install yarn, run `npm install yarn -g`.
+
+To use yarn, first run `yarn install` at the root of this repository followed by `yarn dev`.
+
+## Publishing content
 
 To publish content use the github action "deploy" and select the desired branch and stage to publish to.
 
