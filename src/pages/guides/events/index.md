@@ -35,6 +35,16 @@ For project-specific extensions and integrations with AEM, AEM Events can help t
 
 In some use cases it is sufficient to forward AEM events as notifications. However, in most cases AEM Events must be combined with custom business logic and AEM APIs to access AEM content. Adobe offers comprehensive support here with Adobe Developer Console, Adobe i/o and AEM APIs. This tutorial is intended to give you an overview of AEM Events and step-by-step instructions on how you can effectively extend AEM via Events and integrate it with other systems.
 
+## AEM Events processing via Adobe I/O 
+
+AEM events are routed to Adobe I/O by default and are available instantly as soon as you subscribe to them in the Adobe Developer Console. In Adobe I/O you have the 3 consumption options described below for processing AEM events. It's best to familiarize yourself with the options in advance, as each has its own characteristics and it's up to you to choose a suitable strategy based on your project requirements. 
+
+|Process|Description|Consumption|Example|Documentation|
+|---|---|---|---|---|
+|Adobe I/O Events Webhooks |Sign up a Webhook URL that receives event JSON objects as HTTP POST requests instantly. |Push |Choose any webhook client or webhook automation service to forward specific AEM Events. |[Adobe I/O Events Webhooks Documentation](https://developer.adobe.com/events/docs/guides/)|
+|Adobe I7O Journaling API ||||
+|Journaling API ||||
+
 ## Available Event Types
 
 Current available event types for **AEM Sites** are considered to be in the headless use-cases area and refer to events related to content fragments and content fragment models. 
@@ -77,7 +87,7 @@ Current available event types for **AEM Assets** are part of the [developer docu
 
 In order to subscribe to AEM Eevents, you first need to create a new project in the Developer Console. You can do this by following these steps:
 
-1. Visit [https://developer.adobe.com/console/projects](https://developer.adobe.com/console/projects) and create a new project
+1. Visit [https://developer.adobe.com/console/projects](https://developer.adobe.com/console/projects) and create a new project. If you 
 
    ![create new project](/src/pages/guides/events/images/4.png)
    
