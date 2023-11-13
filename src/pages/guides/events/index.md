@@ -13,6 +13,9 @@ A major strength of AEM has always been interoperability, based on open standard
 
 While the existing AEM Eventing https://developer.adobe.com/events/docs/guides/using/aem/ solution is still supported for AEM OnPremise installations and AEM on Adobe Managed Service, the new AEM Eventing is by design initiated for AEM as a Cloud Service only. 
 
+> [!NOTE]
+> AEM as a Cloud Service Eventing, together with AEM as a Cloud Service APIs, is currently only available to registered users in pre-release mode. Please contact Adobe if you are interested in unlocking these cloud-native extensibility capabilities of AEM as a Cloud Service.**
+
 ## Why AEM Events?
 
 Exposing events in AEM CS to external services, both first and third party, can solve a number of problems related to integrating various systems and improving the overall functionality of AEM CS. Here are a few specific problems that can be addressed by exposing events:
@@ -65,23 +68,16 @@ Current available event types for **AEM Sites** are considered to be in the head
 
 Current available event types for **AEM Assets** are part of the [developer documentation](https://developer.adobe.com/experience-cloud/experience-manager-apis/api/experimental/assets/author/).
 
+> [!NOTE] 
+> The list of available event types for AEM as a Cloud Service is being expanded on a rolling basis. If you are missing the event types you need, please contact the AEM-Eventing team via support, Adobe Consulting or your Technical Account Manager. We can provide you with immediate information about which event types are in progress or how quickly we can provide the event types you need. Your project success is our goal, and accordingly, the AEM Events Team will do everything possible to provide you with the event types you need as fast as possible. 
 
-**Please note:** The list of available event types for AEM as a Cloud Service is being expanded on a rolling basis. If you are missing the event types you need, please contact the AEM-Eventing team via support, Adobe Consulting or your Technical Account Manager. We can provide you with immediate information about which event types are in progress or how quickly we can provide the event types you need. Your project success is our goal, and accordingly, the AEM Events Team will do everything possible to provide you with the event types you need as fast as possible. 
+## Enable AEM Events on your AEM Cloud Service Environment
 
-
-## Enable AEM Events for your AEM Cloud Service Environment
-
-1. First, you need to enable your User Role. You can do this by going to the [Admin Console](https://adminconsole.adobe.com/), login with an Administrator account and assign the AEM Environment that you want to produce events. You can do this going to the **Users** tab in the upper part of the screen, then select the user you wish to change the Product Profile for
-
-   ![enable user role](/src/pages/guides/events/images/1.png)
-
-2. Add the developer access ACL to your product profile
-
-   ![add developer access](/src/pages/guides/events/images/2.png)        
-   
-3. Ensure that you have admin rights for the product profile that will have to produce events
-
-   ![ensure admin rights](/src/pages/guides/events/images/3.png)
+1. First, you need to enable your User Role in order to be able to subscribe to AEM Events from your AEM as a Cloud Service Environment via Adobe Developer Console. The following steps are necessary for this:
+   - Visit [Admin Console](https://adminconsole.adobe.com/) and login with an Administrator account.
+   - Select “Adobe Experience Manager as a Cloud Service” from the eligible products.
+   - Select the desired AEM as a Cloud Service environment from which you want to subscribe to AEM Events.
+   - Select an associated product profile where your user is assigned as an admin user, otherwise you can make this edit in the product profile dialog.
 
 ## How to subscribe to AEM Events on Adobe Developer Console
 
