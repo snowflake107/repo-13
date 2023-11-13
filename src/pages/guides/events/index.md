@@ -92,7 +92,7 @@ In order to subscribe to AEM Eevents, you first need to create a new project in 
    
    ![Select solution](/src/pages/guides/events/images/9.png)
    
-4. Select the AEM Solution from which you want to subscribe to AEM Events, for example AEM Sites or AEM Assets. Once you click "Next", you will be provided with all AEM as a Cloud Service Environments, to which you are entitled as per Admin Console Configuration, see also section [Enable AEM Events on your AEM Cloud Service Environment](#Enable-AEM-Events-on-your-AEM-Cloud-Service-Environment) above.
+4. Select the AEM Solution from which you want to subscribe to AEM Events, for example AEM Sites or AEM Assets. Once you click "Next", you will be provided with all AEM as a Cloud Service Environments, to which you are entitled as per Admin Console Configuration, see also section [Enable AEM Events on your AEM Cloud Service Environment](#Enable-AEM-Events-on-your-AEM-Cloud-Service-Environment) in this tutorial.
 
     ![Select AEM instance](/src/pages/guides/events/images/10.png)
    
@@ -101,50 +101,25 @@ In order to subscribe to AEM Eevents, you first need to create a new project in 
 6. Select the Event Types to which you want to subscribe and click "Next".
    ![Select event types](/src/pages/guides/events/images/11.png)
 
-7. Select the **OAuth Server-To-Server** card, edit the credential name for better identification in the Admin Console and click "Next".
+   >[!NOTE]
+   >
+   >For a list of available event types, see [this section](#available-event-types) in this tutorial.
+
+8. You will see the preselected **OAuth Server-To-Server** card, edit the credential name for better identification in the Admin Console and click "Next".
 
    ![Oauth Server-to-server card](/src/pages/guides/events/images/7.png)
    
 9. Provide a name and a description for your AEM Event registration and click "Next".
-10. 
-11. Press the **Save Configured API** button to save your changes.
-12. Clicking the **Event** link in the left hand side of the screen, as shown below
-
-   ![Event link](/src/pages/guides/events/images/8.png)
-   
-11. Then, select the solution from which you wish to consume events. In this case, it is **AEM Sites**
-
-   ![Select solution](/src/pages/guides/events/images/9.png)
-      
-   
-
-   
-   >[!NOTE]
-   >
-   >For a list of available event types, see [this section](#available-event-types) of the documentation.
-
-11. Click **Next** and select **OAuth Server-to-Server** as the type of authentication
-12. Give your event registration a name and a description.
-13. Next, choose how you would want to consume the events for this event registration. This example uses **Journaling**. For more information, consult the Event Processing Options section.
+10. Next, choose how you would want to consume the events for this event registration. This example uses **Journaling API**. For more information, consult the Event Processing Options section.
 
    ![Journaling](/src/pages/guides/events/images/12.png)
    
-15. Once you've configured all of the above, you can:
+11. Once you've configured all of the above, you can:
 
    * Copy the Journaling endpoint - specific to your event registration, to access the Journaling API. This can be  done by pressing the **Copy** button next to the **Event Delvery Method** you've chosen
    * Validate event functionality per the subscribed event  
    * Review events in the Journaling Events Browser
    * Lookup connected credentials
- 
-## Event Processing Options
-
-Adobe I/O offers three methods of processing events:
-
-| | | |
-
-* [Journaling](https://developer.adobe.com/events/docs/guides/journaling_intro/)
-* [Webhooks](https://developer.adobe.com/events/docs/guides/)
-* [Runtime action](https://developer.adobe.com/runtime/docs/guides/overview/what_is_runtime/)
 
 ## FAQ see also wiki
 
