@@ -43,7 +43,7 @@ AEM events are routed to Adobe I/O by default and are available instantly as soo
 |---|---|---|---|---|
 |Adobe I/O Events Webhooks |Sign up a Webhook URL that receives event JSON objects as HTTP POST requests instantly. |PUSH |Choose any webhook client or webhook automation service to forward specific AEM Events. |[Adobe I/O Events Webhooks Documentation](https://developer.adobe.com/events/docs/guides/)|
 |Adobe I/O Journaling API |Enables enterprise integrations to consume events according to their own cadence and process them in bulk. |PULL |Use your existing ressources, e.g. Java Development, to process AEM Events with custom logic from any infrastructure by using Adobe I/O Journaling API. |[Adobe I/O Events Journaling API](https://developer.adobe.com/events/docs/guides/journaling_intro/)| 
-|Adobe I/O Runtime |AEM Events trigger serverless functions |PUSH |Use Adobe Developer App Builder and create custom business logic in NodeJS for subscribed AEM event types. AEM Events result in execution as a serverless function in Adobe I/O Runtime. |[Adobe I/O Events Journaling API](https://developer.adobe.com/events/docs/guides/journaling_intro/)|
+|Adobe I/O Runtime |AEM Events trigger serverless functions |PUSH |Use Adobe Developer App Builder and create custom business logic in NodeJS for subscribed AEM event types. AEM Events result in execution as a serverless function in Adobe I/O Runtime. |[Adobe I/O Events Runtime](https://developer.adobe.com/runtime/docs/guides/overview/what_is_runtime/)|
 
 ## Available Event Types
 
