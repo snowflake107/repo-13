@@ -39,11 +39,11 @@ In some use cases it is sufficient to forward AEM events as notifications. Howev
 
 AEM events are routed to Adobe I/O by default and are available instantly as soon as you subscribe to them in the Adobe Developer Console. In Adobe I/O you have the 3 consumption options described below for processing AEM events. It's best to familiarize yourself with the options in advance, as each has its own characteristics and it's up to you to choose a suitable strategy based on your project requirements. 
 
-|Process|Description|Consumption|Example|Documentation|
+|Process|Description|Consumption|Scope|Documentation|
 |---|---|---|---|---|
-|Adobe I/O Events Webhooks |Sign up a Webhook URL that receives event JSON objects as HTTP POST requests instantly. |Push |Choose any webhook client or webhook automation service to forward specific AEM Events. |[Adobe I/O Events Webhooks Documentation](https://developer.adobe.com/events/docs/guides/)|
-|Adobe I7O Journaling API ||||
-|Journaling API ||||
+|Adobe I/O Events Webhooks |Sign up a Webhook URL that receives event JSON objects as HTTP POST requests instantly. |PUSH |Choose any webhook client or webhook automation service to forward specific AEM Events. |[Adobe I/O Events Webhooks Documentation](https://developer.adobe.com/events/docs/guides/)|
+|Adobe I/O Journaling API |Enables enterprise integrations to consume events according to their own cadence and process them in bulk. |PULL |Use your existing ressources, e.g. Java Development, to process AEM Events with custom logic from any infrastructure by using Adobe I/O Journaling API. |[Adobe I/O Events Journaling API](https://developer.adobe.com/events/docs/guides/journaling_intro/)| 
+|Adobe I/O Runtime |AEM Events trigger serverless functions |PUSH |Use Adobe Developer App Builder and create custom business logic in NodeJS for subscribed AEM event types. AEM Events result in execution as a serverless function in Adobe I/O Runtime. |[Adobe I/O Events Journaling API](https://developer.adobe.com/events/docs/guides/journaling_intro/)|
 
 ## Available Event Types
 
