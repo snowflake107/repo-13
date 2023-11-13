@@ -73,56 +73,59 @@ Current available event types for **AEM Assets** are part of the [developer docu
 
 ## Enable AEM Events on your AEM Cloud Service Environment
 
-1. First, you need to enable your User Role in order to be able to subscribe to AEM Events from your AEM as a Cloud Service Environment via Adobe Developer Console. The following steps are necessary for this:
-   - Visit [Admin Console](https://adminconsole.adobe.com/) and login with an Administrator account.
-   - Select “Adobe Experience Manager as a Cloud Service” from the eligible products.
-   - Select the desired AEM as a Cloud Service environment from which you want to subscribe to AEM Events.
-   - Select an associated product profile where your user is assigned as an admin user, otherwise you can make this edit in the product profile dialog.
+First, you need to enable your User Role in order to be able to subscribe to AEM Events from your AEM as a Cloud Service Environment via Adobe Developer Console. The following steps are necessary for this:
+1. Visit [Admin Console](https://adminconsole.adobe.com/) and login with an Administrator account.
+2. Select “Adobe Experience Manager as a Cloud Service” from the eligible products.
+3. Select the desired AEM as a Cloud Service environment from which you want to subscribe to AEM Events
+4. Select an associated product profile where your user is assigned as an admin user, otherwise you can make this edit in the product profile dialog.
 
-## How to subscribe to AEM Events on Adobe Developer Console
+## How to subscribe to AEM Events in the Adobe Developer Console
 
-In order to subscribe to AEM Eevents, you first need to create a new project in the Developer Console. You can do this by following these steps:
+In order to subscribe to AEM Eevents, you first need to create a new project in the Adobe Developer Console. You can do this by following these steps:
 
-1. Visit [https://developer.adobe.com/console/projects](https://developer.adobe.com/console/projects) and create a new project. If you 
+1. Visit [https://developer.adobe.com/console/projects](https://developer.adobe.com/console/projects) and create a new project. But first, make sure you know how you want to process AEM events in Adobe I/O. If you want to use Adobe I/O Runtime, create a new project from a template. This gives you the opportunity to create your Adobe I/O project with App Builder. You can find more information about App Builder at the [App Builder Developer Documentation](https://developer.adobe.com/app-builder/docs/overview/).
+   If you are unsure how to handle AEM Events in your project, please see the section [AEM Events processing via Adobe I/O](#aem-events-processing-via-adobe-io) earlier in this tutorial.
 
    ![create new project](/src/pages/guides/events/images/4.png)
    
-2. Add a new API by pressing the **Add API** button
-
-   ![Add API](/src/pages/guides/events/images/5.png)
+3. Add a new Service "Event" to your prefered workspace in your new Adobe Developer Console project. This will open the "Add Event" dialog for you, which shows you all Adobe product solutions to which you are entitled.
    
-3. In the following screen, select the **I/O Management API** card
+   ![Select solution](/src/pages/guides/events/images/9.png)
+   
+4. Select the AEM Solution from which you want to subscribe to AEM Events, for example AEM Sites or AEM Assets. Once you click "Next", you will be provided with all AEM as a Cloud Service Environments, to which you are entitled as per Admin Console Configuration, see also section [Enable AEM Events on your AEM Cloud Service Environment](#Enable-AEM-Events-on-your-AEM-Cloud-Service-Environment) above.
 
-   ![Press the I/O Management API card](/src/pages/guides/events/images/6.png)
-     
-4. Then, select the **OAuth Server-To-Server** card and edit the credential name for better identification in the Admin Console
+    ![Select AEM instance](/src/pages/guides/events/images/10.png)
+   
+5. Choose the AEM as a Cloud Service Environment, from which you want to receive AEM Events. Once you click "Next", you will be provided with a list of available AEM Events for your selected AEM Solution. 
+
+6. Select the Event Types to which you want to subscribe and click "Next".
+   ![Select event types](/src/pages/guides/events/images/11.png)
+
+7. Select the **OAuth Server-To-Server** card, edit the credential name for better identification in the Admin Console and click "Next".
 
    ![Oauth Server-to-server card](/src/pages/guides/events/images/7.png)
    
-5. Press the **Save Configured API** button to save your changes.
-6. Clicking the **Event** link in the left hand side of the screen, as shown below
+9. Provide a name and a description for your AEM Event registration and click "Next".
+10. 
+11. Press the **Save Configured API** button to save your changes.
+12. Clicking the **Event** link in the left hand side of the screen, as shown below
 
    ![Event link](/src/pages/guides/events/images/8.png)
    
-7. Then, select the solution from which you wish to consume events. In this case, it is **AEM Sites**
+11. Then, select the solution from which you wish to consume events. In this case, it is **AEM Sites**
 
    ![Select solution](/src/pages/guides/events/images/9.png)
       
-8. Select the AEM instance from which you wish to parse events
-
-   ![Select AEM instance](/src/pages/guides/events/images/10.png)
    
-9. Select the event types for your event subscription
 
-   ![Select event types](/src/pages/guides/events/images/11.png)    
    
    >[!NOTE]
    >
    >For a list of available event types, see [this section](#available-event-types) of the documentation.
 
-10. Click **Next** and select **OAuth Server-to-Server** as the type of authentication
-11. Give your event registration a name and a description.
-12. Next, choose how you would want to consume the events for this event registration. This example uses **Journaling**. For more information, consult the Event Processing Options section.
+11. Click **Next** and select **OAuth Server-to-Server** as the type of authentication
+12. Give your event registration a name and a description.
+13. Next, choose how you would want to consume the events for this event registration. This example uses **Journaling**. For more information, consult the Event Processing Options section.
 
    ![Journaling](/src/pages/guides/events/images/12.png)
    
