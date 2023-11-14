@@ -125,5 +125,5 @@ You can check like this:
 - Identify errors via HTTP status in request/response traffic
 - What the response payload of your runtime action looks like
 
-**If you decide to use Adobe I/O Runtime for your custom business logic in your project, we recommend that you familiarize yourself with Adobe App Builder in advance. Once you learn how to initiate, develop, debug, and deploy an App Builder application locally, you'll realize how easy it is and how much work it takes away from you. And it's fun!**
+**If you decide to use Adobe I/O Runtime for your custom business logic in your project, we recommend that you familiarize yourself with Adobe App Builder in advance. Once you learn how to initiate, develop, debug, and deploy an App Builder stand-alone application locally, you'll realize how easy it is and how much work it takes away from you. Try it out yourself!**
 
