@@ -84,7 +84,7 @@ First, you need to enable your User Role in order to be able to subscribe to AEM
 In order to subscribe to AEM Eevents, you first need to create a new project in the Adobe Developer Console. You can do this by following these steps:
 
 1. Visit [https://developer.adobe.com/console/projects](https://developer.adobe.com/console/projects) and create a new project. But first, make sure you know how you want to process AEM events in Adobe I/O. If you want to use Adobe I/O Runtime, create a new project from a template. This gives you the opportunity to create your Adobe I/O project with App Builder. You can find more information about App Builder at the [App Builder Developer Documentation](https://developer.adobe.com/app-builder/docs/overview/).
-   If you are unsure how to handle AEM Events in your project, please see the section [AEM Events processing via Adobe I/O](#aem-events-processing-via-adobe-io) earlier in this tutorial.
+   If you are unsure how to handle AEM Events in your project, please see the section [AEM Events processing via Adobe I/O](#aem-events-processing-via-adobe-io) of this tutorial.
 
    ![create new project](/src/pages/guides/events/images/4.png)
    
@@ -105,21 +105,20 @@ In order to subscribe to AEM Eevents, you first need to create a new project in 
    >
    >For a list of available event types, see [this section](#available-event-types) in this tutorial.
 
-8. You will see the preselected **OAuth Server-To-Server** card, edit the credential name for better identification in the Admin Console and click "Next".
+7. You will see the preselected **OAuth Server-To-Server** card, edit the credential name for better identification in the Admin Console and click "Next".
 
    ![Oauth Server-to-server card](/src/pages/guides/events/images/7.png)
    
-9. Provide a name and a description for your AEM Event registration and click "Next".
-10. Next, choose how you would want to consume the events for this event registration. This example uses **Journaling API**. For more information, consult the Event Processing Options section.
+8. Provide a name and a description for your AEM Event registration and click "Next".
+9. Next, choose how you would want to consume the events in Adobe I/O for this event registration. For more information, consult the [AEM Events processing via Adobe I/O](#aem-events-processing-via-adobe-io) section.
 
    ![Journaling](/src/pages/guides/events/images/12.png)
-   
-11. Once you've configured all of the above, you can:
+    
+10. The Journling API is generally always available to access the AEM Events queue. You can copy the Journaling endpoint - specific to your event registration, to access the Journaling API. Other AEM Event consumption options are:
+- Adobe I/O Webhook: Enter the URL of your webhook client and decide whether you want to forward events individually at runtime or in batches
+- Adobe I/O Runtime: Link the runtime action of your App Builder project to this event registration. This requires that you have initially activated (cmd: init) and deployed (cmd: deploy) your App Builder application.
 
-   * Copy the Journaling endpoint - specific to your event registration, to access the Journaling API. This can be  done by pressing the **Copy** button next to the **Event Delvery Method** you've chosen
-   * Validate event functionality per the subscribed event  
-   * Review events in the Journaling Events Browser
-   * Lookup connected credentials
+
 
 ## FAQ see also wiki
 
