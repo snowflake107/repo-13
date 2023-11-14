@@ -118,7 +118,12 @@ In order to subscribe to AEM Eevents, you first need to create a new project in 
 - Adobe I/O Webhook: Enter the URL of your webhook client and decide whether you want to forward events individually at runtime or in batches
 - Adobe I/O Runtime: Link the runtime action of your App Builder project to this event registration. This requires that you have initially activated (cmd: init) and deployed (cmd: deploy) your App Builder application.
 
+That's it! The AEM events from your AEM as a Cloud Service environment should now arrive in your Adobe Developer Console project. You can observe this on the Events dialog of your event registration: In the "Debug tracing" section you can see the AEM Events Requests and the Runtime Action Response in Json format. On the "Event Browser" section you can view the entire AEM Event Journal in detail.
+You can check like this:
+- Whether your AEM events arrive in Adobe I/O
+- What the AEM event payload looks like
+- Identify errors via HTTP status in request/response traffic
+- What the response payload of your runtime action looks like
 
-
-## FAQ see also wiki
+**If you decide to use Adobe I/O Runtime for your custom business logic in your project, we recommend that you familiarize yourself with Adobe App Builder in advance. Once you learn how to initiate, develop, debug, and deploy an App Builder application locally, you'll realize how easy it is and how much work it takes away from you. And it's fun!**
 
