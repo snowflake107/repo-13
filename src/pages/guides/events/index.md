@@ -7,9 +7,9 @@ description: Introduction to the all-new AEM Events in AEM as a Cloud Service
 
 A major strength of AEM has always been interoperability, based on open standards. This has enabled custom extensions and integrations and created countless additional use cases with AEM as the content centerpiece. With the new development of AEM Events, AEM CS now offers a cloud-native solution for AEM expandability and thus pursues the following goals:
 
-- A generic eventing platform that makes it easy to subscribe to events, process them according to your project needs in most lightweight, scalable and secure ways
-- Separation of functions like AEM Events in this case into standardized dedicated services for improved scalability and maintainability
-- Avoidance of custom code in AEM runtimes for better robustness and reduced effort when deploying, testing and maintaining AEM CS
+* A generic eventing platform that makes it easy to subscribe to events, process them according to your project needs in most lightweight, scalable and secure ways
+* Separation of functions like AEM Events in this case into standardized dedicated services for improved scalability and maintainability
+* Avoidance of custom code in AEM runtimes for better robustness and reduced effort when deploying, testing and maintaining AEM CS
 
 While the existing AEM Eventing https://developer.adobe.com/events/docs/guides/using/aem/ solution is still supported for AEM OnPremise installations and AEM on Adobe Managed Service, the new AEM Eventing is by design initiated for AEM as a Cloud Service only. 
 
@@ -20,10 +20,10 @@ While the existing AEM Eventing https://developer.adobe.com/events/docs/guides/u
 
 Exposing events in AEM CS to external services, both first and third party, can solve a number of problems related to integrating various systems and improving the overall functionality of AEM CS. Here are a few specific problems that can be addressed by exposing events:
 
-- Real-time updates: By exposing events to external services, you can enable real-time updates to content and metadata within AEM. This means that changes made within AEM can be immediately reflected in other systems and platforms that are integrated with it.
-- Cross-system integration: Many organizations use multiple systems to manage different aspects of their business. By exposing events in AEM, you can facilitate integration with other systems, such as customer relationship management (CRM) or marketing automation tools. This allows for a more seamless exchange of data between systems, reducing manual data entry and improving overall efficiency.
-- Customization and flexibility: Exposing events in AEM allows for greater customization and flexibility in how the system is used. Developers can create custom integrations that use the events exposed by AEM to trigger specific actions in other systems or platforms. This allows for a more tailored approach to content management that can meet the unique needs of a particular organization. Traditionally, this comes at the cost of custom code integration in AEM, not so with AEM Events.
-- Improved analytics and reporting: By exposing events in AEM, you can gather more detailed data about how content is being used and consumed across different systems and platforms. This data can be used to generate more robust analytics and reporting, which can help inform content strategy and improve overall performance.
+* Real-time updates: By exposing events to external services, you can enable real-time updates to content and metadata within AEM. This means that changes made within AEM can be immediately reflected in other systems and platforms that are integrated with it.
+* Cross-system integration: Many organizations use multiple systems to manage different aspects of their business. By exposing events in AEM, you can facilitate integration with other systems, such as customer relationship management (CRM) or marketing automation tools. This allows for a more seamless exchange of data between systems, reducing manual data entry and improving overall efficiency.
+* Customization and flexibility: Exposing events in AEM allows for greater customization and flexibility in how the system is used. Developers can create custom integrations that use the events exposed by AEM to trigger specific actions in other systems or platforms. This allows for a more tailored approach to content management that can meet the unique needs of a particular organization. Traditionally, this comes at the cost of custom code integration in AEM, not so with AEM Events.
+* Improved analytics and reporting: By exposing events in AEM, you can gather more detailed data about how content is being used and consumed across different systems and platforms. This data can be used to generate more robust analytics and reporting, which can help inform content strategy and improve overall performance.
 
 Overall, exposing events in AEM can help to create a more integrated and efficient content ecosystem, while also providing greater flexibility and customization options for organizations.
 
@@ -31,10 +31,10 @@ Overall, exposing events in AEM can help to create a more integrated and efficie
  
 For project-specific extensions and integrations with AEM, AEM Events can help to inform external systems about all possible events in AEM in real time. This means that a automated reaction can be defined or implemented upon every event in AEM. Below you will find a few use case examples to illustrate how you could use AEM Events.
 
-- You are publishing headless content in AEM and want to forward content changes as webhooks on to e.g. a native mobile app. AEM Events is the perfect realtime trigger.
-- You want to log and archive all activities in AEM in an audit-proof manner. With AEM Events, you obtain relevant changes in AEM and forward them to an external system suitable for info retrieval and archiving.
-- You want to integrate an external search engine for site search on AEM Publish and update the indexes in real time.
-- You want to inform user groups about certain events in AEM in external channels. Forward the events as needed, e.g. to a Slack channel or to an email group.
+* You are publishing headless content in AEM and want to forward content changes as webhooks on to e.g. a native mobile app. AEM Events is the perfect realtime trigger.
+* You want to log and archive all activities in AEM in an audit-proof manner. With AEM Events, you obtain relevant changes in AEM and forward them to an external system suitable for info retrieval and archiving.
+* You want to integrate an external search engine for site search on AEM Publish and update the indexes in real time.
+* You want to inform user groups about certain events in AEM in external channels. Forward the events as needed, e.g. to a Slack channel or to an email group.
 
 In some use cases it is sufficient to forward AEM events as notifications. However, in most cases AEM Events must be combined with custom business logic and AEM APIs to access AEM content. Adobe offers comprehensive support here with Adobe Developer Console, Adobe i/o and AEM APIs. This tutorial is intended to give you an overview of AEM Events and step-by-step instructions on how you can effectively extend AEM via Events and integrate it with other systems.
 
@@ -88,42 +88,44 @@ In order to subscribe to AEM Eevents, you first need to create a new project in 
 
    ![create new project](/src/pages/guides/events/images/4.png)
    
-3. Add a new Service "Event" to your prefered workspace in your new Adobe Developer Console project. This will open the "Add Event" dialog for you, which shows you all Adobe product solutions to which you are entitled.
+1. Add a new Service "Event" to your prefered workspace in your new Adobe Developer Console project. This will open the "Add Event" dialog for you, which shows you all Adobe product solutions to which you are entitled.
    
    ![Select solution](/src/pages/guides/events/images/9.png)
    
-4. Select the AEM Solution from which you want to subscribe to AEM Events, for example AEM Sites or AEM Assets. Once you click "Next", you will be provided with all AEM as a Cloud Service Environments, to which you are entitled as per Admin Console Configuration, see also section [Enable AEM Events on your AEM Cloud Service Environment](#Enable-AEM-Events-on-your-AEM-Cloud-Service-Environment) in this tutorial.
+1. Select the AEM Solution from which you want to subscribe to AEM Events, for example AEM Sites or AEM Assets. Once you click "Next", you will be provided with all AEM as a Cloud Service Environments, to which you are entitled as per Admin Console Configuration, see also section [Enable AEM Events on your AEM Cloud Service Environment](#Enable-AEM-Events-on-your-AEM-Cloud-Service-Environment) in this tutorial.
 
     ![Select AEM instance](/src/pages/guides/events/images/10.png)
    
-5. Choose the AEM as a Cloud Service Environment, from which you want to receive AEM Events. Once you click "Next", you will be provided with a list of available AEM Events for your selected AEM Solution. 
+1. Choose the AEM as a Cloud Service Environment, from which you want to receive AEM Events. Once you click "Next", you will be provided with a list of available AEM Events for your selected AEM Solution. 
 
-6. Select the Event Types to which you want to subscribe and click "Next".
+1. Select the Event Types to which you want to subscribe and click "Next".
    ![Select event types](/src/pages/guides/events/images/11.png)
 
    >[!NOTE]
    >
    >For a list of available event types, see [this section](#available-event-types) in this tutorial.
 
-7. You will see the preselected **OAuth Server-To-Server** card, edit the credential name for better identification in the Admin Console and click "Next".
+1. You will see the preselected **OAuth Server-To-Server** card, edit the credential name for better identification in the Admin Console and click "Next".
 
    ![Oauth Server-to-server card](/src/pages/guides/events/images/7.png)
    
-8. Provide a name and a description for your AEM Event registration and click "Next".
-9. Next, choose how you would want to consume the events in Adobe I/O for this event registration. For more information, consult the [AEM Events processing via Adobe I/O](#aem-events-processing-via-adobe-io) section.
+1. Provide a name and a description for your AEM Event registration and click "Next".
+1. Next, choose how you would want to consume the events in Adobe I/O for this event registration. For more information, consult the [AEM Events processing via Adobe I/O](#aem-events-processing-via-adobe-io) section.
 
    ![Journaling](/src/pages/guides/events/images/12.png)
     
-10. The Journling API is generally always available to access the AEM Events queue. You can copy the Journaling endpoint - specific to your event registration, to access the Journaling API. Other AEM Event consumption options are:
-- Adobe I/O Webhook: Enter the URL of your webhook client and decide whether you want to forward events individually at runtime or in batches
-- Adobe I/O Runtime: Link the runtime action of your App Builder project to this event registration. This requires that you have initially activated (cmd: init) and deployed (cmd: deploy) your App Builder application.
+1. The Journling API is generally always available to access the AEM Events queue. You can copy the Journaling endpoint - specific to your event registration, to access the Journaling API.
+
+Other AEM Event consumption options are:
+
+* Adobe I/O Webhook: Enter the URL of your webhook client and decide whether you want to forward events individually at runtime or in batches
+* Adobe I/O Runtime: Link the runtime action of your App Builder project to this event registration. This requires that you have initially activated (cmd: init) and deployed (cmd: deploy) your App Builder application.
 
 That's it! The AEM events from your AEM as a Cloud Service environment should now arrive in your Adobe Developer Console project. You can observe this on the Events dialog of your event registration: In the "Debug tracing" section you can see the AEM Events Requests and the Runtime Action Response in Json format. On the "Event Browser" section you can view the entire AEM Event Journal in detail.
 You can check like this:
-- Whether your AEM events arrive in Adobe I/O
-- What the AEM event payload looks like
-- Identify errors via HTTP status in request/response traffic
-- What the response payload of your runtime action looks like
+* Whether your AEM events arrive in Adobe I/O
+* What the AEM event payload looks like
+* Identify errors via HTTP status in request/response traffic
+* What the response payload of your runtime action looks like
 
 **If you decide to use Adobe I/O Runtime for your custom business logic in your project, we recommend that you familiarize yourself with Adobe App Builder in advance. Once you learn how to initiate, develop, debug, and deploy an App Builder stand-alone application locally, you'll realize how easy it is and how much work it takes away from you. Try it out yourself!**
-
