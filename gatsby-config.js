@@ -30,7 +30,7 @@ module.exports = {
           {
             title: 'OpenAPI guide',
             path: '/guides/how-to/'
-          }
+          },
           {
             title: 'Events',
             path: '/guides/events/'
