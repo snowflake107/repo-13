@@ -92,7 +92,7 @@ In order to subscribe to AEM Eevents, you first need to create a new project in 
 1. Add a new Service "Event" to your prefered workspace in your new Adobe Developer Console project. This will open the "Add Event" dialog for you, which shows you all Adobe product solutions to which you are entitled.
 
   ![Select solution](/src/pages/guides/events/images/9.png)
- 
+
 1. Select the AEM Solution from which you want to subscribe to AEM Events, for example AEM Sites or AEM Assets. Once you click "Next", you will be provided with all AEM as a Cloud Service Environments, to which you are entitled as per Admin Console Configuration, see also section [Enable AEM Events on your AEM Cloud Service Environment](#Enable-AEM-Events-on-your-AEM-Cloud-Service-Environment) in this tutorial.
 
   ![Select AEM instance](/src/pages/guides/events/images/10.png)
