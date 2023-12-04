@@ -122,7 +122,9 @@ Other AEM Event consumption options are:
 * Adobe I/O Runtime: Link the runtime action of your App Builder project to this event registration. This requires that you have initially activated (cmd: init) and deployed (cmd: deploy) your App Builder application.
 
 That's it! The AEM events from your AEM as a Cloud Service environment should now arrive in your Adobe Developer Console project. You can observe this on the Events dialog of your event registration: In the "Debug tracing" section you can see the AEM Events Requests and the Runtime Action Response in Json format. On the "Event Browser" section you can view the entire AEM Event Journal in detail.
+
 You can check like this:
+
 * Whether your AEM events arrive in Adobe I/O
 * What the AEM event payload looks like
 * Identify errors via HTTP status in request/response traffic
