@@ -67,7 +67,7 @@ A comprehensive content management solution for building websites, mobile apps a
 
 **Events**
 
-* [Add-on for consuming Events and Webhooks](https://developer.adobe.com/events/docs/guides/using/aem/)
+* [AEM Events in AEM as a Cloud Service](/guides/events/index.md)
 
 <DiscoverBlock slots="link, text"/>
 
