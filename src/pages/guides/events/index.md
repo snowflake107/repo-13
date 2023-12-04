@@ -91,29 +91,29 @@ In order to subscribe to AEM Eevents, you first need to create a new project in 
 
 1. Add a new Service "Event" to your prefered workspace in your new Adobe Developer Console project. This will open the "Add Event" dialog for you, which shows you all Adobe product solutions to which you are entitled.
 
-  ![Select solution](./9.png)
+   ![Select solution](./9.png)
 
 1. Select the AEM Solution from which you want to subscribe to AEM Events, for example AEM Sites or AEM Assets. Once you click "Next", you will be provided with all AEM as a Cloud Service Environments, to which you are entitled as per Admin Console Configuration, see also section [Enable AEM Events on your AEM Cloud Service Environment](#Enable-AEM-Events-on-your-AEM-Cloud-Service-Environment) in this tutorial.
 
-  ![Select AEM instance](./10.png)
+   ![Select AEM instance](./10.png)
 
 1. Choose the AEM as a Cloud Service Environment, from which you want to receive AEM Events. Once you click "Next", you will be provided with a list of available AEM Events for your selected AEM Solution.
 
 1. Select the Event Types to which you want to subscribe and click "Next".
    ![Select event types](./11.png)
 
-  >[!NOTE]
-  >
-  >For a list of available event types, see [this section](#available-event-types) in this tutorial.
+   >[!NOTE]
+   >
+   >For a list of available event types, see [this section](#available-event-types) in this tutorial.
 
 1. You will see the preselected **OAuth Server-To-Server** card, edit the credential name for better identification in the Admin Console and click "Next".
 
-  ![Oauth Server-to-server card](./7.png)
+   ![Oauth Server-to-server card](./7.png)
 
 1. Provide a name and a description for your AEM Event registration and click "Next".
 1. Next, choose how you would want to consume the events in Adobe I/O for this event registration. For more information, consult the [AEM Events processing via Adobe I/O](#aem-events-processing-via-adobe-io) section.
 
-  ![Journaling](./12.png)
+   ![Journaling](./12.png)
 
 1. The Journling API is generally always available to access the AEM Events queue. You can copy the Journaling endpoint - specific to your event registration, to access the Journaling API.
 
