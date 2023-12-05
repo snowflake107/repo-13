@@ -108,7 +108,7 @@ In order to subscribe to AEM Events, you first need to create a new project in t
    
 For a list of available event types, see:
 
-[Available Evebt Types](#available-event-types)
+[Available Event Types](#available-event-types)
 
 </InlineNestedAlert>
 
