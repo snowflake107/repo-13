@@ -49,7 +49,7 @@ AEM events are routed to Adobe I/O by default and are available instantly as soo
 |Adobe I/O Journaling API |Enables enterprise integrations to consume events according to their own cadence and process them in bulk. |PULL |Use your existing ressources, for example Java Development, to process AEM Events with custom logic from any infrastructure by using Adobe I/O Journaling API. |[Adobe I/O Events Journaling API](https://developer.adobe.com/events/docs/guides/journaling_intro/)|
 |Adobe I/O Runtime |AEM Events trigger serverless functions |PUSH |Use Adobe Developer App Builder and create custom business logic in NodeJS for subscribed AEM event types. AEM Events result in execution as a serverless function in Adobe I/O Runtime. |[Adobe I/O Events Runtime](https://developer.adobe.com/runtime/docs/guides/overview/what_is_runtime/)|
 
-## Available Event Types
+## Available Event Types {#available-event-types}
 
 Current available event types for **AEM Sites** are considered to be in the headless use-cases area and refer to events related to content fragments and content fragment models.
 
@@ -104,8 +104,9 @@ In order to subscribe to AEM Events, you first need to create a new project in t
 1. Select the Event Types to which you want to subscribe and click "Next".
    ![Select event types](./11.png)
 
-   <InlineAlert slots="text" />
-   For a list of available event types, see [this section](#available-event-types) in this tutorial.
+<InlineNestedAlert variant="info">
+For a list of available event types, see [this section](#available-event-types) in this tutorial.
+</InlineNestedAlert>
 
 1. You will see the preselected **OAuth Server-To-Server** card, edit the credential name for better identification in the Admin Console and click "Next".
 
