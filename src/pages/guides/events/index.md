@@ -104,8 +104,12 @@ In order to subscribe to AEM Events, you first need to create a new project in t
 1. Select the Event Types to which you want to subscribe and click "Next".
    ![Select event types](./11.png)
 
-<InlineNestedAlert variant="info">
-For a list of available event types, see [this section](#available-event-types) in this tutorial.
+<InlineNestedAlert variant="info" slots="text1, links">
+   
+For a list of available event types, see:
+
+[Available Evebt Types](#available-event-types)
+
 </InlineNestedAlert>
 
 1. You will see the preselected **OAuth Server-To-Server** card, edit the credential name for better identification in the Admin Console and click "Next".
