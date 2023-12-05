@@ -105,7 +105,7 @@ In order to subscribe to AEM Events, you first need to create a new project in t
    ![Select event types](./11.png)
 
 <InlineNestedAlert variant="info" slots="text1, links">
-   
+
 For a list of available event types, see:
 
 [Available Event Types](#available-event-types)
