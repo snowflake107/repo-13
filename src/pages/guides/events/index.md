@@ -5,16 +5,17 @@ description: Introduction to the all-new AEM Events in AEM as a Cloud Service
 
 ## Introducing Cloud-Native AEM Events in AEM as a Cloud Service
 
-A major strength of AEM has always been interoperability, based on open standards. This has enabled custom extensions and integrations and created countless additional use cases with AEM as the content centerpiece. With the new development of AEM Events, AEM CS now offers a cloud-native solution for AEM expandability and thus pursues the following goals:
+A major strength of AEM has always been interoperability, based on open standards. This has enabled custom extensions and integrations and created countless additional use cases with AEM as the content centerpiece. With the new development of AEM Events, AEM as a Cloud Service now offers a cloud-native solution for AEM expandability and thus pursues the following goals:
 
 * A generic eventing platform that makes it easy to subscribe to events, process them according to your project needs in most lightweight, scalable and secure ways
 * Separation of functions like AEM Events in this case into standardized dedicated services for improved scalability and maintainability
 * Avoidance of custom code in AEM runtimes for better robustness and reduced effort when deploying, testing and maintaining AEM CS
 
-While the existing AEM Eventing https://developer.adobe.com/events/docs/guides/using/aem/ solution is still supported for AEM OnPremise installations and AEM on Adobe Managed Service, the new AEM Eventing is by design initiated for AEM as a Cloud Service only.
+While the existing [AEM Eventing](https://developer.adobe.com/events/docs/guides/using/aem/) solution is still supported for AEM OnPremise installations and AEM on Adobe Managed Service, the new AEM Eventing is by design initiated for AEM as a Cloud Service only.
 
-> [!NOTE]
-> AEM as a Cloud Service Eventing, together with AEM as a Cloud Service APIs, is currently only available to registered users in pre-release mode. Please contact Adobe if you are interested in unlocking these cloud-native extensibility capabilities of AEM as a Cloud Service.**
+<InlineAlert slots="text" />
+
+AEM as a Cloud Service Eventing, together with AEM as a Cloud Service APIs, is currently only available to registered users in pre-release mode. Please contact Adobe if you are interested in unlocking these cloud-native extensibility capabilities of AEM as a Cloud Service.
 
 ## Why AEM Events?
 
@@ -68,8 +69,9 @@ Current available event types for **AEM Sites** are considered to be in the head
 
 Current available event types for **AEM Assets** are part of the [developer documentation](https://developer.adobe.com/experience-cloud/experience-manager-apis/api/experimental/assets/author/).
 
-> [!NOTE]
-> The list of available event types for AEM as a Cloud Service is being expanded on a rolling basis. If you are missing the event types you need, please contact the AEM-Eventing team via support, Adobe Consulting or your Technical Account Manager. We can provide you with immediate information about which event types are in progress or how quickly we can provide the event types you need. Your project success is our goal, and accordingly, the AEM Events Team will do everything possible to provide you with the event types you need as fast as possible.
+<InlineAlert slots="text" />
+
+The list of available event types for AEM as a Cloud Service is being expanded on a rolling basis. If you are missing the event types you need, please contact the AEM-Eventing team via support, Adobe Consulting or your Technical Account Manager. We can provide you with immediate information about which event types are in progress or how quickly we can provide the event types you need. Your project success is our goal, and accordingly, the AEM Events Team will do everything possible to provide you with the event types you need as fast as possible.
 
 ## Enable AEM Events on your AEM Cloud Service Environment
 
@@ -102,9 +104,9 @@ In order to subscribe to AEM Eevents, you first need to create a new project in 
 1. Select the Event Types to which you want to subscribe and click "Next".
    ![Select event types](./11.png)
 
-   >[!NOTE]
-   >
-   >For a list of available event types, see [this section](#available-event-types) in this tutorial.
+   <InlineAlert slots="text" />
+
+   For a list of available event types, see [this section](#available-event-types) in this tutorial.
 
 1. You will see the preselected **OAuth Server-To-Server** card, edit the credential name for better identification in the Admin Console and click "Next".
 
