@@ -114,12 +114,13 @@ In order to subscribe to AEM Events, you first need to create a new project in t
 
    ![Journaling](./12.png)
 
-1. The Journling API is generally always available to access the AEM Events queue. You can copy the Journaling endpoint - specific to your event registration, to access the Journaling API.
+1. The Journaling API is generally always available to access the AEM Events queue. You can copy the Journaling endpoint - specific to your event registration, to access the Journaling API.
 
 Other AEM Event consumption options are:
 
 * Adobe I/O Webhook: Enter the URL of your webhook client and decide whether you want to forward events individually at runtime or in batches
 * Adobe I/O Runtime: Link the runtime action of your App Builder project to this event registration. This requires that you have initially activated (cmd: init) and deployed (cmd: deploy) your App Builder application.
+* Adobe I/0 and Amazon Eventbridge Integration: Add your AWS account ID and select AWS region to determine the Amazon Eventbridge target for your AEM Events.
 
 That's it! The AEM events from your AEM as a Cloud Service environment should now arrive in your Adobe Developer Console project. You can observe this on the Events dialog of your event registration: In the "Debug tracing" section you can see the AEM Events Requests and the Runtime Action Response in JSON format. On the **Event Browser** section, you can view the entire AEM Event Journal in detail.
 
