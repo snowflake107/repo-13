@@ -101,16 +101,8 @@ In order to subscribe to AEM Events, you first need to create a new project in t
 
 1. Choose the AEM as a Cloud Service Environment, from which you want to receive AEM Events. Once you click "Next", you will be provided with a list of available AEM Events for your selected AEM Solution.
 
-1. Select the Event Types to which you want to subscribe and click "Next".
+1. Select the Event Types to which you want to subscribe and click "Next". For a list of available event types, see [Available Event Types](#available-types).
    ![Select event types](./11.png)
-
-<InlineNestedAlert variant="info" slots="text, link">
-
-For a list of available event types, see:
-
-* [Available Event Types](#available-types)
-
-</InlineNestedAlert>
 
 1. You will see the preselected **OAuth Server-To-Server** card, edit the credential name for better identification in the Admin Console and click "Next".
 
