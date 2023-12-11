@@ -1,0 +1,35 @@
+global:
+  aws:
+    region: eu-west-1
+
+
+clusterSecretStores:
+  - name: superSecretStore
+    namespace: argocd
+    labels:
+      argocd.argoproj.io/secret-type: cluster
+    annotations:
+      argocd.argoproj.io/secret-type: cluster
+    provider:
+      aws:
+        service: SecretsManager
+        # Role is a Role ARN which the SecretManager provider will assume
+        role: iam-role
+        # AWS Region to be used for the provider
+        region: "{{ .Values.global.aws.region }}"
+        # Auth defines the information necessary to authenticate against AWS
+        auth:
+          # Getting the accessKeyID and secretAccessKey from an already created Kubernetes Secret
+          secretRef:
+            accessKeyIDSecretRef:
+              name: awssm-secret
+              key: access-key
+            secretAccessKeySecretRef:
+              name: awssm-secret
+              key: secret-access-key
+          # IAM roles for service accounts
+          # https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts-technical-overview.html
+          jwt:
+            serviceAccountRef:
+              name: my-serviceaccount
+              namespace: sa-namespace
