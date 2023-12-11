@@ -16,3 +16,9 @@ Browse the [AEM a Cloud Service documentation](https://experienceleague.adobe.co
 Program with AEM as a Cloud Service's OpenAPI-based APIs, following patterns including authentication, error handling, and selecting between stable and experimental versions.
 
 [Learn more](/src/pages/guides/how-to/index.md)
+
+### AEM Events
+
+AEM as a Cloud Service now offers a cloud-native solution for AEM expandability.
+
+[Learn more](/src/pages/guides/events/index.md)
