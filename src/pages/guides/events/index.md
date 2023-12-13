@@ -5,13 +5,13 @@ description: Introduction to the all-new AEM Events in AEM as a Cloud Service
 
 ## Introducing Cloud-Native AEM Events in AEM as a Cloud Service
 
-A major strength of AEM has always been interoperability, based on open standards. This has enabled custom extensions and integrations and created countless additional use cases with AEM as the content centerpiece. With the new development of AEM Events, AEM as a Cloud Service now offers a cloud-native solution for AEM expandability and thus pursues the following goals:
+A strength of AEM has always been interoperability, based on open standards. This has enabled custom extensions and integrations and created countless additional use cases with AEM as the content centerpiece. With the new development of AEM Events, AEM as a Cloud Service now offers a cloud-native solution for AEM expandability and thus pursues the following goals:
 
 * A generic eventing platform that makes it easy to subscribe to events, process them according to your project needs in most lightweight, scalable, and secure ways
 * Separation of functions like AEM Events in this case into standardized dedicated services for improved scalability and maintainability
 * Avoidance of custom code in AEM runtimes for better robustness and reduced effort when deploying, testing, and maintaining AEM as Cloud Service
 
-While the existing [AEM Eventing](https://developer.adobe.com/events/docs/guides/using/aem/) solution is still supported for AEM On Premise installations and AEM on Adobe Managed Service, the new AEM Eventing is by design initiated for AEM as a Cloud Service only.
+While the previous [AEM Eventing](https://developer.adobe.com/events/docs/guides/using/aem/) solution is still supported for AEM On Premise installations and AEM on Adobe Managed Service, the new AEM Eventing is by design initiated for AEM as a Cloud Service only.
 
 <InlineAlert slots="text" />
 
@@ -124,7 +124,7 @@ Other AEM Event consumption options are:
 
 That's it! The AEM events from your AEM as a Cloud Service environment should now arrive in your Adobe Developer Console project. You can observe this on the Events dialog of your event registration: In the "Debug tracing" section you can see the AEM Events Requests and the Runtime Action Response in JSON format. On the **Event Browser** section, you can view the entire AEM Event Journal in detail.
 
-You can check like this:
+You can check things like:
 
 * Whether your AEM events arrive in Adobe I/O
 * What the AEM event payload looks like
