@@ -7,9 +7,11 @@ description: How to use AEM OpenAPI-based APIs
 
 ### Introduction
 
-AEM as a Cloud Service offers a growing list of APIs that adhere to the [OpenAPI Specification](https://swagger.io/specification/v2/) (version 2), including operations on [Content Fragments](../../api/experimental/sites/) resources.
+AEM as a Cloud Service offers a variety of APIs that adhere to the [OpenAPI Specification](https://spec.openapis.org/oas/v3.0.3).
 
-See each resource's reference documentation for its available operations.
+For a full list of provided APIs and supported events, see the [APIs documentation](/).
+
+This guide describes the common patterns applying to all APIs.
 
 ### Authentication
 
@@ -18,7 +20,21 @@ Credentials should be generated using the AEM Developer Console. A short-lived [
 Pass the token as the value of the Authorization header as follows:
 
 `curl -H "Authorization: Bearer <access_token>" <https://<endpoint_url>`
-  
+
+### JSON Payloads
+
+Clients receiving JSON payload must be forgiving when processing the payload and not fail on additional properties that might not be declared in the schema the client is using. On the other hand clients must be strict when sending a JSON document as part of a request. The document must conform to the used schema.
+
+### Collections: Pagination and sorting
+
+Usually an API will support a **limit** query parameter to indicate the desired number of results to return. Documentation will state the default limit and any minimum or maximum values.
+
+If there are more resources in the collection than returned, the output result will include a **cursor** property. The cursor's value can then be used in a subsequent LIST API call to retrieve the next set of resources in the collection, by passing the returned value to the **cursor** query parameter.
+
+Empty collections are represented as an empty array.
+
+If API documentation states that results are sortable, optionally pass the **orderBy** query parameter a comma separated list of values, each followed by a space and either **asc** (ascending, which is the default) or **dec** (descending).
+
 ### Error handling
   
 A 500 error (or other 5xx codes) implies something wrong with the service, while a 400 error (or other 4xx codes) implies the service is rejecting the request due to permissions or data; for example, invalid credentials, incorrect parameters, or unknown version IDs.
@@ -32,16 +48,6 @@ Per [RFC 7808](https://datatracker.ietf.org/doc/html/rfc7807), the response may 
 | status   | number       | The HTTP status code |
 | detail   | string       | Explanation of the problem |
 | instance   | string     | A URI reference that identifies the specific occurrence of the problem |
-
-### Collections: Pagination and sorting
-
-Usually an API will support a **limit** query parameter to indicate the desired number of results to return. Documentation will state the default limit and any minimum or maximum values.
-
-If there are more resources in the collection than returend, the output result will include a parameter named **cursor**, which can be used in the LIST API call to retrieve the next set of resources in the collection.
-
-Empty collections are represented as an empty array.
-
-If API documentation states that results are sortable, optionally pass the **orderBy** query parameter a comma separated list of values, each followed by a space and either **asc** (ascending, which is the default) or **dec** (descending).
 
 ### Defending against concurrent update
 
@@ -67,7 +73,7 @@ The full set of AEM OpenAPI-based APIs gets a version associated with the timing
 
 Changes to a particular API from one version to the next can only be additive and are thus always backwards compatible.
 
-Adobe may deprecate an element of an API by flaggng it in documentation as deprecated. If a complete endpoint is deprecated, the response returns a **Sunset** header, indicating the targeted removal date. 
+Adobe may deprecate an element of an API by flaggng it in documentation as deprecated. If a complete endpoint is deprecated, the response returns a **Sunset** header, indicating the targeted removal date.
 
 ### Experimental and Unsupported APIs
 

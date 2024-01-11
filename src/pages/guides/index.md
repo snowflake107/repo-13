@@ -19,6 +19,6 @@ Program with AEM as a Cloud Service's OpenAPI-based APIs, following patterns inc
 
 ### AEM Events
 
-AEM as a Cloud Service now offers a cloud-native solution for AEM expandability.
+AEM as a Cloud Service offers a cloud-native solution for AEM expandability. Develop your extension and let it get triggered by events.
 
 [Learn more](/src/pages/guides/events/index.md)
