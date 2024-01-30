@@ -80,7 +80,7 @@ A comprehensive content management solution for building websites, mobile apps a
 
 **Stats**
 
-* [Stats API (Experiemental)](./api/experimental/stats/index.md)
+* [Statistics API (Experimental)](./api/experimental/stats/index.md)
 
 <DiscoverBlock slots="heading, link, text"/>
 
