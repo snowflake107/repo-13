@@ -78,7 +78,7 @@ A comprehensive content management solution for building websites, mobile apps a
 
 <DiscoverBlock slots="link, text"/>
 
-**Stats**
+**Statistics**
 
 * [Statistics API (Experimental)](./api/experimental/stats/index.md)
 
