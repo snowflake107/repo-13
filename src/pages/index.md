@@ -76,6 +76,12 @@ A comprehensive content management solution for building websites, mobile apps a
 
 * [Workflow API](https://experienceleague.adobe.com/docs/experience-manager-65/developing/extending-aem/extending-workflows/workflows-program-interaction.html?lang=en)
 
+<DiscoverBlock slots="link, text"/>
+
+**Statistics**
+
+* [Statistics API (Experimental)](./api/experimental/stats/index.md)
+
 <DiscoverBlock slots="heading, link, text"/>
 
 ### Reporting and Infrastructure
