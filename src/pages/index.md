@@ -51,6 +51,12 @@ A comprehensive content management solution for building websites, mobile apps a
 
 <DiscoverBlock slots="link, text"/>
 
+**Folders**
+
+* [Folders API (Experimental)](./api/experimental/folders/)
+
+<DiscoverBlock slots="link, text"/>
+
 **Forms**
 
 * [Adaptive Forms Runtime API](./api/stable/forms/)
