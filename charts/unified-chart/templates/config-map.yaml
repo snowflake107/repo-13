@@ -1,0 +1,15 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  annotations:
+    {{- with .Values.configmap.annotations }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
+  name: {{ include "unified.name" . }}-configmap
+  labels:
+    {{- include "unified.labels" . | nindent 4 }}
+data:
+  {{- range $key,$value := .Values.configmap.data }}
+  {{ tpl $key $ }}: {{ tpl $value $ | quote }}
+  {{- end }}

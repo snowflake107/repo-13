@@ -1,0 +1,41 @@
+{{- if .Values.worker.enabled }}
+{{- if .Values.worker.autoscaling }}
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "unified.name" . }}-worker-hpa
+  labels:
+  {{- include "unified.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    {{- if .Values.argoRollouts }}
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    name: {{ include "unified.name" . }}-worker-rollout
+    {{- else }}
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "unified.name" . }}-worker-deployment
+    {{- end }}
+  minReplicas: {{ .Values.worker.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.worker.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.worker.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.worker.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.worker.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.worker.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}
+{{- end }}

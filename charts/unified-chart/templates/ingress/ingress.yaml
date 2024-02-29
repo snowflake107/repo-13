@@ -1,0 +1,36 @@
+{{- if .Values.ingress.enabled -}}
+{{- $name := include "unified.name" . -}}
+{{- $svcPort := .Values.service.port -}}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ required ".Values.name is required" .Values.name }}-ingress
+  labels:
+    {{- include "unified.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.ingress.ingressClassName }}
+  ingressClassName: {{ . | quote }}
+  {{- end }}
+{{- if .Values.ingress.tls.enabled}}
+  tls:
+    - hosts:
+        - {{ include "unified.hostname" . | quote }}
+      secretName: {{ .Values.ingress.tls.secretName }}
+{{- end }}
+  rules:
+    - host: {{ include "unified.hostname" . | quote }}
+      http:
+        paths:
+        - path: /
+          backend:
+            service:
+              name: frontegg-{{ include "unified.name" . }}
+              port:
+                number: {{ $svcPort }}
+          pathType: ImplementationSpecific
+  {{- end }}

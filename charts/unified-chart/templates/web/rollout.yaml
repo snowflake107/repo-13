@@ -1,0 +1,20 @@
+{{- if .Values.argoRollouts }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ include "unified.name" . }}-rollout
+spec:
+  workloadRef: # Reference an existing Deployment using workloadRef field
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "unified.name" . }}-deployment
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      {{- include "unified.selectorLabels" . | nindent 6 }}
+  strategy:
+    blueGreen:
+      activeService: {{ include "unified.web.svc.name" . }}
+      autoPromotionEnabled: true
+{{- end }}

@@ -1,0 +1,31 @@
+{{- $top := . }}
+{{- if (eq (include "isLinkerdInjectEnabled" .Values.web ) "true") }}
+{{- if .Values.serviceProfile }}
+{{- with .Values.serviceProfile.routes }}
+---
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  name: {{ include "unified.web.svc.name" $top }}.frontegg.svc.cluster.local
+  namespace: frontegg
+spec:
+  routes:
+    {{- . | toYaml | nindent 4 }}
+{{- end }}
+{{- end }}
+
+{{- $name := (include "unified.name" .) }}
+{{- if has $name .Values.doubleSVC }}
+{{- with .Values.serviceProfile.routes }}
+---
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  name: frontegg-{{ include "unified.name" $top }}.frontegg.svc.cluster.local
+  namespace: frontegg
+spec:
+  routes:
+    {{- . | toYaml | nindent 4 }}
+{{- end }}
+{{- end }}
+{{- end }}
