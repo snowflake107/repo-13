@@ -7948,6 +7948,7 @@ __metadata:
   dependencies:
     "@adobe/gatsby-theme-aio": ^4.11.0
     gatsby: 4.22.0
+    photoshop-api: "github:adobedocs/photoshop-api"
     react: ^17.0.2
     react-dom: ^17.0.2
     remark-cli: ^11.0.0
@@ -15833,6 +15834,18 @@ __metadata:
   version: 2.9.3
   resolution: "phin@npm:2.9.3"
   checksum: 7e2abd7be74a54eb7be92dccb1d7a019725c8adaa79ac22a38f25220f9a859393e654ea753a559d326aed7bbc966fadac88270cc8c39d78896f7784219560c47
+  languageName: node
+  linkType: hard
+
+"photoshop-api@github:adobedocs/photoshop-api":
+  version: 1.0.0
+  resolution: "photoshop-api@https://github.com/adobedocs/photoshop-api.git#commit=708f52d7a201f5dbe85c35688a9a200b89ef66aa"
+  dependencies:
+    "@adobe/gatsby-theme-aio": ^4.11.0
+    gatsby: 4.22.0
+    react: ^17.0.2
+    react-dom: ^17.0.2
+  checksum: a93236fb4a9cabd88b40083fa4addd1acc0e8409a129eb9117ab0ef71e78290414d63cdbb08e6392b070432f13ac0393dd666c75787baf9e1eba0072a8ab9696
   languageName: node
   linkType: hard
 
