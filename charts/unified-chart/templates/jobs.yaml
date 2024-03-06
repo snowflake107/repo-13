@@ -7,7 +7,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "unified.name" $top }}-{{ $jobName }}-{{ now | unixEpoch }}
+  name: {{ include "unified.name" $top }}-{{ $jobName }}-{{ $values.appVersion }}
   labels:
     {{- include "unified.jobLabels" $top | nindent 4 }}
     app.kubernetes.io/component: {{ $jobName }}
@@ -31,7 +31,7 @@ spec:
   backoffLimit: {{ .backoffLimit | default 1 }}
   template:
     metadata:
-      name: {{ include "unified.name" $top }}-{{ $jobName }}-{{ now | unixEpoch }}
+      name: {{ include "unified.name" $top }}-{{ $jobName }}-{{ $values.appVersion }}
       labels:
         {{- include "unified.jobLabels" $top | nindent 8 }}
         app.kubernetes.io/component: {{ $jobName }}

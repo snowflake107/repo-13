@@ -97,7 +97,7 @@ app.frontegg.com/name: {{ include "unified.name" . }}-worker
 {{- end -}}
 
 {{- define "external-secret-unique-name" -}}
-{{ include "unified.name" . }}-secret-{{ now | unixEpoch }}
+{{ include "unified.name" . }}-secret-{{ .Values.appVersion | default "master-latest"}}
 {{- end -}}
 
 {{- define "isLinkerdInjectEnabled" -}}
