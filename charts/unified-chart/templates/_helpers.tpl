@@ -64,7 +64,7 @@ app.frontegg.com/team: {{ .Values.team }}
 {{ include "unified.selectorLabels" . }}
 app.frontegg.io/version: {{ .Chart.Version | quote }}
 app.frontegg.io/managed-by: {{ .Release.Service }}
-app.frontegg.com/appVersion: {{ .Values.appVersion | quote }}
+app.frontegg.com/appVersion: {{ include "appVersion" . }}
 {{- end -}}
 
 {{/* Selector labels */}}
@@ -85,7 +85,7 @@ app.frontegg.com/instance: {{ .Release.Name }}
 
 {{- define "unified.workerLabels" -}}
 app.frontegg.com/team: {{ required ".Values.team is required" .Values.team }}
-app.frontegg.com/appVersion: {{ .Values.appVersion | quote }}
+app.frontegg.com/appVersion: {{ include "appVersion" . }}
 {{- with .Values.worker.labels }}
 {{ toYaml . }}
 {{- end }}
@@ -96,8 +96,12 @@ app.frontegg.com/appVersion: {{ .Values.appVersion | quote }}
 app.frontegg.com/name: {{ include "unified.name" . }}-worker
 {{- end -}}
 
+{{- define "appVersion" -}}
+{{ required ".Values.appVersion is required cant run without it" .Values.appVersion }}
+{{- end -}}
+
 {{- define "external-secret-unique-name" -}}
-{{ include "unified.name" . }}-secret-{{ .Values.appVersion | default "master-latest"}}
+{{ include "unified.name" . }}-secret-{{ include "appVersion" . }}
 {{- end -}}
 
 {{- define "isLinkerdInjectEnabled" -}}
@@ -116,7 +120,7 @@ app.frontegg.com/team: {{ .Values.team }}
 helm.sh/chart: {{ include "unified.chart" . }}
 app.frontegg.io/version: {{ .Chart.Version | quote }}
 app.frontegg.io/managed-by: {{ .Release.Service }}
-app.frontegg.com/appVersion: {{ .Values.appVersion | quote }}
+app.frontegg.com/appVersion: {{ include "appVersion" . }}
 {{ include "unified.hp.selectorLabels" . }}
 {{- end -}}
 

@@ -9,7 +9,8 @@ envID: local
 # CAUTION this will change name of all manifests
 nameSuffix: v2
 
-appVersion: master-latest
+# appVersion is required
+# appVersion: master-latest
 
 argoRollouts: true
 
