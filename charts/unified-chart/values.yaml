@@ -135,10 +135,10 @@ albIngress:
 highPriority:
   enabled: false
   command: ["/bin/bash"]
+  args: ["entrypoint.sh", "service"]
   env:
     # - name: FRONTEGG_IS_SERVICE_OFFLINE_PROCESS
     #   value: "false"
-  args: ["entrypoint.sh", "service"]
   labels:
     priority: "high"
   replicaCount: 1

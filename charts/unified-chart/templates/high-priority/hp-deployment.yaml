@@ -89,11 +89,11 @@ spec:
           resources:
             {{- toYaml .Values.web.resources | nindent 12 }}
           command:
-            {{- range .Values.web.command }}
+            {{- range .Values.highPriority.command }}
             - {{ . | quote  }}
             {{- end }}
           args:
-            {{- range .Values.web.args }}
+            {{- range .Values.highPriority.args }}
             - {{ . | quote  }}
             {{- end }}
       {{- with .Values.web.nodeSelector }}
