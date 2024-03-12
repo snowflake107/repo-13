@@ -7,7 +7,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "unified.name" $top }}-{{ $jobName }}-{{ $values.appVersion }}
+  name: {{ include "unified.name" $top | replace "-" "" | trunc 15 }}{{ $jobName | trunc 7 }}{{ $values.appVersion }}
   labels:
     {{- include "unified.jobLabels" $top | nindent 4 }}
     app.kubernetes.io/component: {{ $jobName }}
