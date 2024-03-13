@@ -103,7 +103,10 @@ cronjobs:
 
 configmap:
   annotations:
-    argocd.argoproj.io/sync-wave: "-1000"
+    # argocd.argoproj.io/sync-wave: "-1000"
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "-2"
+    helm.sh/hook-delete-policy: "before-hook-creation"
   data:
     # EXAMPLE: '{{ include "fullname" $ }}-example'
 
@@ -117,7 +120,10 @@ externalSecret:
   subPath: config
   refreshInterval: 1m
   annotations:
-    argocd.argoproj.io/sync-wave: "-1000"
+    # argocd.argoproj.io/sync-wave: "-1000"
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "-4"
+    helm.sh/hook-delete-policy: "before-hook-creation"
   text: |
     {{- $secret := .contents | fromYaml }}
     apiKey: {{ $secret.frontegg.apiKeys.tenantsServiceApiKey| default "x" }}

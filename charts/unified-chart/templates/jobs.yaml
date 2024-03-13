@@ -2,7 +2,6 @@
 {{- $top := . -}}
 {{- range $jobName, $job := $values.jobs -}}
 {{- if $job.enabled }}
-{{- $defaultSyncWave := true -}}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -13,17 +12,13 @@ metadata:
     app.kubernetes.io/component: {{ $jobName }}
   annotations:
     {{- if $job.metadata }}
-    {{- with $job.metadata.annotations }}
+    {{- with (omit $job.metadata.annotations "argocd.argoproj.io/sync-wave") }}
     {{- toYaml . | nindent 4 }}
-    {{- if (index . "argocd.argoproj.io/sync-wave") }}
-    {{- $defaultSyncWave = false }}
     {{- end }}
     {{- end }}
-    {{- end }}
-    {{- if $defaultSyncWave }}
-    # default sync wave for jobs
-    argocd.argoproj.io/sync-wave: "-501"
-    {{- end }}
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "-2"
+    helm.sh/hook-delete-policy: "before-hook-creation"
 spec:
   {{- with $job.spec }}
   completions: {{ .completions | default 1 }}
