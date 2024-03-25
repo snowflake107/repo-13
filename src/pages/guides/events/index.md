@@ -52,23 +52,9 @@ AEM events are routed to Adobe I/O by default and are available instantly as soo
 
 ## Available Event Types
 
-Current available event types for **AEM Sites** are considered to be in the headless use-cases area and refer to events related to content fragments and content fragment models.
-
-| Event Type Name | Event Type Description |
-|---|---|
-| Content Fragment created | Event triggered when a Content Fragment Model has been created on the AEM Authoring environment. |
-| Content Fragment Deleted | Event triggered when a Content Fragment Model has been deleted on the AEM Authoring environment. |
-| Content Fragment Model Created | Event triggered when a Content Fragment Model has been created on the AEM Authoring environment. |
-| Content Fragment Model Deleted | Event triggered when a Content Fragment Model has been deleted on the AEM Authoring environment. |
-| Content Fragment Model Modified | Event triggered when a Content Fragment Model has been modified on the AEM Authoring environment. |
-| Content Fragment Model Published | Event triggered when a Content Fragment Model has been published. |
-| Content Fragment Model Unpublished | Event triggered when a Content Fragment Model has been unpublished. |
-| Content Fragment Modified | Event triggered when a Content Fragment has been modified on the AEM Authoring environment. |
-| Content Fragment Published | Event triggered when a Content Fragment has been published. |
-| Content Fragment Unpublished | Event triggered when a Content Fragment has been unpublished. |
-| Content Fragment Variation Change | Event triggered when a Content Fragment Variation has been modified on the AEM Authoring environment. |
-
-Current available event types for **AEM Assets** are part of the [developer documentation](https://developer.adobe.com/experience-cloud/experience-manager-apis/api/experimental/assets/author/).
+Current available event types are documented in the AEM API specification as listed below:
+- [AEM Sites Author Events:](https://developer.adobe.com/experience-cloud/experience-manager-apis/api/stable/sites/).
+- [AEM Assets Author Events:](https://developer.adobe.com/experience-cloud/experience-manager-apis/api/experimental/assets/author/).
 
 <InlineAlert slots="text" />
 
