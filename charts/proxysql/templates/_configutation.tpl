@@ -1,47 +1,47 @@
 {{- define "proxysql.cnf" -}}
     admin_variables=
     {
-      {{- if not .Values.proxysql.cluster.enabled }}
-      admin_credentials="{{ .Values.proxysql.admin.user }}:{{ .Values.proxysql.admin.password }}"
+      {{- if not .cluster.enabled }}
+      admin_credentials="{{ .admin.user }}:{{ .admin.password }}"
       {{- else }}
-      admin_credentials="{{ .Values.proxysql.admin.user }}:{{ .Values.proxysql.admin.password }};{{ .Values.proxysql.cluster.user }}:{{ .Values.proxysql.cluster.password }}"
-      cluster_username="{{ .Values.proxysql.cluster.user }}"
-      cluster_password="{{ .Values.proxysql.cluster.password }}"
+      admin_credentials="{{ .admin.user }}:{{ .admin.password }};{{ .cluster.user }}:{{ .cluster.password }}"
+      cluster_username="{{ .cluster.user }}"
+      cluster_password="{{ .cluster.password }}"
       {{- end }}
-      stats_credentials="{{ .Values.proxysql.web.user }}:{{ .Values.proxysql.web.password }}"
-      mysql_ifaces="0.0.0.0:{{ .Values.proxysql.port }}"
+      stats_credentials="{{ .web.user }}:{{ .web.password }}"
+      mysql_ifaces="0.0.0.0:{{ .port }}"
       restapi_enabled=true
-      web_enabled={{ .Values.proxysql.web.enabled }}
-      web_port={{ .Values.proxysql.web.port }}
+      web_enabled={{ .web.enabled }}
+      web_port={{ .web.port }}
     }
     mysql_variables=
     {
-      interfaces="0.0.0.0:{{ .Values.proxysql.mysql.port }}"
+      interfaces="0.0.0.0:{{ .mysql.port }}"
       connect_timeout_server=1500
       connect_timeout_server_max=10000
-      connection_max_age_ms={{ .Values.proxysql.mysql.connectionMaxAgeMS }}
+      connection_max_age_ms={{ .mysql.connectionMaxAgeMS }}
       default_max_latency_ms=1500
       default_query_timeout=86400000
       long_query_time=5000
       max_allowed_packet=1073741824
-      max_connections={{ .Values.proxysql.mysql.maxConnections }}
+      max_connections={{ .mysql.maxConnections }}
       ping_timeout_server=500
-      query_cache_size_MB={{ .Values.proxysql.mysql.queyCacheSizeMB }}
-      query_retries_on_failure={{ .Values.proxysql.mysql.queryRetriesOnFailure }}
-      server_version="{{ .Values.proxysql.mysql.version }}"
+      query_cache_size_MB={{ .mysql.queyCacheSizeMB }}
+      query_retries_on_failure={{ .mysql.queryRetriesOnFailure }}
+      server_version="{{ .mysql.version }}"
       shun_on_failures=5
       shun_recovery_time_sec=9
       stacksize=1048576
       threads=4
       threshold_query_length=524288
       threshold_resultset_size=4194304
-      wait_timeout={{ int .Values.proxysql.mysql.waitTimeout }}
-      monitor_enabled={{ .Values.proxysql.monitor.enabled }}
-      {{- if .Values.proxysql.monitor.enabled }}
+      wait_timeout={{ int .mysql.waitTimeout }}
+      monitor_enabled={{ .monitor.enabled }}
+      {{- if .monitor.enabled }}
       monitor_connect_interval=120000
       monitor_connect_timeout=1000
-      monitor_username="{{ required "monitor user name is required!" .Values.proxysql.monitor.user }}"
-      monitor_password="{{ required "monitor password is required!" .Values.proxysql.monitor.password }}"
+      monitor_username="{{ required "monitor user name is required!" .monitor.user }}"
+      monitor_password="{{ required "monitor password is required!" .monitor.password }}"
       monitor_ping_interval=8000
       monitor_ping_max_failures=3
       monitor_ping_timeout=1500
@@ -50,20 +50,20 @@
       monitor_read_only_interval=1000
       monitor_read_only_max_timeout_count=3
       monitor_read_only_timeout=1500
-      monitor_replication_lag_interval={{ .Values.proxysql.monitor.replicationLagInterval }}
-      monitor_replication_lag_timeout={{ .Values.proxysql.monitor.replicationLagTimeout }}
-      monitor_slave_lag_when_null={{ .Values.proxysql.monitor.slaveLagWhenNull }}
+      monitor_replication_lag_interval={{ .monitor.replicationLagInterval }}
+      monitor_replication_lag_timeout={{ .monitor.replicationLagTimeout }}
+      monitor_slave_lag_when_null={{ .monitor.slaveLagWhenNull }}
       monitor_threads_max=128
       monitor_threads_min=8
       monitor_threads_queue_maxsize=128
       monitor_timer_cached=true
-      {{- if .Values.proxysql.mysql.galera.enabled }}
-      monitor_writer_is_also_reader={{ .Values.proxysql.mysql.galera.writerAsReader }}
+      {{- if .mysql.galera.enabled }}
+      monitor_writer_is_also_reader={{ .mysql.galera.writerAsReader }}
       {{- else }}
-      monitor_writer_is_also_reader={{ .Values.proxysql.monitor.writerAsReader }}
+      monitor_writer_is_also_reader={{ .monitor.writerAsReader }}
       {{- end }}
-      {{- if .Values.proxysql.mysql.galera.enabled }}
-      {{- if not .Values.proxysql.mysql.slave.enabled }}
+      {{- if .mysql.galera.enabled }}
+      {{- if not .mysql.slave.enabled }}
       monitor_galera_healthcheck_interval=5000
       monitor_galera_healthcheck_max_timeout_count=3
       monitor_galera_healthcheck_timeout=1500
@@ -71,13 +71,13 @@
       {{- end }}
       {{- end }}
     }
-    {{- if .Values.proxysql.cluster.enabled }}
+    {{- if .cluster.enabled }}
     proxysql_servers=
     (
       {{- $fullname := include "proxysql.fullname" . -}}
       {{- $namespace := .Release.Namespace -}}
       {{- $replicaCount := (int .Values.replicaCount) -}}
-      {{- $proxysqlPort := .Values.proxysql.port -}}
+      {{- $proxysqlPort := .port -}}
       {{- range $index, $element := until $replicaCount }}
       {
         hostname="{{- $fullname -}}-{{- (toString $index) -}}.{{- $fullname -}}.{{- $namespace -}}"
@@ -86,11 +86,11 @@
       {{- end }}
     )
     {{- end }}
-    {{- if .Values.proxysql.mysql.servers }}
+    {{- if .mysql.servers }}
     mysql_servers=
     (
-      {{- $totalServers := (len .Values.proxysql.mysql.servers) -}}
-      {{- range $index, $element := .Values.proxysql.mysql.servers }}
+      {{- $totalServers := (len .mysql.servers) -}}
+      {{- range $index, $element := .mysql.servers }}
       {
         hostgroup_id={{- if or $element.isWriter (kindIs "invalid" $element.isWriter) }}1{{- else }}2{{- end }}
         hostname="{{ required "mysql server's hostname is required!" $element.hostname }}"
@@ -104,20 +104,20 @@
       {{- end }}
     )
     {{- end }}
-    {{- if .Values.proxysql.mysql.slave.enabled }}
-    {{- if not .Values.proxysql.mysql.galera.enabled }}
+    {{- if .mysql.slave.enabled }}
+    {{- if not .mysql.galera.enabled }}
     mysql_replication_hostgroups=
     (
       {
         writer_hostgroup=1
         reader_hostgroup=2
-        check_type="{{ .Values.proxysql.mysql.slave.checkType }}"
+        check_type="{{ .mysql.slave.checkType }}"
       }
     )
     {{- end }}
     {{- end }}
-    {{- if .Values.proxysql.mysql.galera.enabled }}
-    {{- if not .Values.proxysql.mysql.slave.enabled }}
+    {{- if .mysql.galera.enabled }}
+    {{- if not .mysql.slave.enabled }}
     mysql_galera_hostgroups=
     (
       {
@@ -126,17 +126,17 @@
         reader_hostgroup=2
         offline_hostgroup=4
         active=1
-        max_writers={{ .Values.proxysql.mysql.galera.maxWriters }}
-        writer_is_also_reader={{ int .Values.proxysql.mysql.galera.writerAsReader }}
+        max_writers={{ .mysql.galera.maxWriters }}
+        writer_is_also_reader={{ int .mysql.galera.writerAsReader }}
       }
     )
     {{- end }}
     {{- end }}
-    {{- if .Values.proxysql.mysql.users }}
+    {{- if .mysql.users }}
     mysql_users=
     (
-      {{- $totalUsers := (len .Values.proxysql.mysql.users) -}}
-      {{- range $index, $element := .Values.proxysql.mysql.users }}
+      {{- $totalUsers := (len .mysql.users) -}}
+      {{- range $index, $element := .mysql.users }}
       {
         username="{{ required "mysql username is required!" $element.username }}"
         password="{{ required "mysql passowrd is required!" $element.password }}"
@@ -149,7 +149,7 @@
       {{- end }}
     )
     {{- end }}
-    {{- if .Values.proxysql.mysql.readWriteSplit }}
+    {{- if .mysql.readWriteSplit }}
     mysql_query_rules=
     (
       {
