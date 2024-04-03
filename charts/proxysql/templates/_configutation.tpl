@@ -169,10 +169,3 @@
     )
     {{- end }}
 {{- end }}
-
-{{- define "proxysql.poop" -}}
-{{- if .Values.proxysql.externalSecret.enabled }}
-{{-else }}
-
-{{- end }}
-{{- end }}
