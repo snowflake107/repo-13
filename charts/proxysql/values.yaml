@@ -103,16 +103,6 @@ affinity: {}
 
 proxysql:
   # secret: proxysql-configmap-name
-  externalSecret:
-    enabled: false
-    annotations: []
-    labels: []
-    refreshInterval: 1m
-    secretStoreRef:
-      name: ""
-      kind: ""
-    secretKey: "content"
-    remoteRefKey: ""
   web:
     enabled: true
     port: 443
