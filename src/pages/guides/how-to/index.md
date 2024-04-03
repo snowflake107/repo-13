@@ -71,7 +71,7 @@ If the client has taken too much time to poll, the result may be lost and the UR
 
 The full set of AEM OpenAPI-based APIs gets a version associated with the timing of its release. For example, 2023.9.
 
-Changes to a particular API from one version to the next can only be additive and are thus always backwards compatible.
+Changes to a particular API from one version to the next can only be additive and are thus always backwards compatible.  Note that some libraries that are used for parsing JSON have a default configuration that will cause a failure to occur when unexpected properties are found.  For example, Jackson, a popular Java library for working with JSON, will throw an UnrecognizedPropertyException in these cases.  To avoid these errors from occurring when Adobe adds new properties to existing APIs, the client should configure the library to be forgiving when parsing JSON.  For example, in Jackson, the client can set DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES to false at the ObjectMapper or ignoreUnknown to true at the class level.  See the documentation for your JSON parsing library for more information.
 
 Adobe may deprecate an element of an API by flaggng it in documentation as deprecated. If a complete endpoint is deprecated, the response returns a **Sunset** header, indicating the targeted removal date.
 
