@@ -3,6 +3,8 @@ nameOverride: ""
 # -- String to fully override `"proxysql.fullname"`
 fullnameOverride: ""
 
+selectorLabels: {}
+
 image:
   # -- image repository
   repository: proxysql/proxysql

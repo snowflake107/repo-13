@@ -49,6 +49,9 @@ Selector labels
 {{- define "proxysql.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "proxysql.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- with .Values.selectorLabels }}
+{{ toYaml . }}
+{{- end }}
 {{- end }}
 
 
