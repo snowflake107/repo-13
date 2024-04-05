@@ -11,7 +11,7 @@ A strength of AEM has always been interoperability, based on open standards. Thi
 * Separation of functions like AEM Events in this case into standardized dedicated services for improved scalability and maintainability
 * Avoidance of custom code in AEM runtimes for better robustness and reduced effort when deploying, testing, and maintaining AEM as Cloud Service
 
-While the previous [AEM Eventing](https://developer.adobe.com/events/docs/guides/using/aem/) solution is still supported for AEM On Premise installations and AEM on Adobe Managed Service, the new AEM Eventing is by design initiated for AEM as a Cloud Service only.
+While the previous [AEM Eventing](https://developer.adobe.com/events/docs/guides/using/aem/) solution is still supported for AEM On Premise installations and AEM on Adobe Managed Service, the [new AEM Eventing](https://experienceleague.adobe.com/en/docs/experience-manager-learn/cloud-service/aem-eventing/overview) is by design initiated for AEM as a Cloud Service only.
 
 <InlineAlert slots="text" />
 
