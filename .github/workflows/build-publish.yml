@@ -32,7 +32,7 @@ jobs:
     - name: Install project
       run: yarn install
 
-    - name: Build and publish container
+    - name: Calculate version
       run: |
         export BRANCH=${GITHUB_REF##*/}
         echo "Branch $BRANCH"
