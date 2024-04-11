@@ -22,3 +22,7 @@ Program with AEM as a Cloud Service's OpenAPI-based APIs, following patterns inc
 AEM as a Cloud Service offers a cloud-native solution for AEM expandability. Develop your extension and let it get triggered by events.
 
 [Learn more](/src/pages/guides/events/index.md)
+
+### End-to-End Use Case
+
+Take a look at [AEM Assets events for PIM integration](https://experienceleague.adobe.com/en/docs/experience-manager-learn/cloud-service/aem-eventing/examples/assets-pim-integration) to learn the steps that are needed to onboard the OpenAPI-based APIs and IO Events for the use case of importing metadata from a third-party system whenever a new asset is uploaded into the DAM. This is a great walkthrough for this use case, but also as an example of how to get started with these new development patterns.
