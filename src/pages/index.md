@@ -63,6 +63,7 @@ A comprehensive content management solution for building websites, mobile apps a
 * [Document Generation Synchronous API](https://developer.adobe.com/experience-manager-forms-cloud-service-developer-reference/references/output-sync)
 * [Document Generation Asynchronous API](https://developer.adobe.com/experience-manager-forms-cloud-service-developer-reference/references/output-batch)
 * [Document Manipulation Synchronous API](https://developer.adobe.com/experience-manager-forms-cloud-service-developer-reference/references/assembler-sync)
+* [Document Utility API (Experimental)](./api/experimental/document/)
 
 <DiscoverBlock slots="link, text"/>
 
