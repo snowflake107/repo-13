@@ -8,11 +8,12 @@ const http = new httpm.HttpClient('client')
 
 async function getAccessToken(
   clientId: string,
-  clientSecret: string
+  clientSecret: string,
+  resource: string
 ): Promise<string> {
   const response = await http.post(
     'https://sso-sprint.dynatracelabs.com/sso/oauth2/token',
-    `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}&scope=storage:bizevents:write storage:buckets:read storage:events:write`,
+    `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}&scope=storage:bizevents:write storage:buckets:read storage:events:write&resource=${resource}`,
     {
       'content-type': 'application/x-www-form-urlencoded'
     }
@@ -42,8 +43,13 @@ export async function run(): Promise<void> {
     const clientId = core.getInput('dt-client-id')
     const clientSecret = core.getInput('dt-client-secret')
     const environmentId = core.getInput('dt-environment-id')
+    const resource = core.getInput('dt-resource')
     const cloudEvent = buildCloudEvent(github.context.payload)
-    const dynatraceAccessToken = await getAccessToken(clientId, clientSecret)
+    const dynatraceAccessToken = await getAccessToken(
+      clientId,
+      clientSecret,
+      resource
+    )
     console.log('token')
     console.log(dynatraceAccessToken)
     const response = await http.post(

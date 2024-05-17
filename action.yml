@@ -11,6 +11,9 @@ inputs:
   dt-environment-id:
     required: true
     description: 'Dynatrace Environment ID'
+  c:
+    required: true
+    description: 'Dynatrace Resource URN'
 runs:
   using: 'node16'
   main: 'dist/index.js'
