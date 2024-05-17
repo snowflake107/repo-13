@@ -11,7 +11,7 @@ inputs:
   dt-environment-id:
     required: true
     description: 'Dynatrace Environment ID'
-  c:
+  dt-resource:
     required: true
     description: 'Dynatrace Resource URN'
 runs:
