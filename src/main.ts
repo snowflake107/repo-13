@@ -51,7 +51,7 @@ export async function run(): Promise<void> {
       clientSecret,
       resource
     )
-
+    console.log(cloudEvent)
     const response = await http.post(
       `${environmentId}/api/v2/bizevents/ingest`,
       JSON.stringify(cloudEvent),
