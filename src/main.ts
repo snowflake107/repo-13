@@ -45,7 +45,7 @@ export async function run(): Promise<void> {
     const cloudEvent = buildCloudEvent(github.context.payload)
     const dynatraceAccessToken = await getAccessToken(clientId, clientSecret)
     const response = await http.post(
-      ` ${environmentId}/api/v2/bizevents/ingest`,
+      `${environmentId}/api/v2/bizevents/ingest`,
       JSON.stringify(cloudEvent),
       {
         'content-type': 'application/cloudevent+json',
