@@ -31,7 +31,7 @@ A comprehensive content management solution for building websites, mobile apps a
 
 * [Web-optimized image delivery](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/developing/web-optimized-image-delivery.html?lang=en)
 
-<DiscoverBlock slots="link, text"/>
+<DiscoverBlock slots="heading, link, text"/>
 
 ### Applications and Authoring
 
@@ -89,13 +89,13 @@ A comprehensive content management solution for building websites, mobile apps a
 
 * [Statistics API (Experimental)](./api/experimental/stats/index.md)
 
-<DiscoverBlock slots="link, text"/>
+<DiscoverBlock slots="heading, link, text"/>
 
 **Translation**
 
-* [Translation Processes HTTP API (Experimental)](./api/experimental/translation/index.md)
+* [Translation Management API (Experimental)](./api/experimental/translation/index.md)
 
-<DiscoverBlock slots="link, text"/>
+<DiscoverBlock slots="heading, link, text"/>
 
 ### Reporting and Infrastructure
 
