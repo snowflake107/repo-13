@@ -51,9 +51,8 @@ export async function run(): Promise<void> {
       clientSecret,
       resource
     )
-    console.log(JSON.stringify(cloudEvent))
     const response = await http.post(
-      `${environmentId}/api/v2/bizevents/ingest`,
+      `${environmentId}/platform/classic/environment-api/v2/bizevents/ingest`,
       JSON.stringify(cloudEvent),
       {
         'content-type': 'application/cloudevent+json',
