@@ -19,7 +19,7 @@ async function getAccessToken(
     }
   )
   const body = JSON.parse(await response.readBody())
-  console.log(body)
+
   return body.access_token as string
 }
 
@@ -51,8 +51,7 @@ export async function run(): Promise<void> {
       clientSecret,
       resource
     )
-    console.log('token')
-    console.log(dynatraceAccessToken)
+
     const response = await http.post(
       `${environmentId}/api/v2/bizevents/ingest`,
       JSON.stringify(cloudEvent),
