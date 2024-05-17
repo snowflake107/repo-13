@@ -1,26 +1,59 @@
 import * as core from '@actions/core'
-import { wait } from './wait'
+import * as github from '@actions/github'
+import * as httpm from '@actions/http-client'
+import { WebhookPayload } from '@actions/github/lib/interfaces'
+import type { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
 
-/**
- * The main function for the action.
- * @returns {Promise<void>} Resolves when the action is complete.
- */
+const http = new httpm.HttpClient('client')
+
+async function getAccessToken(
+  clientId: string,
+  clientSecret: string
+): Promise<string> {
+  const response = await http.post(
+    'https://sso-sprint.dynatracelabs.com/sso/oauth2/token',
+    `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}&scope=storage:events:write`,
+    {
+      'content-type': 'application/x-www-form-urlencoded'
+    }
+  )
+  const body = JSON.parse(await response.readBody())
+  return body.access_token as string
+}
+
+function buildCloudEvent(payload: WebhookPayload): unknown {
+  const workflowRun = (payload as WorkflowRunCompletedEvent).workflow_run
+  return {
+    specversion: '1.0',
+    id: `${workflowRun.id}`,
+    type: 'com.dynatrace.github.workflow.run',
+    source: 'dynatrace-workflow-ingester',
+    data: {
+      ...workflowRun,
+      run_duration_ms:
+        new Date(workflowRun.updated_at).getTime() -
+        new Date(workflowRun.run_started_at).getTime()
+    }
+  }
+}
+
 export async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
-
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
+    const clientId = core.getInput('dt-client-id')
+    const clientSecret = core.getInput('dt-client-secret')
+    const environmentId = core.getInput('dt-environment-id')
+    const cloudEvent = buildCloudEvent(github.context.payload)
+    const dynatraceAccessToken = await getAccessToken(clientId, clientSecret)
+    const response = await http.post(
+      ` ${environmentId}/api/v2/bizevents/ingest`,
+      JSON.stringify(cloudEvent),
+      {
+        'content-type': 'application/cloudevent+json',
+        authorization: `Bearer ${dynatraceAccessToken}`
+      }
+    )
+    core.info(await response.readBody())
   } catch (error) {
-    // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
   }
 }
