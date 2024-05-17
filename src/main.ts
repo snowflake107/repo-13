@@ -13,12 +13,13 @@ async function getAccessToken(
 ): Promise<string> {
   const response = await http.post(
     'https://sso-sprint.dynatracelabs.com/sso/oauth2/token',
-    `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}&scope=storage:bizevents:write storage:buckets:read storage:events:write&resource=${resource}`,
+    `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}&resource=${resource}&scope=storage:bizevents:write storage:buckets:read storage:events:write`,
     {
       'content-type': 'application/x-www-form-urlencoded'
     }
   )
   const body = JSON.parse(await response.readBody())
+  console.log(body)
   return body.access_token as string
 }
 
