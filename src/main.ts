@@ -9,21 +9,33 @@ const http = new httpm.HttpClient('client')
 async function getAccessToken(
   clientId: string,
   clientSecret: string,
-  resource: string
+  resource: string,
+  dtSSOUrl: string,
+  debug: string
 ): Promise<string> {
-  const response = await http.post(
-    'https://sso-sprint.dynatracelabs.com/sso/oauth2/token',
-    `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}&resource=${resource}&scope=storage:bizevents:write storage:buckets:read storage:events:write`,
-    {
-      'content-type': 'application/x-www-form-urlencoded'
-    }
-  )
-  const body = JSON.parse(await response.readBody())
+  try {
+    console.info('Getting OAuth token')
+    const response = await http.post(
+      dtSSOUrl,
+      `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}&resource=${resource}&scope=storage:bizevents:write storage:buckets:read storage:events:write`,
+      {
+        'content-type': 'application/x-www-form-urlencoded'
+      }
+    )
 
-  return body.access_token as string
+    const body = JSON.parse(await response.readBody())
+    if (debug == 'true') {
+      core.info('OAuth response')
+      const logResponse = JSON.stringify(body, null, 2)
+      core.info(logResponse)
+    }
+    return body.access_token as string
+  } catch (error) {
+    if (error instanceof Error) core.setFailed(error.message)
+  }
 }
 
-function buildCloudEvent(payload: WebhookPayload): unknown {
+function buildCloudEvent(payload: WorkflowRunCompletedEvent): unknown {
   const workflowRun = (payload as WorkflowRunCompletedEvent).workflow_run
   return {
     specversion: '1.0',
@@ -45,11 +57,19 @@ export async function run(): Promise<void> {
     const clientSecret = core.getInput('dt-client-secret')
     const environmentId = core.getInput('dt-environment-id')
     const resource = core.getInput('dt-resource')
-    const cloudEvent = buildCloudEvent(github.context.payload)
+    const dtSSOUrl = core.getInput('dt-sso-url')
+    const debug = core.getInput('debug')
+
+    const cloudEvent = buildCloudEvent(
+      github.context.payload as WorkflowRunCompletedEvent
+    )
+
     const dynatraceAccessToken = await getAccessToken(
       clientId,
       clientSecret,
-      resource
+      resource,
+      dtSSOUrl,
+      debug
     )
     const response = await http.post(
       `${environmentId}/platform/classic/environment-api/v2/bizevents/ingest`,

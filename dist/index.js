@@ -29222,12 +29222,24 @@ const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const httpm = __importStar(__nccwpck_require__(6255));
 const http = new httpm.HttpClient('client');
-async function getAccessToken(clientId, clientSecret, resource) {
-    const response = await http.post('https://sso-sprint.dynatracelabs.com/sso/oauth2/token', `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}&resource=${resource}&scope=storage:bizevents:write storage:buckets:read storage:events:write`, {
-        'content-type': 'application/x-www-form-urlencoded'
-    });
-    const body = JSON.parse(await response.readBody());
-    return body.access_token;
+async function getAccessToken(clientId, clientSecret, resource, dtSSOUrl, debug) {
+    try {
+        console.info('Getting OAuth token');
+        const response = await http.post(dtSSOUrl, `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}&resource=${resource}&scope=storage:bizevents:write storage:buckets:read storage:events:write`, {
+            'content-type': 'application/x-www-form-urlencoded'
+        });
+        const body = JSON.parse(await response.readBody());
+        if (debug == 'true') {
+            core.info('OAuth response');
+            const logResponse = JSON.stringify(body, null, 2);
+            core.info(logResponse);
+        }
+        return body.access_token;
+    }
+    catch (error) {
+        if (error instanceof Error)
+            core.setFailed(error.message);
+    }
 }
 function buildCloudEvent(payload) {
     const workflowRun = payload.workflow_run;
@@ -29249,8 +29261,10 @@ async function run() {
         const clientSecret = core.getInput('dt-client-secret');
         const environmentId = core.getInput('dt-environment-id');
         const resource = core.getInput('dt-resource');
+        const dtSSOUrl = core.getInput('dt-sso-url');
+        const debug = core.getInput('debug');
         const cloudEvent = buildCloudEvent(github.context.payload);
-        const dynatraceAccessToken = await getAccessToken(clientId, clientSecret, resource);
+        const dynatraceAccessToken = await getAccessToken(clientId, clientSecret, resource, dtSSOUrl, debug);
         const response = await http.post(`${environmentId}/platform/classic/environment-api/v2/bizevents/ingest`, JSON.stringify(cloudEvent), {
             'content-type': 'application/cloudevent+json',
             authorization: `Bearer ${dynatraceAccessToken}`
