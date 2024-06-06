@@ -39,6 +39,12 @@ For project-specific extensions and integrations with AEM, AEM Events can help t
 
 In some use cases, it is sufficient to forward AEM events as notifications. However, in most cases AEM Events must be combined with custom business logic and AEM APIs to access AEM content. Adobe offers comprehensive support here with Adobe Developer Console, Adobe I/O, and AEM APIs. This tutorial is intended to give you an overview of AEM Events and step-by-step instructions on how you can effectively extend AEM via Events and integrate it with other systems.
 
+<InlineAlert slots="text" />
+
+It is important to note that there is no Service Level Agreement (SLA) for AEM Events. The cloud-native eventing architecture has been designed with scalability, performance and resilience in mind and has common DevOps methodologies such as monitoring and alerting to resolve faults promptly. However, transactionality is not currently part of the requirements for AEM Events, which is why there is no guarantee of absolute completeness for the transport of AEM Events to Adobe I/O.
+For example, if an asset is downloaded from AEM, we will serve the download to the user and then post an event.  If the AEM cloud environment were to restart after the download but before the event were sent or if the event infrastructure were to be temporarily unavailable, the user's download would complete but the event would not be sent.
+This was a conscious decision made when designing our event capabilities as it allows us to ensure higher performance and reliability of core AEM features, albeit at the cost of not ensuring 100% accuracy in the events that are generated.  While the level of reliability that this approach provides should meet the requirements of most use cases, some customers may need to implement additional measures to ensure that no updates are lost.
+
 ## AEM Events processing via Adobe I/O
 
 AEM events are routed to Adobe I/O by default and are available instantly as soon as you subscribe to them in the Adobe Developer Console. In Adobe I/O, you have the three consumption options described below for processing AEM events. It's best to familiarize yourself with the options in advance, as each has its own characteristics and it's up to you to choose a suitable strategy based on your project requirements.
