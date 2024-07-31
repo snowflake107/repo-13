@@ -5,13 +5,15 @@ description: Introduction to the all-new AEM Events in AEM as a Cloud Service
 
 ## Introducing Cloud-Native AEM Events in AEM as a Cloud Service
 
+AEM as a Cloud Service Eventing, together with AEM as a Cloud Service APIs, is currently only available to registered users in pre-release mode. Please contact Adobe if you are interested in unlocking these cloud-native extensibility capabilities of AEM as a Cloud Service.
+
 A strength of AEM has always been interoperability, based on open standards. This has enabled custom extensions and integrations and created countless additional use cases with AEM as the content centerpiece. With the new development of AEM Events, AEM as a Cloud Service now offers a cloud-native solution for AEM expandability and thus pursues the following goals:
 
 * A generic eventing platform that makes it easy to subscribe to events, process them according to your project needs in most lightweight, scalable, and secure ways
 * Separation of functions like AEM Events in this case into standardized dedicated services for improved scalability and maintainability
 * Avoidance of custom code in AEM runtimes for better robustness and reduced effort when deploying, testing, and maintaining AEM as Cloud Service
 
-While the previous [AEM Eventing](https://developer.adobe.com/events/docs/guides/using/aem/) solution is still supported for AEM On Premise installations and AEM on Adobe Managed Service, the [new AEM Eventing](https://experienceleague.adobe.com/en/docs/experience-manager-learn/cloud-service/aem-eventing/overview) is by design initiated for AEM as a Cloud Service only.
+The new AEM Eventing is by design initiated for AEM as a Cloud Service and is not supportes for AEM On Premise installations or AEM on Adobe Managed Service installations.
 
 <InlineAlert slots="text" />
 
@@ -66,7 +68,9 @@ Current available event types are documented in the AEM API specification as lis
 
 <InlineAlert slots="text" />
 
-The list of available event types for AEM as a Cloud Service is being expanded on a rolling basis. If you are missing the event types you need, please [contact the AEM-Eventing team](mailto:grp-aem-events@adobe.com). We can provide you with immediate information about which event types are in progress or how quickly we can provide the event types you need. Your project success is our goal, and accordingly, the AEM Events Team will do everything possible to provide you with the event types you need as fast as possible.
+The list of available event types for AEM as a Cloud Service is being expanded on a rolling basis. If you are missing the event types you need, please contact Adobe Support. We can provide you with immediate information about which event types are in progress or how quickly we can provide the event types you need. Your project success is our goal, and accordingly, the AEM Events Team will do everything possible to provide you with the event types you need as fast as possible.
+
+Cloud-native AEM events are ready-to-use and each one is predetermined for a specific event. Modification or extension is not intended, with the aim of avoiding custom code in the AEM runtime as much as possible.
 
 ## Enable AEM Events on your AEM Cloud Service Environment
 
