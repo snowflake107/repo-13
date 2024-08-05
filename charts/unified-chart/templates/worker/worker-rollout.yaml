@@ -4,19 +4,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: {{ include "unified.name" . }}-worker-rollout
+  name: {{ include "worker.name" . }}
 spec:
-  workloadRef: # Reference an existing Deployment using workloadRef field
+  workloadRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "unified.name" . }}-worker-deployment
+    name: {{ include "worker.name" . }}
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      {{- include "unified.workerSelectorLabels" . | nindent 6 }}
+      {{- include "worker.selector.labels" . | nindent 6 }}
   strategy:
     blueGreen:
-      activeService: {{ include "unified.worker.svc.name" . }}
+      activeService: {{ include "worker.name" . }}
       autoPromotionEnabled: true
 {{- end }}
 {{- end }}

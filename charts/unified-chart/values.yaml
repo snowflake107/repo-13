@@ -1,21 +1,35 @@
 # Default values for frontegg unified chart.
 
-# required
+# required values
 # name: my-new-awesome-service
 # team: my-team-of-imbeciles
-
-envID: local
+# envID: local
+# appVersion: production-global-19900101.101010-zxc111y
 
 # CAUTION this will change name of all manifests
 nameSuffix: v2
-
-# appVersion is required
-# appVersion: master-latest
 
 argoRollouts: true
 
 image:
   repository:
+
+default:
+  migration:
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-weight: "-5"
+      helm.sh/hook-delete-policy: "before-hook-creation"
+  configmap:
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-weight: "-10"
+      helm.sh/hook-delete-policy: "before-hook-creation"
+  secret:
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-weight: "-10"
+      helm.sh/hook-delete-policy: "before-hook-creation"
 
 revisionHistoryLimit: 3
 
@@ -24,20 +38,37 @@ imagePullPolicy: Always
 imagePullSecrets:
   - name: regcred
 
+service:
+  labels: {}
+  type: ClusterIP
+  protocol: TCP
+  port: 80
+
 web:
+  enabled: false
   command: ["/bin/bash"]
   args: ["entrypoint.sh", "service"]
-  env:
-    # - name: FRONTEGG_IS_SERVICE_OFFLINE_PROCESS
-    #   value: "false"
+  env: []
   replicaCount: 1
+  podAnnotations: {}
   autoscaling:
     enabled: false
     minReplicas: 1
     maxReplicas: 2
     targetCPUUtilizationPercentage: 50
     targetMemoryUtilizationPercentage: 75
-  podAnnotations: {}
+    triggers: []
+    advanced:
+      horizontalPodAutoscalerConfig:
+        name: '{{ include "web.name" $ }}'
+  serviceProfile:
+    enabled: false
+    # routes:
+    #   - condition:
+    #       method: EXAMPLE
+    #       pathRegex: /example/test/
+    #     name: EXAMPLE /example/test/
+
   resources: {}
   terminationGracePeriodSeconds: 30
   # handles restart (not offline)
@@ -64,35 +95,89 @@ worker:
   enabled: false
   command: ["/bin/bash"]
   args: ["entrypoint.sh", "worker"]
-  env:
-    # - name: FRONTEGG_IS_SERVICE_OFFLINE_PROCESS
-    #   value: "true"
+  podAnnotations: {}
+  replicaCount: 1
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 2
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 75
+    scaledObject:
+      enabled: false
+      triggers: []
+      advanced:
+        horizontalPodAutoscalerConfig:
+          name: '{{ include "worker.name" $ }}'
+  env: []
+  livenessProbe:
+    failureThreshold: 3
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 40
+    periodSeconds: 60
+  readinessProbe:
+    failureThreshold: 1
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 5
+    periodSeconds: 5
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
 
-service:
-  type: ClusterIP
+highPriority:
+  enabled: false
+  command: ["/bin/bash"]
+  args: ["entrypoint.sh", "p1-service"]
+  labels:
+    priority: "high"
+  replicaCount: 1
+  podAnnotations: {}
+  env: []
+  serviceProfile:
+    enabled: false
+    # routes:
+    #   - condition:
+    #       method: EXAMPLE
+    #       pathRegex: /example/test/
+    #     name: EXAMPLE /example/test/
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 75
+    scaledObject:
+      enabled: false
+      triggers: []
+      advanced:
+        horizontalPodAutoscalerConfig:
+          name: '{{ include "hp.name" $ }}'
 
 jobs:
-  # migrate:
-  #   enabled: true
-  #   metadata:
-  #     annotations:
-  #       argocd.argoproj.io/sync-wave: "-500"
-  #   spec:
-  #     command: ["/bin/bash"]
-  #     args: ["run-migrations.sh"]
-  #     resources:
-  #       requests:
-  #         cpu: 500m
-  #         memory: 500Mi
+  mgr:
+    enabled: false
+    metadata:
+      annotations: {}
+    spec:
+      annotations: {}
+      command: ["/bin/bash"]
+      args: ["run-migrations.sh"]
+      resources:
+        requests:
+          cpu: 500m
+          memory: 500Mi
 
 cronjobs:
   refresh:
     enabled: false
     metadata:
-      annotations:
-        argocd.argoproj.io/sync-wave: "-500"
+      annotations: {}
     command: ["/bin/bash"]
-    args: ["entrypoint.sh"]
+    args: ["cron.sh"]
     schedule: "0 * * * *"
     ttlSecondsAfterFinished: 600
     concurrencyPolicy: Replace
@@ -102,64 +187,81 @@ cronjobs:
     nodeSelector: {}
 
 configmap:
-  annotations:
-    # argocd.argoproj.io/sync-wave: "-1000"
-    helm.sh/hook: pre-install,pre-upgrade
-    helm.sh/hook-weight: "-2"
-    helm.sh/hook-delete-policy: "before-hook-creation"
+  annotations: {}
   data:
-    # EXAMPLE: '{{ include "fullname" $ }}-example'
+    name: '{{ include "fullname" $ }}'
 
 configuration:
   map:
     config-center:
+      # ENV_VARIABLE_NAME: key-in-config-center
 
 externalSecret:
   enabled: false
   mountPath: /etc/config/config.yaml
   subPath: config
   refreshInterval: 1m
-  annotations:
-    # argocd.argoproj.io/sync-wave: "-1000"
-    helm.sh/hook: pre-install,pre-upgrade
-    helm.sh/hook-weight: "-4"
-    helm.sh/hook-delete-policy: "before-hook-creation"
+  annotations: {}
   text: |
     {{- $secret := .contents | fromYaml }}
-    apiKey: {{ $secret.frontegg.apiKeys.tenantsServiceApiKey| default "x" }}
+    apiKey: {{ $secret.frontegg.apiKeys.someServiceApiKey | default "xxx" }}
   additionalSecrets: ""
 
 prometheusRule:
   enabled: false
-
-ingress:
-  enabled: false
-
-albIngress:
-  enabled: false
-
-highPriority:
-  enabled: false
-  command: ["/bin/bash"]
-  args: ["entrypoint.sh", "service"]
-  env:
-    # - name: FRONTEGG_IS_SERVICE_OFFLINE_PROCESS
-    #   value: "false"
+  namespace: observability
   labels:
-    priority: "high"
-  replicaCount: 1
-  autoscaling:
-    minReplicas: 1
-    maxReplicas: 2
-    targetCPUUtilizationPercentage: 50
-    targetMemoryUtilizationPercentage: 75
+    release: prometheus
+  rpsAlertLimit: 50
+  rules:
+    - alert: EXAMPLE
+      expr: |
+        round(sum(irate(nginx_ingress_controller_requests{ingress="{{ include "name" . }}-ingress"}[2m])) , 0.001) > {{ .Values.prometheusRule.rpsAlertLimit }}
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        description: EXAMPLE RPS is higher then {{ .Values.prometheusRule.rpsAlertLimit }} for 2 minutes or more
+        summary: EXAMPLE RPS is higher than {{ .Values.prometheusRule.rpsAlertLimit }}
 
-serviceProfile:
-  # routes:
-  #   - condition:
-  #       method: EXAMPLE
-  #       pathRegex: /example/test/
-  #     name: EXAMPLE /example/test/
+ingresses:
+  tesla:
+    enabled: false
+    ingressClassName: nginx
+    hostnameOverride: "nicola.tesla"
+    annotations:
+      nginx.ingress.kubernetes.io/server-snippet: |
+        location ~* ^/(metrics|health) {
+          deny all;
+          return 403;
+        }
+    tls:
+      enabled: false
+      secretName: frontegg-secret-2020
+  newton:
+    enabled: false
+    ingressClassName: nginx2
+    hostnameOverride: "isaac.newton"
+    annotations:
+      nginx.ingress.kubernetes.io/server-snippet: |
+        location ~* ^/(metrics|health) {
+          deny all;
+          return 403;
+        }
+
+keda:
+  annotations:
+    scaledobject.keda.sh/transfer-hpa-ownership: "true"
+    validations.keda.sh/hpa-ownership: "false"
+
+serviceAccount:
+  enabled: false
+  annotations: {}
+
+linkerd:
+  enabled: false
+  annotations:
+    linkerd.io/inject: enabled
 
 # additional helm templates to render resources freely
 additionalTemplates: |
@@ -170,4 +272,4 @@ additionalTemplates: |
 # metadata:
 #   name: {{ include "fullname" $ }}-sa
 #   labels:
-#     {{- include "unified.labels" $ | nindent 4 }}
+#     {{- include "labels" $ | nindent 4 }}

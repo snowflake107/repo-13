@@ -1,14 +1,15 @@
+{{- $values := .Values -}}
 {{- if .Values.highPriority.enabled }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "unified.name" . }}-deployment-hp
+  name: {{ include "hp.name" . }}
   labels:
-  {{- include "unified.hp.labels" . | nindent 4 }}
+  {{- include "hp.labels" . | nindent 4 }}
   {{- toYaml .Values.highPriority.labels | nindent 4 }}
 spec:
-  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 3 }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 2 }}
   {{- if .Values.argoRollouts }}
   replicas: 0
   {{- else if not .Values.web.autoscaling.enabled }}
@@ -16,22 +17,18 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "unified.hp.selectorLabels" . | nindent 6 }}
+      {{- include "hp.selector.labels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "unified.hp.labels" . | nindent 8 }}
-        {{- with .Values.podLabels  }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
+        {{- include "hp.labels" . | nindent 8 }}
       annotations:
-        checksum/config: {{ (print .Values.configmap) | sha256sum }}
-        {{- with .Values.web.podAnnotations }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
+        {{- $vals := .Values.highPriority -}}
+        {{- $both := merge $vals (pick .Values "linkerd") }}
+        {{- include "calculate.pod.annotations" $both | nindent 8 }}
     spec:
-      {{- with .Values.highPriority.serviceAccountName }}
-      serviceAccountName: {{ tpl . $ }}
+      {{- if .Values.serviceAccount.enabled }}
+      serviceAccountName: {{ include "name" . }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.highPriority.terminationGracePeriodSeconds | default 30 }}
       {{- with .Values.imagePullSecrets }}
@@ -39,22 +36,22 @@ spec:
       {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- if .Values.externalSecret.enabled }}
-      volumes :
-        - name : vol-secret
-          secret :
-            secretName : {{ include "external-secret-unique-name" . }}
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: {{ include "secret.name" . }}
       {{- end }}
       containers:
-        - name: {{ include "unified.name" . }}-hp
-          image: "{{ required ".Values.image.repository must be set" .Values.image.repository }}:{{ include "appVersion" . }}"
+        - name: {{ include "hp.name" . }}
+          image: "{{ required "what do you wanna run: .Values.image.repository must be set" .Values.image.repository }}:{{ include "appVersion" . }}"
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           {{- if .Values.externalSecret.enabled }}
-          volumeMounts :
-            {{- include "unified.externalsecret.volumemount" . | nindent 12 }}
+          volumeMounts:
+            {{- include "externalsecret.volumemount" . | nindent 12 }}
           {{- end }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.targetPort }} # change this to 80 in the future
+              containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
           {{- with .Values.web.livenessProbe }}
           livenessProbe:
@@ -69,7 +66,7 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
-            {{- include "unified.container.env" .Values.highPriority | nindent 12 }}
+            {{- include "container.env" .Values.highPriority | indent 12 -}}
             {{- if .Values.externalSecret.enabled }}
             - name: FRONTEGG_CONFIG_DIRECTORY
               value: "/etc/config"
@@ -83,9 +80,11 @@ spec:
                   key: {{ $value }}
             {{- end }}
             {{- end }}
+          {{- if .Values.configmap.data }}
           envFrom:
             - configMapRef:
-                name: {{ include "unified.name" . }}-configmap
+                name: {{ include "name" . }}
+          {{- end }}
           resources:
             {{- toYaml .Values.web.resources | nindent 12 }}
           command:

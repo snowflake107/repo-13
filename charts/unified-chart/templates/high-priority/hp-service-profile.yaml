@@ -1,0 +1,14 @@
+{{- $top := . }}
+{{- with .Values.highPriority.serviceProfile }}
+{{- if .enabled }}
+---
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  name: {{ include "hp.name" $top }}.{{ .namespace | default "frontegg" }}.svc.cluster.local
+  namespace: {{ .namespace | default "frontegg" }}
+spec:
+  routes:
+    {{- .routes | toYaml | nindent 4 }}
+{{- end }}
+{{- end }}

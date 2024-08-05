@@ -1,23 +1,26 @@
 {{- if .Values.highPriority.enabled }}
-{{- if .Values.web.autoscaling.enabled }}
+{{- if .Values.highPriority.autoscaling.enabled }}
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "unified.name" . }}-hp
+  name: {{ include "hp.name" . }}
   labels:
-  {{- include "unified.labels" . | nindent 4 }}
+    {{- include "labels" . | nindent 4 }}
+  annotations:
+    {{- include "keda.annotations" . | nindent 4 }}
 spec:
   scaleTargetRef:
     {{- if .Values.argoRollouts }}
     apiVersion : argoproj.io/v1alpha1
     kind : Rollout
-    name : {{ include "unified.name" . }}-rollout-hp
+    name : {{ include "hp.name" . }}
     {{- else }}
     apiVersion : apps/v1
     kind : Deployment
-    name : {{ include "unified.name" . }}-deployment-hp
+    name : {{ include "hp.name" . }}
     {{- end }}
+  {{- if not .Values.highPriority.autoscaling.scaledObject.enabled }}
   minReplicas: {{ .Values.highPriority.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.highPriority.autoscaling.maxReplicas }}
   metrics:
@@ -37,5 +40,6 @@ spec:
           type: Utilization
           averageUtilization: {{ .Values.web.autoscaling.targetMemoryUtilizationPercentage }}
     {{- end }}
+  {{- end }}
 {{- end }}
 {{- end }}

@@ -1,22 +1,22 @@
-{{- if .Values.highPriority.enabled }}
+{{- if .Values.web.enabled -}}
 {{- if .Values.argoRollouts }}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: {{ include "hp.name" . }}
+  name: {{ include "web.name" . }}
 spec:
   workloadRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "hp.name" . }}
+    name: {{ include "web.name" . }}
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      {{- include "hp.selector.labels" . | nindent 6 }}
+      {{- include "selector.labels" . | nindent 6 }}
   strategy:
     blueGreen:
-      activeService: {{ include "hp.name" . }}
+      activeService: {{ include "web.name" . }}
       autoPromotionEnabled: true
 {{- end }}
 {{- end }}

@@ -7,25 +7,18 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "unified.name" $top }}-{{ $jobName }}
+  name: {{ include "name" $top }}-{{ $jobName }}
   labels:
-    {{- include "unified.cronJobLabels" $top | nindent 4 }}
+    {{- include "cronjob.labels" $top | nindent 4 }}
     app.kubernetes.io/component: {{ $jobName }}
+  {{- if $job.metadata }}
+  {{- with $job.metadata.annotations }}
   annotations:
-    {{- if $job.metadata }}
-    {{- with $job.metadata.annotations }}
     {{- toYaml . | nindent 4 }}
-    {{- if (index . "argocd.argoproj.io/sync-wave") }}
-    {{- $defaultSyncWave = false }}
-    {{- end }}
-    {{- end }}
-    {{- end }}
-    {{- if $defaultSyncWave }}
-    # default sync wave for jobs
-    argocd.argoproj.io/sync-wave: "-501"
-    {{- end }}
+  {{- end }}
+  {{- end }}
 spec:
-  schedule: {{ required "$job.schedule is required" $job.schedule | quote }}
+  schedule: {{ required "when? what? how? $job.schedule is required" $job.schedule | quote }}
   {{- with $job.concurrencyPolicy }}
   concurrencyPolicy: {{ . }}
   {{- end }}
@@ -47,7 +40,7 @@ spec:
       template:
         metadata:
           labels:
-            {{- include "unified.jobLabels" $top | nindent 12 }}
+            {{- include "job.labels" $top | nindent 12 }}
             app.kubernetes.io/component: {{ $jobName }}
         {{- with $job.annotations }}
         annotations:
@@ -64,21 +57,21 @@ spec:
           {{- end }}
           {{- if $values.externalSecret.enabled }}
           volumes:
-            - name: vol-secret
+            - name: secret-volume
               secret:
-                secretName: {{ include "external-secret-unique-name" $ }}
+                secretName: {{ include "secret.name" $ }}
           {{- end }}
           {{- with $job.securityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           containers:
-            - name: {{ include "unified.name" $top }}-{{ $jobName }}
+            - name: {{ include "name" $top }}-{{ $jobName }}
               image: "{{ $values.image.repository }}:{{ $values.appVersion }}"
               imagePullPolicy: {{ $values.imagePullPolicy }}
               {{- if $values.externalSecret.enabled }}
               volumeMounts:
-                {{- include "unified.externalsecret.volumemount" $ | nindent 16 }}
+                {{- include "externalsecret.volumemount" $ | nindent 16 }}
               {{- end }}
               {{- with $job.resources}}
               resources:
@@ -98,9 +91,11 @@ spec:
                       key: {{ $value }}
               {{- end }}
               {{- end }}
+              {{- if $values.configmap.data }}
               envFrom:
                 - configMapRef:
-                    name: {{ include "unified.name" $top }}-configmap
+                    name: {{ include "name" $top }}
+              {{- end }}
               command:
                 {{- range .command }}
                 - {{ . | quote  }}

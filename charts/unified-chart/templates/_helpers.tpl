@@ -1,11 +1,6 @@
-{{/* Hostname is used in services who render ingress */}}
-{{- define "unified.hostname" -}}
-{{- required ".Values.ingress.hostnameOverride is required when ingress enabled" .Values.ingress.hostnameOverride | trimSuffix "-" }}
-{{- end -}}
-
 {{/* Just the name */}}
-{{- define "unified.name" -}}
-{{- required ".Values.name must be set" .Values.name }}{{ include "unified.suffix" . }}
+{{- define "name" -}}
+{{- required "I cant live without a name: .Values.name must be set" .Values.name }}{{ include "unified.suffix" . }}
 {{- end -}}
 
 {{/* calculate the suffix */}}
@@ -16,23 +11,23 @@
 {{- end -}}
 
 {{/* kubernetes web service name */}}
-{{- define "unified.web.svc.name" -}}
-{{ include "unified.name" . }}-web
+{{- define "web.name" -}}
+{{ include "name" . }}-web
 {{- end -}}
 
 {{/* kubernetes worker service name */}}
-{{- define "unified.worker.svc.name" -}}
-{{ include "unified.name" . }}-worker
+{{- define "worker.name" -}}
+{{ include "name" . }}-worker
 {{- end -}}
 
 {{/* kubernetes high priority service name */}}
-{{- define "unified.hp.svc.name" -}}
-{{ include "unified.name" . }}-hp
+{{- define "hp.name" -}}
+{{ include "name" . }}-hp
 {{- end -}}
 
 {{/* Some services include fullname in their values */}}
 {{- define "fullname" -}}
-{{ include "unified.name" . }}
+{{ include "name" . }}
 {{- end -}}
 
 {{/* Create chart name and version as used by the chart label. */}}
@@ -41,93 +36,108 @@
 {{- end -}}
 
 {{/* inject env variables directly */}}
-{{- define "unified.container.env" -}}
-{{- range $envVar := .env -}}
+{{- define "container.env" -}}
+{{- range $envVar := .env }}
 - name: {{ required "envVar.name required" $envVar.name | quote }}
   value: {{ required "envVar.value required" $envVar.value | quote }}
-{{- end -}}
+{{- end }}
 {{- end -}}
 
-{{- define "unified.externalsecret.volumemount" -}}
-- name: vol-secret
+{{- define "externalsecret.volumemount" -}}
+- name: secret-volume
   mountPath: {{ .Values.externalSecret.mountPath }}
   subPath: {{ .Values.externalSecret.subPath }} 
 {{- end -}}
 
-{{/* Common labels includes selectorLabels */}}
-{{- define "unified.labels" -}}
+{{/* Common labels includes selector.labels */}}
+{{- define "labels" -}}
 helm.sh/chart: {{ include "unified.chart" . }}
-app.frontegg.com/team: {{ .Values.team }}
+app.frontegg.com/team: {{ required "Every service needs to have responsible parents. .Values.team is required." .Values.team }}
 {{- with .Values.web.labels }}
 {{ toYaml . }}
 {{- end }}
-{{ include "unified.selectorLabels" . }}
+{{ include "selector.labels" . }}
 app.frontegg.io/version: {{ .Chart.Version | quote }}
 app.frontegg.io/managed-by: {{ .Release.Service }}
 app.frontegg.com/appVersion: {{ include "appVersion" . }}
 {{- end -}}
 
 {{/* Selector labels */}}
-{{- define "unified.selectorLabels" -}}
-app.frontegg.com/name: {{ include "unified.name" . }}
+{{- define "selector.labels" -}}
+app.frontegg.com/name: {{ include "name" . }}
 app.frontegg.com/instance: {{ .Release.Name }}
 {{- end -}}
 
-{{- define "unified.jobLabels" -}}
-app.frontegg.com/name: {{ include "unified.name" . }}-job
+{{- define "job.labels" -}}
+app.frontegg.com/name: {{ include "name" . }}-job
 app.frontegg.com/instance: {{ .Release.Name }}
 {{- end -}}
 
-{{- define "unified.cronJobLabels" -}}
-app.frontegg.com/name: {{ include "unified.name" . }}-cronjob
+{{- define "cronjob.labels" -}}
+app.frontegg.com/name: {{ include "name" . }}-cronjob
 app.frontegg.com/instance: {{ .Release.Name }}
 {{- end -}}
 
-{{- define "unified.workerLabels" -}}
+{{- define "worker.labels" -}}
 app.frontegg.com/team: {{ required ".Values.team is required" .Values.team }}
 app.frontegg.com/appVersion: {{ include "appVersion" . }}
 {{- with .Values.worker.labels }}
 {{ toYaml . }}
 {{- end }}
-{{ include "unified.workerSelectorLabels" . }}
+{{ include "worker.selector.labels" . }}
 {{- end -}}
 
-{{- define "unified.workerSelectorLabels" -}}
-app.frontegg.com/name: {{ include "unified.name" . }}-worker
+{{- define "worker.selector.labels" -}}
+app.frontegg.com/name: {{ include "name" . }}-worker
 {{- end -}}
 
 {{- define "appVersion" -}}
-{{ required ".Values.appVersion is required cant run without it" .Values.appVersion }}
+{{ required "NEED APPVERSION: .Values.appVersion is required cant run without it" .Values.appVersion }}
 {{- end -}}
 
-{{- define "external-secret-unique-name" -}}
-{{ include "unified.name" . }}-secret-{{ include "appVersion" . }}
-{{- end -}}
-
-{{- define "isLinkerdInjectEnabled" -}}
-{{- if and .podAnnotations (eq (index .podAnnotations "linkerd.io/inject") "enabled") -}}
-  true
-{{- else -}}
-  false
-{{- end -}}
+{{- define "secret.name" -}}
+{{ include "name" . }}-{{ include "appVersion" . }}
 {{- end -}}
 
 {{/*
-Common labels includes HP selectorLabels
+Common labels includes HP selector.labels
 */}}
-{{- define "unified.hp.labels" -}}
+{{- define "hp.labels" -}}
 app.frontegg.com/team: {{ .Values.team }}
 helm.sh/chart: {{ include "unified.chart" . }}
 app.frontegg.io/version: {{ .Chart.Version | quote }}
 app.frontegg.io/managed-by: {{ .Release.Service }}
 app.frontegg.com/appVersion: {{ include "appVersion" . }}
-{{ include "unified.hp.selectorLabels" . }}
+{{ include "hp.selector.labels" . }}
 {{- end -}}
 
 {{/*
 Selector labels for high priority pods
 */}}
-{{- define "unified.hp.selectorLabels" -}}
-app.frontegg.com/name: {{ include "unified.name" . }}-hp
+{{- define "hp.selector.labels" -}}
+app.frontegg.com/name: {{ include "name" . }}-hp
 app.frontegg.com/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{- define "keda.annotations" -}}
+{{- .Values.keda.annotations | toYaml }}
+{{- end -}}
+
+{{/* what is linkerd? */}}
+{{- define "linkerd.annotations" -}}
+{{ .Values.linkerd.annotations }}
+{{- end -}}
+
+{{- define "calculate.pod.annotations" -}}
+{{- if .linkerd.enabled }}
+{{- mergeOverwrite .podAnnotations .linkerd.annotations | toYaml }}
+{{- else }}
+{{- if .podAnnotations }}
+{{- $result := .podAnnotations }}
+{{- range $k := keys .linkerd.annotations -}}
+{{- $_ := unset $result $k }}
+{{- end -}}
+{{- toYaml $result }}
+{{- end }}
+{{- end }}
 {{- end -}}

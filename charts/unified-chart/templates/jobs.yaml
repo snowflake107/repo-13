@@ -6,29 +6,28 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "unified.name" $top | sha256sum | trunc 10 }}-{{ $jobName | trunc 10 }}-{{ $values.appVersion | trunc 41 }}
+  name: {{ include "name" $top }}-{{ $jobName }}
   labels:
-    {{- include "unified.jobLabels" $top | nindent 4 }}
+    {{- include "job.labels" $top | nindent 4 }}
     app.kubernetes.io/component: {{ $jobName }}
+  {{- if $job.metadata }}
   annotations:
-    {{- if $job.metadata }}
-    {{- with (omit $job.metadata.annotations "argocd.argoproj.io/sync-wave") }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
-    {{- end }}
-    helm.sh/hook: pre-install,pre-upgrade
-    helm.sh/hook-weight: "-2"
-    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    {{- $defaultt := pick $values.default.migration "annotations" -}}
+    {{- $ext := pick $job.metadata "annotations" -}}
+    {{- $res := mergeOverwrite $defaultt $ext -}}
+    {{- toYaml $res.annotations | nindent 4 }}
+  {{- end }}
 spec:
   {{- with $job.spec }}
+  ttlSecondsAfterFinished: {{ .ttlSecondsAfterFinished | default 6000 }}
   completions: {{ .completions | default 1 }}
   parallelism: {{ .parallelism | default 1 }}
   backoffLimit: {{ .backoffLimit | default 1 }}
   template:
     metadata:
-      name: {{ include "unified.name" $top }}-{{ $jobName }}-{{ $values.appVersion }}
+      name: {{ include "name" $top | trunc 10 }}-{{ $jobName | trunc 10 }}-{{ $values.appVersion | trunc 41 }}
       labels:
-        {{- include "unified.jobLabels" $top | nindent 8 }}
+        {{- include "job.labels" $top | nindent 8 }}
         app.kubernetes.io/component: {{ $jobName }}
       {{- with .annotations }}
       annotations:
@@ -42,20 +41,20 @@ spec:
       {{- end }}
       {{- if $values.externalSecret.enabled }}
       volumes:
-        - name: vol-secret
+        - name: secret-volume
           secret:
-            secretName: {{ include "external-secret-unique-name" $ }}
+            secretName: {{ include "secret.name" $ }}
       {{- end }}
       containers:
-        - name: {{ include "unified.name" $top }}-{{ $jobName }}
+        - name: {{ include "name" $top }}-{{ $jobName }}
           image: "{{ $values.image.repository }}:{{ $values.appVersion }}"
           imagePullPolicy: {{ $values.imagePullPolicy }}
           {{- if $values.externalSecret.enabled }}
           volumeMounts:
-            {{- include "unified.externalsecret.volumemount" $ | nindent 12 }}
+            {{- include "externalsecret.volumemount" $ | nindent 12 }}
           {{- end }}
           env:
-            {{- include "unified.container.env" . | nindent 12 }}
+            {{- include "container.env" . | indent 12 -}}
             {{- if $values.externalSecret.enabled }}
             - name: FRONTEGG_CONFIG_DIRECTORY
               value: "/etc/config"
@@ -69,9 +68,11 @@ spec:
                   key: {{ $value }}
             {{- end }}
             {{- end }}
+          {{- if $values.configmap.data }}
           envFrom:
             - configMapRef:
-                name: {{ include "unified.name" $top }}-configmap
+                name: {{ include "name" $top }}
+          {{- end }}
           command:
             {{- range .command }}
             - {{ . | quote  }}

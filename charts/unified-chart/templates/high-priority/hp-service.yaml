@@ -3,17 +3,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "unified.hp.svc.name" . }}
+  name: {{ include "hp.name" . }}
   labels:
     monitoring-metrics: enabled
-    {{- include "unified.labels" . | nindent 4 }}
+    {{- include "labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
       protocol: {{ .Values.service.protocol }}
-      name: {{ .Values.service.name }}
+      name: {{ .Values.service.name | default "http" }}
   selector:
-    {{- include "unified.hp.selectorLabels" . | nindent 4 }}
+    {{- include "hp.selector.labels" . | nindent 4 }}
 {{- end }}

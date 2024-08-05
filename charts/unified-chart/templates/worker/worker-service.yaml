@@ -4,18 +4,20 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "unified.worker.svc.name" . }}
+  name: {{ include "worker.name" . }}
   labels:
-    monitoring-metrics: enabled
-    {{- include "unified.workerLabels" . | nindent 4 }}
+    {{- with .Values.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- include "worker.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
       protocol: {{ .Values.service.protocol }}
-      name: {{ .Values.service.name }}
+      name: {{ .Values.service.name | default "http" }} 
   selector:
-    {{- include "unified.workerSelectorLabels" . | nindent 4 }}
+    {{- include "worker.selector.labels" . | nindent 4 }}
 {{- end }}
 {{- end }}

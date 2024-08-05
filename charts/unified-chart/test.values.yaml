@@ -1,0 +1,167 @@
+name: crappy
+team: shitballz
+envID: local
+appVersion: production-global-19900101.101010-zxc111y
+
+image:
+  repository: frontegg/crappy-service
+
+service:
+  name: access-port
+  targetPort: 3003
+  labels:
+    monitoring-metrics: enabled
+
+externalSecret:
+  enabled: true
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: "after-hook-creation"
+    helm.sh/hook-weight: "-9"
+
+configmap:
+  annotations:
+    something/else: bugger
+
+configuration:
+  map:
+    config-center:
+      ENV_VAR: key-in-config-center
+
+prometheusRule:
+  enabled: true
+
+ingresses:
+  tesla:
+    enabled: true
+  newton:
+    enabled: true
+
+web:
+  enabled: true
+  podAnnotations:
+    linkerd.io/inject: crappy # test to ensure linkerd is not injected if not enabled
+    some/other: anot
+    some/other2: anot2
+  labels:
+    scrape-for-metrics: enabled
+  autoscaling:
+    enabled: true
+    scaledObject:
+      enabled: true
+  serviceProfile:
+    enabled: true
+    routes:
+      - condition:
+          method: XXXX
+          pathRegex: /pathx
+        name: GET /pathx
+      - condition:
+          method: YYYYYY
+          pathRegex: /pathy
+        name: PUT /pathy
+      - condition:
+          method: ZZZZZZ
+          pathRegex: /pathz
+        name: /pathz
+
+highPriority:
+  enabled: true
+  podAnnotations:
+    some/other: hp
+    some/other2: hp2
+  autoscaling:
+    enabled: true
+    scaledObject:
+      enabled: true
+  env:
+    - name: SOME_ENV
+      value: some_val
+
+worker:
+  enabled: true
+  env:
+    - name: SOME_ENV
+      value: some_val
+  labels:
+    scrape-for-metrics: enabled
+  nodeSelector:
+    workload: general
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 75
+    scaledObject:
+      enabled: true
+      triggers:
+        - type: cpu
+          metadata:
+            type: Utilization
+            value: "80"
+        - type: memory
+          metadata:
+            type: Utilization
+            value: "75"
+        - type: prometheus
+          name: kafka time lag
+          metadata:
+            serverAddress: http://vmselect-vm.observability.svc.cluster.local:8481/select/0/prometheus
+            query: max(sum(aws_kafka_estimated_max_time_lag_maximum{dimension_Consumer_Group=~".*api-gateway.*" }) by (dimension_Consumer_Group))
+            threshold: "50"
+      advanced:
+        horizontalPodAutoscalerConfig:
+          behavior:
+            scaleDown:
+              stabilizationWindowSeconds: 300
+              policies:
+                - type: Pods
+                  value: 1
+                  periodSeconds: 60
+            scaleUp:
+              stabilizationWindowSeconds: 0
+              policies:
+                - type: Pods
+                  value: 1
+                  periodSeconds: 15
+
+jobs:
+  mgr:
+    enabled: true
+    metadata:
+      annotations:
+        helm.sh/hook-weight: "-200"
+        something/cronjob: someannotation
+    spec:
+      annotations: {}
+      command: ["/bin/bash"]
+      args: ["run-migrations.sh"]
+      resources:
+        requests:
+          cpu: 500m
+          memory: 500Mi
+
+cronjobs:
+  refresh:
+    enabled: true
+    metadata:
+      annotations:
+        something/cronjob: someannotation
+    command: ["/bin/bash"]
+    args: ["entrypoint.sh"]
+    schedule: "0 * * * *"
+    ttlSecondsAfterFinished: 600
+    concurrencyPolicy: Replace
+    failedJobsHistoryLimit: 1
+    successfulJobsHistoryLimit: 1
+    restartPolicy: Never
+    nodeSelector: {}
+
+serviceAccount:
+  enabled: true
+  annotations:
+    someshit/knuckle: enabled
+
+linkerd:
+  enabled: true
