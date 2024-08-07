@@ -6,7 +6,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "worker.name" . }}
   labels:
-    {{- include "labels" . | nindent 4 }}
+    {{- include "worker.labels" . | nindent 4 }}
   annotations:
     {{- if .Values.worker.autoscaling.scaledObject.enabled }}
     {{- include "keda.annotations" . | nindent 4 }}
