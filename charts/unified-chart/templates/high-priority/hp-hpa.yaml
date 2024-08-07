@@ -12,13 +12,13 @@ metadata:
 spec:
   scaleTargetRef:
     {{- if .Values.argoRollouts }}
-    apiVersion : argoproj.io/v1alpha1
-    kind : Rollout
-    name : {{ include "hp.name" . }}
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    name: {{ include "hp.name" . }}
     {{- else }}
-    apiVersion : apps/v1
-    kind : Deployment
-    name : {{ include "hp.name" . }}
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "hp.name" . }}
     {{- end }}
   {{- if not .Values.highPriority.autoscaling.scaledObject.enabled }}
   minReplicas: {{ .Values.highPriority.autoscaling.minReplicas }}
