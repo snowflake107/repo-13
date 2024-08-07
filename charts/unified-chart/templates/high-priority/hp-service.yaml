@@ -6,7 +6,7 @@ metadata:
   name: {{ include "hp.name" . }}
   labels:
     monitoring-metrics: enabled
-    {{- include "labels" . | nindent 4 }}
+    {{- include "hp.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
