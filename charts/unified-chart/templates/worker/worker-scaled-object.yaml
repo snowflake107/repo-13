@@ -13,9 +13,15 @@ metadata:
     {{- include "worker.labels" $top | nindent 4 }}
 spec:
   scaleTargetRef:
+    {{- if $values.argoRollouts }}
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    name: {{ include "worker.name" $top }}
+    {{- else }}
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "worker.name" $top }}
+    {{- end }}
   minReplicaCount: {{.minReplicas }}
   maxReplicaCount: {{ .maxReplicas }}
   {{- with .scaledObject.fallback }}
