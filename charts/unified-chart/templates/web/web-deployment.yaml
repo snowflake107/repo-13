@@ -22,9 +22,9 @@ spec:
       labels:
         {{- include "web.labels" . | nindent 8 }}
       annotations:
-        {{- $vals := .Values.web -}}
-        {{- $both := merge $vals (pick .Values "linkerd") }}
-        {{- include "calculate.pod.annotations" $both | nindent 8 }}
+        {{- $valsweb := .Values.web -}}
+        {{- $bothweb := merge $valsweb (pick .Values "linkerd") }}
+        {{- include "calculate.pod.annotations" $bothweb | nindent 8 }}
     spec:
       {{- if .Values.serviceAccount.enabled }}
       serviceAccountName: {{ include "name" . }}
