@@ -1,6 +1,6 @@
 {{- $values := .Values -}}
 {{- $top := . -}}
-{{- with $values.highPriority.autoscaling }}
+{{- with $values.hp.autoscaling }}
 {{- if .scaledObject.enabled }}
 ---
 apiVersion: keda.sh/v1alpha1

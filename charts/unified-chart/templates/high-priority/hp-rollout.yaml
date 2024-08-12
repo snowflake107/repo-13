@@ -1,4 +1,4 @@
-{{- if .Values.highPriority.enabled }}
+{{- if .Values.hp.enabled }}
 {{- if .Values.argoRollouts }}
 ---
 apiVersion: argoproj.io/v1alpha1

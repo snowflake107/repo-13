@@ -6,6 +6,9 @@ appVersion: production-global-19900101.101010-zxc111y
 image:
   repository: frontegg/crappy-service
 
+linkerd:
+  enabled: true
+
 service:
   name: access-port
   targetPort: 3003
@@ -65,7 +68,7 @@ web:
           pathRegex: /pathz
         name: /pathz
 
-highPriority:
+hp:
   enabled: true
   podAnnotations:
     some/other: hp
@@ -175,6 +178,3 @@ serviceAccount:
   enabled: true
   annotations:
     someshit/knuckle: enabled
-
-linkerd:
-  enabled: true

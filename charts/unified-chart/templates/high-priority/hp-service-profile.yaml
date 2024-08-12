@@ -1,5 +1,5 @@
 {{- $top := . }}
-{{- with .Values.highPriority.serviceProfile }}
+{{- with .Values.hp.serviceProfile }}
 {{- if .enabled }}
 ---
 apiVersion: linkerd.io/v1alpha2

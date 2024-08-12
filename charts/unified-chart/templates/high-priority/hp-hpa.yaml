@@ -1,5 +1,5 @@
-{{- if .Values.highPriority.enabled }}
-{{- if .Values.highPriority.autoscaling.enabled }}
+{{- if .Values.hp.enabled }}
+{{- if .Values.hp.autoscaling.enabled }}
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -20,11 +20,11 @@ spec:
     kind: Deployment
     name: {{ include "hp.name" . }}
     {{- end }}
-  {{- if not .Values.highPriority.autoscaling.scaledObject.enabled }}
-  minReplicas: {{ .Values.highPriority.autoscaling.minReplicas }}
-  maxReplicas: {{ .Values.highPriority.autoscaling.maxReplicas }}
+  {{- if not .Values.hp.autoscaling.scaledObject.enabled }}
+  minReplicas: {{ .Values.hp.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.hp.autoscaling.maxReplicas }}
   metrics:
-    {{- if .Values.highPriority.autoscaling.targetCPUUtilizationPercentage }}
+    {{- if .Values.hp.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
       resource:
         name: cpu
@@ -32,7 +32,7 @@ spec:
           type: Utilization
           averageUtilization: {{ .Values.web.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
-    {{- if .Values.highPriority.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- if .Values.hp.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory

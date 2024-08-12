@@ -55,6 +55,9 @@ web:
   env: []
   replicaCount: 1
   podAnnotations: {}
+  ports:
+    - name: http
+      containerPort: 3000
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -101,6 +104,9 @@ worker:
   args: ["entrypoint.sh", "worker"]
   podAnnotations: {}
   replicaCount: 1
+  ports:
+    - name: http
+      containerPort: 3000
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -136,7 +142,7 @@ worker:
   tolerations: []
   affinity: {}
 
-highPriority:
+hp:
   enabled: false
   command: ["/bin/bash"]
   args: ["entrypoint.sh", "p1-service"]

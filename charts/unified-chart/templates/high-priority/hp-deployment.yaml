@@ -1,5 +1,5 @@
 {{- $values := .Values -}}
-{{- if .Values.highPriority.enabled }}
+{{- if .Values.hp.enabled }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -7,13 +7,13 @@ metadata:
   name: {{ include "hp.name" . }}
   labels:
   {{- include "hp.labels" . | nindent 4 }}
-  {{- toYaml .Values.highPriority.labels | nindent 4 }}
+  {{- toYaml .Values.hp.labels | nindent 4 }}
 spec:
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 2 }}
   {{- if .Values.argoRollouts }}
   replicas: 0
   {{- else if not .Values.web.autoscaling.enabled }}
-  replicas: {{ .Values.highPriority.replicaCount }}
+  replicas: {{ .Values.hp.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
@@ -23,14 +23,14 @@ spec:
       labels:
         {{- include "hp.labels" . | nindent 8 }}
       annotations:
-        {{- $valshp := .Values.highPriority -}}
+        {{- $valshp := .Values.hp -}}
         {{- $bothhp := merge $valshp (pick .Values "linkerd") }}
         {{- include "calculate.pod.annotations" $bothhp | nindent 8 }}
     spec:
       {{- if .Values.serviceAccount.enabled }}
       serviceAccountName: {{ include "name" . }}
       {{- end }}
-      terminationGracePeriodSeconds: {{ .Values.highPriority.terminationGracePeriodSeconds | default 30 }}
+      terminationGracePeriodSeconds: {{ .Values.hp.terminationGracePeriodSeconds | default 30 }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
       {{- toYaml . | nindent 8 }}
@@ -50,9 +50,13 @@ spec:
             {{- include "externalsecret.volumemount" . | nindent 12 }}
           {{- end }}
           ports:
+            {{- if .Values.hp.ports }}
+            {{- toYaml .Values.hp.ports | nindent 12 }}
+            {{- else }}
             - name: http
               containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
+            {{- end }}
           {{- with .Values.web.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
@@ -66,7 +70,7 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
-            {{- include "container.env" .Values.highPriority | indent 12 -}}
+            {{- include "container.env" .Values.hp | indent 12 -}}
             {{- if .Values.externalSecret.enabled }}
             - name: FRONTEGG_CONFIG_DIRECTORY
               value: "/etc/config"
@@ -88,11 +92,11 @@ spec:
           resources:
             {{- toYaml .Values.web.resources | nindent 12 }}
           command:
-            {{- range .Values.highPriority.command }}
+            {{- range .Values.hp.command }}
             - {{ . | quote  }}
             {{- end }}
           args:
-            {{- range .Values.highPriority.args }}
+            {{- range .Values.hp.args }}
             - {{ . | quote  }}
             {{- end }}
       {{- with .Values.web.nodeSelector }}
