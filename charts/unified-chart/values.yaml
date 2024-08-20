@@ -35,7 +35,7 @@ default:
       helm.sh/hook-weight: "-10"
       helm.sh/hook-delete-policy: "before-hook-creation"
 
-revisionHistoryLimit: 3
+revisionHistoryLimit: 2
 
 imagePullPolicy: Always
 
