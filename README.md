@@ -1,4 +1,4 @@
-# Dynatrace ingester
+# Dynatrace Ingester
 
 This is a GitHub action has been **deprecated**. To monitor GitHub with Dynatrace the recommended approach is to use GitHub webhooks.
 
@@ -15,9 +15,9 @@ To capture the information about GitHub in Dynatrace you can use GitHub webhooks
 
 ![permissions](./readme/generate-tk.png)
 
-2. Configure webhook at the GitHub Organization level or the repository level (depends if you want to monitor an specific repo or all the organization repos)
+2. Configure webhook at the GitHub Organization level or the repository level (depends on if you want to monitor a specific repo or all the organization repos)
 
-Go to Settings>Webhooks and add the following:
+Go to Settings > Webhooks and add the following:
 
 Payload URL:
 `https://xxxx.live.dynatrace.com/platform/ingest/v1/events.sdlc?api-token=<put-previous-token-here>`
