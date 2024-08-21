@@ -83,22 +83,20 @@ web:
 
   resources: {}
   terminationGracePeriodSeconds: 30
-  # handles restart (not offline)
   livenessProbe:
-    failureThreshold: 3
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 40
-    periodSeconds: 60
-  # decides when to forward requests (not offline)
+    # failureThreshold: 3
+    # httpGet:
+    #   path: /health
+    #   port: http
+    # initialDelaySeconds: 40
+    # periodSeconds: 60
   readinessProbe:
-    failureThreshold: 1
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 5
-    periodSeconds: 5
+    # failureThreshold: 1
+    # httpGet:
+    #   path: /health
+    #   port: http
+    # initialDelaySeconds: 5
+    # periodSeconds: 5
   nodeSelector: {}
   tolerations: []
   affinity: {}
@@ -139,19 +137,19 @@ worker:
       cpu: 250m
       memory: 1Gi
   livenessProbe:
-    failureThreshold: 3
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 40
-    periodSeconds: 60
+    # failureThreshold: 3
+    # httpGet:
+    #   path: /health
+    #   port: http
+    # initialDelaySeconds: 40
+    # periodSeconds: 60
   readinessProbe:
-    failureThreshold: 1
-    httpGet:
-      path: /health
-      port: http
-    initialDelaySeconds: 5
-    periodSeconds: 5
+    # failureThreshold: 1
+    # httpGet:
+    #   path: /health
+    #   port: http
+    # initialDelaySeconds: 5
+    # periodSeconds: 5
   nodeSelector: {}
   tolerations: []
   affinity: {}
