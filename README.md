@@ -1,48 +1,43 @@
 # Dynatrace ingester
 
-This is a GitHub action for ingesting the information about a completed GitHub
-Actions Workflow as a Business Event into Dynatrace Grail.
+This is a GitHub action has been **deprecated**. To monitor GitHub with Dynatrace the recommended approach is to use GitHub webhooks.
+
 
 ## Instructions
 
-1. Create an Oauth token with the following permissions
-   `storage:bizevents:write storage:buckets:read storage:events:write`.
+To capture the information about GitHub in Dynatrace you can use GitHub webhooks and the SDLC event endpoint:
 
-2. Store the values as Github secrets.
+1. Get an access token with the following permissions:
+`openPipeline- Ingest events`
+`openPipeline - Ingest Software Development Lifecycle` 
+`openPipeline - Ingest Software Development Lifecycle (Custom)` 
 
-3. For the `DT_ENVIRONMENT_ID` you will need to use your environment URL with
-   the following format `https://xxxx.apps.dynatrace.com`. Notice that this
-   format contains the .apps suffix after your environment ID.
 
-Example pipeline:
+![permissions](./readme/generate-tk.png)
 
-```(yaml)
-name: "dynatrace-ingest"
-on:
-  workflow_run:
-    workflows: [*] # The Workflow to be ingested. If you leave like * it will run on any workflow trigger on the repository
-    types:
-      - completed
+2. Configure webhook at the GitHub Organization level or the repository level (depends if you want to monitor an specific repo or all the organization repos)
 
-jobs:
-  ingest:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: drqc/github-actions-ingester-v2@main
-        with:
-          dt-client-id: ${{ secrets.DT_CLIENT_ID }} # Client ID of Dynatrace OAuth Client
-          dt-client-secret: ${{ secrets.DT_CLIENT_SECRET }} # Client secret of Dynatrace OAuth Client
-          dt-environment-id: ${{ vars.DT_ENVIRONMENT_ID }} # Dynatrace Environment ID
-          dt-resource: ${{ secrets.DT_RESOURCE }} # Dynatrace Resource ID
-```
+Go to Settings>Webhooks and add the following:
 
-> Note: If you are using an environment different from production you will need
-> to add the following to the `with:` block.
-> `dt-sso-url: ${{ vars.DT_SSO_URL }}` where the SSO_URL for sprint environments
-> is `https://sso-sprint.dynatracelabs.com/sso/oauth2/token`.
+Payload URL:
+`https://xxxx.live.dynatrace.com/platform/ingest/v1/events.sdlc?api-token=<put-previous-token-here>`
 
-## Development instructions
+`Content type: application/json`
 
-Run `npm install` and then `npm run package` and commit the files to see any
-changes reflected.
+![token](./readme/webhook.png)
+
+At least 2 events will need to be sent to have pipeline observability but more can be enabled to calculate additional metrics:
+
+![token](./readme/scope.png)
+
+
+
+3. Test the connectivity
+
+Trigger a GitHub workflow and test that the events and getting into Dynatrace.
+ 
+Verify the events using the following DQL in a Dynatrace Notebook:
+
+`fetch events| filter event.kind=="SDLC_EVENT" AND isNotNull(workflow_run)`
+
+If you spot any issues check GitHub webhook logs
