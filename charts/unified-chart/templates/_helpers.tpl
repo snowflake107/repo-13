@@ -120,7 +120,6 @@ Selector labels for high priority pods
 */}}
 {{- define "hp.selector.labels" -}}
 app.frontegg.com/name: {{ include "name" . }}-hp
-app.frontegg.com/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{- define "keda.annotations" -}}

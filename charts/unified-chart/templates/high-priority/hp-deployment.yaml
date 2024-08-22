@@ -57,15 +57,15 @@ spec:
               containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
             {{- end }}
-          {{- with .Values.web.livenessProbe }}
+          {{- with .Values.hp.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.web.readinessProbe }}
+          {{- with .Values.hp.readinessProbe }}
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.web.startupProbe }}
+          {{- with .Values.hp.startupProbe }}
           startupProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -86,7 +86,7 @@ spec:
                 name: {{ include "name" . }}
           {{- end }}
           resources:
-            {{- toYaml .Values.web.resources | nindent 12 }}
+            {{- toYaml .Values.hp.resources | nindent 12 }}
           command:
             {{- range .Values.hp.command }}
             - {{ . | quote  }}

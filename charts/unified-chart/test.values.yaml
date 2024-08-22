@@ -82,6 +82,9 @@ hp:
       - port: 80
         targetPort: 3000
         name: http
+  ports:
+    - name: http
+      containerPort: 3000
   podAnnotations:
     some/other: hp
     some/other2: hp2
