@@ -18,6 +18,6 @@ metadata:
   namespace: {{ .namespace | default "frontegg" }}
 spec:
   routes:
-    {{- . | toYaml | nindent 4 }}
+    {{- .routes | toYaml | nindent 4 }}
 {{- end }}
 {{- end }}
