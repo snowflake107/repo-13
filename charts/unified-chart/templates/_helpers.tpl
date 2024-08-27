@@ -55,12 +55,12 @@ helm.sh/chart: {{ include "unified.chart" . }}
 app.frontegg.io/version: {{ .Chart.Version | quote }}
 app.frontegg.io/managed-by: {{ .Release.Service }}
 app.frontegg.com/team: {{ required "Every service needs to have responsible parents. .Values.team is required." .Values.team }}
-app.frontegg.com/appVersion: {{ include "appVersion" . }}
+app.frontegg.com/appVersion: {{ include "appVersion" . | quote }}
 {{- end -}}
 
 {{- define "web.labels" -}}
 app.frontegg.com/team: {{ required ".Values.team is required" .Values.team }}
-app.frontegg.com/appVersion: {{ include "appVersion" . }}
+app.frontegg.com/appVersion: {{ include "appVersion" . | quote }}
 {{- with .Values.web.labels }}
 {{ toYaml . }}
 {{- end }}
@@ -84,7 +84,7 @@ app.frontegg.com/instance: {{ .Release.Name }}
 
 {{- define "worker.labels" -}}
 app.frontegg.com/team: {{ required ".Values.team is required" .Values.team }}
-app.frontegg.com/appVersion: {{ include "appVersion" . }}
+app.frontegg.com/appVersion: {{ include "appVersion" . | quote }}
 {{- with .Values.worker.labels }}
 {{ toYaml . }}
 {{- end }}
@@ -111,7 +111,7 @@ app.frontegg.com/team: {{ .Values.team }}
 helm.sh/chart: {{ include "unified.chart" . }}
 app.frontegg.io/version: {{ .Chart.Version | quote }}
 app.frontegg.io/managed-by: {{ .Release.Service }}
-app.frontegg.com/appVersion: {{ include "appVersion" . }}
+app.frontegg.com/appVersion: {{ include "appVersion" . | quote }}
 {{ include "hp.selector.labels" . }}
 {{- end -}}
 
