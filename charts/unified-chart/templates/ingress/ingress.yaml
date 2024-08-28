@@ -3,6 +3,7 @@
 {{- range $ingname, $ingress := .Values.ingresses }}
 {{- if $ingress.enabled }}
 {{- $name := include "name" $top }}
+{{- $hostname := tpl $ingress.hostname $top -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -22,12 +23,12 @@ spec:
 {{- if .enabled}}
   tls:
     - hosts:
-        - {{ required "Need a proper hostname, u idiot!" $ingress.hostnameOverride | quote }}
+        - {{ required "Need a proper hostname, u idiot!" $hostname | quote }}
       secretName: {{ .secretName }}
 {{- end }}
 {{- end }}
   rules:
-    - host: {{ $ingress.hostnameOverride | quote }}
+    - host: {{ $hostname | quote }}
       http:
         paths:
         - path: /

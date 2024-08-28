@@ -268,7 +268,7 @@ ingresses:
   tesla:
     enabled: false
     ingressClassName: nginx
-    hostnameOverride: "nicola.tesla"
+    hostname: "nicola.tesla"
     service:
       name: '{{ include "web.name" $ }}'
       port: 80
@@ -284,7 +284,7 @@ ingresses:
   newton:
     enabled: false
     ingressClassName: nginx2
-    hostnameOverride: "isaac.newton"
+    hostname: "isaac.newton"
     service:
       name: '{{ include "web.name" $ }}'
       port: 80
