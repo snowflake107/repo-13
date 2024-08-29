@@ -172,8 +172,10 @@ jobs:
   test:
     enabled: true
     spec:
+      image: testimage
       command: ["/bin/bash"]
       args: ["test"]
+
   test2:
     enabled: true
     metadata:
@@ -197,6 +199,7 @@ cronjobs:
     failedJobsHistoryLimit: 1
     successfulJobsHistoryLimit: 1
     restartPolicy: Never
+    image: pieceofshit:image
     nodeSelector: {}
 
 serviceAccount:

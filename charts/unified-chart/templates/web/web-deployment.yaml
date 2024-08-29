@@ -86,14 +86,18 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.web.resources | nindent 12 }}
+          {{- with .Values.web.command }}
           command:
-            {{- range .Values.web.command }}
+            {{- range . }}
             - {{ . | quote  }}
             {{- end }}
+          {{- end }}
+          {{- with .Values.web.args }}
           args:
-            {{- range .Values.web.args }}
+            {{- range . }}
             - {{ . | quote  }}
             {{- end }}
+          {{- end }}
       {{- with .Values.web.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}

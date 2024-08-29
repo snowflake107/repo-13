@@ -50,8 +50,11 @@ spec:
       {{- end }}
       containers:
         - name: {{ include "name" $top }}-{{ $jobName }}
+          {{- if $job.spec.image }}
+          image: {{ $job.spec.image | quote }}
+          {{- else }}
           image: "{{ $values.image.repository }}:{{ $values.appVersion }}"
-          imagePullPolicy: {{ $values.imagePullPolicy }}
+          {{- end }}
           {{- if $values.externalSecret.enabled }}
           volumeMounts:
             {{- include "externalsecret.volumemount" $ | nindent 12 }}

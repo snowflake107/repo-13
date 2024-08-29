@@ -85,14 +85,18 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.worker.resources | nindent 12 }}
+          {{- with .Values.worker.command }}
           command:
-            {{- range .Values.worker.command }}
+            {{- range . }}
             - {{ . | quote  }}
             {{- end }}
+          {{- end }}
+          {{- with .Values.worker.args }}
           args:
-            {{- range .Values.worker.args }}
+            {{- range . }}
             - {{ . | quote  }}
             {{- end }}
+          {{- end }}
       {{- with .Values.worker.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}

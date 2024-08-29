@@ -203,6 +203,7 @@ jobs:
     metadata:
       annotations: {}
     spec:
+      # image: ""
       annotations: {}
       command: ["/bin/bash"]
       args: ["run-migrations.sh"]
@@ -216,8 +217,8 @@ cronjobs:
     enabled: false
     metadata:
       annotations: {}
-    command: ["/bin/bash"]
-    args: ["cron.sh"]
+    command: []
+    args: []
     schedule: "0 * * * *"
     ttlSecondsAfterFinished: 600
     concurrencyPolicy: Replace
