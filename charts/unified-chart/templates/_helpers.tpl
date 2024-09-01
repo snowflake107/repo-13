@@ -144,3 +144,8 @@ app.frontegg.com/name: {{ include "name" . }}-hp
 {{- end }}
 {{- end }}
 {{- end -}}
+
+{{/* service account name from values or generate it */}}
+{{- define "service.account.name" -}}
+{{ .Values.serviceAccount.nameOverride | default (include "name" . )}}
+{{- end -}}

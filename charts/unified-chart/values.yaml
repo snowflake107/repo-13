@@ -302,8 +302,9 @@ keda:
     validations.keda.sh/hpa-ownership: "false"
 
 serviceAccount:
-  enabled: false
+  enabled: true
   annotations: {}
+  nameOverride: ""
 
 linkerd:
   enabled: false

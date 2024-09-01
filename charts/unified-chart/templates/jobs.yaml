@@ -37,6 +37,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
+      {{- if $values.serviceAccount.enabled }}
+      serviceAccountName: {{ include "service.account.name" $top }}
+      {{- end }}
       restartPolicy: {{ .restartPolicy | default "Never" }}
       {{- with $values.imagePullSecrets }}
       imagePullSecrets :

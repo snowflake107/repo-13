@@ -28,7 +28,7 @@ spec:
         {{- include "calculate.pod.annotations" $bothhp | nindent 8 }}
     spec:
       {{- if .Values.serviceAccount.enabled }}
-      serviceAccountName: {{ include "name" . }}
+      serviceAccountName: {{ include "service.account.name" . }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.hp.terminationGracePeriodSeconds | default 30 }}
       {{- with .Values.imagePullSecrets }}

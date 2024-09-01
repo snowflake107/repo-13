@@ -48,7 +48,7 @@ spec:
         {{- end }}
         spec:
           {{- if $values.serviceAccount.enabled }}
-          serviceAccountName: {{ include "name" $top }}
+          serviceAccountName: {{ include "service.account.name" $top }}
           {{- end }}
           {{- with $job.nodeSelector }}
           nodeSelector:

@@ -27,7 +27,7 @@ spec:
         {{- include "calculate.pod.annotations" $bothweb | nindent 8 }}
     spec:
       {{- if .Values.serviceAccount.enabled }}
-      serviceAccountName: {{ include "name" . }}
+      serviceAccountName: {{ include "service.account.name" . }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.web.terminationGracePeriodSeconds | default 30 }}
       {{- with .Values.imagePullSecrets }}
