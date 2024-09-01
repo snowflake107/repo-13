@@ -31,12 +31,12 @@ spec:
     - host: {{ $hostname | quote }}
       http:
         paths:
-        - path: /
+        - path: {{ $ingress.path | default "/" }}
           backend:
             service:
               name: {{ tpl ($ingress.service.name | default "frontegg-{{ include \"name\" $ }}") $top }}
               port:
                 number: {{ $ingress.service.port | default 80 }}
-          pathType: ImplementationSpecific
+          pathType: {{ $ingress.pathType | default "ImplementationSpecific" }}
 {{- end }}
 {{- end }}
