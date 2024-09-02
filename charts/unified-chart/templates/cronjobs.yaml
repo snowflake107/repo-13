@@ -106,7 +106,7 @@ spec:
               {{- with .command }}
               command:
                 {{- range . }}
-                - {{ . | quote  }}
+                - {{ tpl . $ | quote  }}
                 {{- end }}
               {{- end }}
               {{- with .args }}
