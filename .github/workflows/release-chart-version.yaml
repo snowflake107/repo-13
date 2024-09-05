@@ -15,6 +15,9 @@ on:
         required: false
         type: string
         default: unified-chart
+      lexicographical-priority:
+        required: true
+        type: number
 
 jobs:
   release-chart:
@@ -37,9 +40,9 @@ jobs:
         run: |
           cd ${{ inputs.charts-dir }}/${{ inputs.chart-name }}
           version=$(cat Chart.yaml | yq e '.version')
-          helm package . --version $version-${{ inputs.environment }}
+          helm package . --version $version-${{ inputs.lexicographical-priority }}${{ inputs.environment }}
           mkdir .cr-release-packages
-          cp ${{ inputs.chart-name }}-$version-${{ inputs.environment }}.tgz .cr-release-packages/
+          cp ${{ inputs.chart-name }}-$version-${{ inputs.lexicographical-priority }}${{ inputs.environment }}.tgz .cr-release-packages/
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         with:

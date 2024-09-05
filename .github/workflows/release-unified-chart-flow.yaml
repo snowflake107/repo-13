@@ -11,23 +11,28 @@ jobs:
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: stg
+      lexicographical-priority: 1
   release-ca:
     needs: release-stg
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: ca
+      lexicographical-priority: 2
   release-au:
     needs: release-ca
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: au
+      lexicographical-priority: 3
   release-us:
     needs: release-au
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: us
+      lexicographical-priority: 4
   release-eu:
     needs: release-us
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: eu
+      lexicographical-priority: 5
