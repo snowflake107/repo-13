@@ -2,6 +2,7 @@
 name: unified-chart release flow
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
