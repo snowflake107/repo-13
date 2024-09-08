@@ -1,10 +1,12 @@
 ---
-name: release unified-chart flow
+name: unified-chart release flow
 
 on:
   push:
     branches:
       - master
+    paths:
+      - common/unified-chart/**
 
 jobs:
   release-stg:
