@@ -18,8 +18,6 @@ on:
 
 jobs:
   release-chart:
-    concurrency:
-      group: ${{ github.workflow }}-release
     permissions:
       contents: write
     environment: ${{ inputs.environment }}
