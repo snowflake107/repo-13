@@ -23,17 +23,17 @@ jobs:
     with:
       environment: canada
   release-au:
-    needs: release-stg
+    needs: release-ca
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: australia
   release-us:
-    needs: release-stg
+    needs: release-au
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: production-us
   release-eu:
-    needs: release-stg
+    needs: release-us
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: production-global
