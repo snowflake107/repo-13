@@ -9,33 +9,31 @@ on:
     paths:
       - common/unified-chart/**
 
+concurrency:
+  group: ${{ github.workflow }}
+
 jobs:
   release-stg:
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: stg
-      lexicographical-priority: 1
   release-ca:
     needs: release-stg
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
-      environment: ca
-      lexicographical-priority: 2
+      environment: canada
   release-au:
-    needs: release-ca
+    needs: release-stg
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
-      environment: au
-      lexicographical-priority: 3
+      environment: australia
   release-us:
-    needs: release-au
+    needs: release-stg
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
-      environment: us
-      lexicographical-priority: 4
+      environment: production-us
   release-eu:
-    needs: release-us
+    needs: release-stg
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
-      environment: eu
-      lexicographical-priority: 5
+      environment: production-global
