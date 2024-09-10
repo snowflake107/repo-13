@@ -18,17 +18,17 @@ jobs:
     with:
       environment: staging
   ca-au:
-    needs: release-stg
+    needs: stg
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: production-au
   us:
-    needs: release-ca-au
+    needs: ca-au
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: production-us
   eu:
-    needs: release-us
+    needs: us
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: production-global
