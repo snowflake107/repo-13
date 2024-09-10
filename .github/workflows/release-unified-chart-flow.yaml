@@ -13,21 +13,21 @@ concurrency:
   group: ${{ github.workflow }}
 
 jobs:
-  release-stg:
+  stg:
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: staging
-  release-ca-au:
+  ca-au:
     needs: release-stg
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: production-au
-  release-us:
+  us:
     needs: release-ca-au
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:
       environment: production-us
-  release-eu:
+  eu:
     needs: release-us
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
     with:

@@ -17,7 +17,7 @@ on:
         default: unified-chart
 
 jobs:
-  release-chart:
+  deploy-chart:
     permissions:
       contents: write
     environment: ${{ inputs.environment }}
