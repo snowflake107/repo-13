@@ -303,7 +303,7 @@ linkerd:
   enabled: false
   annotations:
     linkerd.io/inject: enabled
-    config.alpha.linkerd.io/proxy-wait-before-exit-seconds: 30
+    config.alpha.linkerd.io/proxy-wait-before-exit-seconds: "30"
 
 # additional helm templates to render resources freely
 additionalTemplates: |
