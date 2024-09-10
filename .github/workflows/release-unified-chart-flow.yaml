@@ -9,9 +9,6 @@ on:
     paths:
       - common/unified-chart/**
 
-concurrency:
-  group: ${{ github.workflow }}
-
 jobs:
   stg:
     uses: frontegg/helm-charts/.github/workflows/release-chart-version.yaml@master
