@@ -9,7 +9,11 @@
 # CAUTION this will change name of all manifests
 nameSuffix: v2
 
-argoRollouts: true
+argoRollouts:
+  enabled: true
+  activeMetadata:
+    labels:
+      role: active
 
 image:
   repository:
@@ -53,6 +57,13 @@ imagePullSecrets:
 
 web:
   enabled: false
+  pdb:
+    enabled: true
+    # The use of maxUnavailable is recommended as it automatically responds to changes in the number of replicas.
+    # only 1 of maxUnavailable or minAvailable is allowed
+    # can be an integer or precentage
+    maxUnavailable: 30%
+    # minAvailable: 50%
   service:
     labels: {}
     type: ClusterIP
@@ -165,6 +176,13 @@ worker:
 
 hp:
   enabled: false
+  pdb:
+    enabled: true
+    # The use of maxUnavailable is recommended as it automatically responds to changes in the number of replicas.
+    # only 1 of maxUnavailable or minAvailable is allowed
+    # can be an integer or precentage
+    maxUnavailable: 30%
+    # minAvailable: 50%
   service:
     labels: {}
     type: ClusterIP
