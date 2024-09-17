@@ -15,7 +15,7 @@ Install the package:
 
 ```
 npm install logzio-nodejs-metrics-sdk@0.5.0
-npm install @opentelemetry/sdk-metrics-base@0.27.0
+npm install @opentelemetry/sdk-metrics@1.26.0
 ```
 
 Set the variables in the following code snippet:
