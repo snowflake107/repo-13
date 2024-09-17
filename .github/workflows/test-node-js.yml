@@ -12,8 +12,6 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x, 16.x, 17.x, 18.x, 20.x]
-    env:
-      METRIC_SHIPPING_TOKEN: ${{ secrets.METRIC_SHIPPING_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
