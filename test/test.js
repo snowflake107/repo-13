@@ -4,34 +4,45 @@ const wr = require('../protos/rw/remote_pb')
 const util = require('../src/util');
 const transform  = require('../src/transformTs');
 const rwexporter = require('../src/remoteWriteExporter');
+const { MeterProvider, PeriodicExportingMetricReader } = require('@opentelemetry/sdk-metrics');
+const sinon = require('sinon');
 
+async function waitForNumberOfExports(exporter, numberOfExports) {
+    let totalExports = 0;
+    while (totalExports < numberOfExports) {
+      await new Promise(resolve => setTimeout(resolve, 20));
+      totalExports = exporter.callCount;
+    }
+  }
 
 describe('TestExporter', function(){
-    let request;
-    let testMetrics;
-    let testAtt;
-    let rawMetricList;
     let testUtil = require('./testUtil');
-    before(async function () {
-        request = await testUtil.initTestRequest();
-        rawMetricList = await testUtil.initTestRequest( true);
+    let meter;
+    let metricExporter;
+    let metricReader;
 
-        testMetrics = request['resourceMetrics'][0]['instrumentationLibraryMetrics'][0]['metrics'];
-        testAtt =[
-            {
-                "key": "att1",
-                "value": {
-                    "stringValue": "v1"
-                }
-            },
-            {
-                "key": "att2",
-                "value": {
-                    "stringValue": "v2"
-                }
+    beforeEach(() => {
+        const collectorOptions = {
+            url: 'https://listener.logz.io:8053',
+            headers: {
+                "Authorization": `Bearer ${process.env.METRIC_SHIPPING_TOKEN}`
             }
-        ]
+        };
+        metricExporter = new rwexporter.RemoteWriteExporter(collectorOptions);
+        metricReader = new PeriodicExportingMetricReader(
+            {
+                exporter: metricExporter, 
+                exportIntervalMillis: 1000
+            })
+        meter = new MeterProvider({
+            readers: [ metricReader ],
+        }).getMeter('RemoteWriteExporter', '0.5.0');
     });
+
+    afterEach(async () => {
+        await metricReader.shutdown();
+    });
+
     describe('TestExporterConfig', function() {
         it('Default url', function (){
             let r = new rwexporter.RemoteWriteExporter({token:"fake"});
@@ -42,42 +53,73 @@ describe('TestExporter', function(){
             assert.strictEqual(r.url,"custom");
         });
     });
-    describe('TestTransformTS', function () {
-        it('toTimeSeries()', function () {
-            let write_request = transform.toTimeSeries(request);
-            write_request.array[0].forEach(metric => {
-                let metricLabels = testUtil.toLabelDict(metric);
-                assert.strictEqual(metricLabels['pid'], '1')
-                assert.strictEqual(metricLabels['environment'], 'staging')
+
+    describe('TestTransformTS', function () {        
+        it('toTimeSeries()', async function () {
+            // generate metrics for function input
+            const exporterSpy = sinon.spy(metricExporter, 'export');
+            await testUtil.initTestRequest(meter, exporterSpy);
+            await waitForNumberOfExports(exporterSpy, 1).catch(e => console.error(e));
+            const resourceMetrics = exporterSpy.args[0][0];
+
+            // verify results
+            let write_request = transform.toTimeSeries(resourceMetrics);
+            assert(write_request, "toTimeSeries() did not return a write request.");
+
+            // verify label values
+            const metrics_labels = write_request.f["1"];
+            metrics_labels.forEach( metric => {
+                const metric_labels = metric.f["1"];
+                
+                let hasGeneralAttributes = metric_labels.some(item => {
+                    return item.u.includes('service.name') && item.u.includes('unknown_service:node');
+                });
+                let hasPidAttributes = metric_labels.some(item => {
+                    return (item.u.includes('pid') && item.u.includes('1'));
+                });
+                let hasEnvAttributes = metric_labels.some(item => {
+                    return (item.u.includes('environment') && item.u.includes('staging'));
+                });
+                let hasCustomAttributes = hasPidAttributes && hasEnvAttributes;
+                let hasNameAttribute = metric_labels.some(item => {
+                    return item.u.includes('__name__');
+                });
+                assert(hasGeneralAttributes, "write_request is missing defualt Collector labels.");
+                assert(hasCustomAttributes, "write_request is missing custom labels.");
+                assert(hasNameAttribute, "write_request is missing __name__ label.");
+                assert.strictEqual(metric_labels.length, 7);
             })
-            let metrics = write_request.array[0];
-            assert.strictEqual(metrics.length,5);
+
+            // verify metric values
+            const metrics = write_request.u;
             metrics.forEach( metric => {
-                let metricName = metric[0][0][1];
-                let metricValue = metric[1][0][0];
+                let metricName = metric[0][0][0][1];
+                let metricValue = metric[0][1][0][0];
+
                 if (metricName.includes('_total')){
-                    assert.strictEqual(metricValue,5);
+                    assert.strictEqual(metricValue, 5);
                 }
                 else if (metricName.includes('_sum')){
-                    assert.strictEqual(metricValue,16);
+                    assert.strictEqual(metricValue, 16);
                 }
                 else if (metricName.includes('_count')){
-                    assert.strictEqual(metricValue,2);
+                    assert.strictEqual(metricValue, 2);
                 }
                 else if (metricName.includes('_avg')){
-                    assert.strictEqual(metricValue,8);
+                    assert.strictEqual(metricValue, 8);
                 }
                 else {
-                    assert.strictEqual(metricValue,5);
+                    assert.strictEqual(metricValue, 5);
                 }
             })
         });
+
         it('attachLabel()', function () {
             let labels = [];
             transform.attachLabel({'key': 'testKey', 'value': 'testValue'}, labels)
-            assert.strictEqual(labels.length, 1);
-            assert.strictEqual(labels[0].array[0], 'testKey');
-            assert.strictEqual(labels[0].array[1], 'testValue')
+            assert.strictEqual(labels.length, 2);
+            assert.strictEqual(labels[0].u[1], 'testKey');
+            assert.strictEqual(labels[1].u[1], 'testValue')
         });
 
         it('attachSample()', function () {
@@ -87,152 +129,149 @@ describe('TestExporter', function(){
                 "timeUnixNano": new Date().getTime(),
             }
             transform.attachSample(testSample, samples)
-            assert.strictEqual(samples[0].array[0], 5);
-            assert.strictEqual(samples[0].array[1], new Date().getTime());
+            assert.strictEqual(samples[0].u[0], 5);
+            assert.strictEqual(samples[0].u[1], new Date().getTime());
             samples.pop();
             testSample = {
-                "sum": 44,
-                "count": 2,
-                "timeUnixNano": new Date().getTime(),
+                "value": {
+                    "sum": 44,
+                    "count": 2,
+                    "timeUnixNano": new Date().getTime(),
+                }
             }
             transform.attachSample(testSample, samples, 'sum')
-            assert.strictEqual(samples[0].array[0], 44);
+            assert.strictEqual(samples[0].u[0], 44);
             samples.pop();
             transform.attachSample(testSample, samples, 'count')
-            assert.strictEqual(samples[0].array[0], 2);
+            assert.strictEqual(samples[0].u[0], 2);
             samples.pop();
             transform.attachSample(testSample, samples, 'avg')
-            assert.strictEqual(samples[0].array[0], 22);
+            assert.strictEqual(samples[0].u[0], 22);
         });
 
         it('convertToTsLabels()', function () {
             let ts = new wr.TimeSeries();
-            let metric = testMetrics[2];
-            transform.convertToTsLabels(metric,ts,testAtt,metric.name);
-            let labels = testUtil.toLabelDict(ts.array);
-            assert.strictEqual(labels['__name__'], 'recorder_metric');
+            let testSample = {
+                descriptor: {
+                  name: 'metric1',
+                  type: 'COUNTER',
+                  description: 'test counter',
+                  unit: '',
+                  valueType: 1,
+                  advice: {}
+                },
+                aggregationTemporality: 1,
+                dataPointType: 3,
+                dataPoints: [
+                  {
+                    attributes: { pid: '1', environment: 'staging' },
+                    startTime: [ 1726476686, 142000000 ],
+                    endTime: [ 1726476687, 150000000 ],
+                    value: 10
+                  }
+                ],
+                isMonotonic: true
+            };
+            let testAtt = {
+                "att1": "v1",
+                "att2": "v2"
+            };
+
+            transform.convertToTsLabels(testSample, ts, testAtt, testSample.descriptor.name);
+            let labels = testUtil.toLabelDict(ts.f["1"]);
+            assert.strictEqual(labels['__name__'], testSample.descriptor.name);
             assert.strictEqual(labels['att1'], 'v1');
             assert.strictEqual(labels['att2'], 'v2');
             assert.strictEqual(labels['pid'], '1');
             assert.strictEqual(labels['environment'], 'staging');
-
-            metric['intSum'] = metric['doubleHistogram'];
-            delete metric.doubleHistogram;
-            transform.convertToTsLabels(metric,ts,testAtt,metric.name);
-            labels = testUtil.toLabelDict(ts.array);
-            assert.strictEqual(labels['__name__'], 'recorder_metric');
-
-            metric['intGauge'] = metric['intSum'];
-            delete metric.intSum;
-            transform.convertToTsLabels(metric,ts,testAtt,metric.name);
-            labels = testUtil.toLabelDict(ts.array);
-            assert.strictEqual(labels['__name__'], 'recorder_metric');
-
-            metric['doubleGauge'] = metric['intGauge'];
-            delete metric.intGauge;
-            transform.convertToTsLabels(metric,ts,testAtt,metric.name);
-            labels = testUtil.toLabelDict(ts.array);
-            assert.strictEqual(labels['__name__'], 'recorder_metric');
-
-            metric['doubleSum'] = metric['doubleGauge'];
-            delete metric.doubleGauge;
-            transform.convertToTsLabels(metric,ts,testAtt,metric.name);
-            labels = testUtil.toLabelDict(ts.array);
-            assert.strictEqual(labels['__name__'], 'recorder_metric');
-
-            metric['intHistogram'] = metric['doubleSum'];
-            delete metric.doubleSum;
-            transform.convertToTsLabels(metric,ts,testAtt,metric.name);
-            labels = testUtil.toLabelDict(ts.array);
-            assert.strictEqual(labels['__name__'], 'recorder_metric');
-
-            metric['doubleHistogram'] = metric['intHistogram'];
-            delete metric.intHistogram;
         });
 
         it('convertToTsLSamples()', function () {
+            let testCounterSample = {
+                descriptor: {
+                  name: 'metric1',
+                  type: 'COUNTER',
+                  description: 'test counter',
+                  unit: '',
+                  valueType: 1,
+                  advice: {}
+                },
+                aggregationTemporality: 1,
+                dataPointType: 3,
+                dataPoints: [
+                  {
+                    attributes: { pid: '1', environment: 'staging' },
+                    startTime: [ 1726476686, 142000000 ],
+                    endTime: [ 1726476687, 150000000 ],
+                    value: 5
+                  }
+                ],
+                isMonotonic: true
+            };
+            let testHistogramSample = {
+                descriptor: {
+                  name: 'metric3',
+                  type: 'HISTOGRAM',
+                  description: 'Example of a ValueRecorder',
+                  unit: '',
+                  valueType: 1,
+                  advice: {}
+                },
+                aggregationTemporality: 1,
+                dataPointType: 0,
+                dataPoints: [{
+                    attributes: { pid: '1', environment: 'staging' },
+                    startTime: [ 1726557840, 403000000 ],
+                    endTime: [ 1726557841, 403000000 ],
+                    value: {
+                        min: 6,
+                        max: 10,
+                        sum: 16,
+                        buckets: { boundaries: [Array], counts: [Array] },
+                        count: 2
+                    }
+                }]
+            };
             let ts = new wr.TimeSeries();
-            let metric = testMetrics[1];
-            transform.convertToTsLSamples(metric,ts);
-            assert.strictEqual(ts.array[1][0][0],5);
-            metric['intSum'] = metric['doubleSum'];
-            ts.array[1].pop();
-            transform.convertToTsLSamples(metric,ts);
-            assert.strictEqual(ts.array[1][0][0],5);
-            metric['doubleSum'] = metric['intSum'];
-            ts.array[1].pop();
-            metric = testMetrics[2];
-            transform.convertToTsLSamples(metric,ts,'sum');
-            assert.strictEqual(ts.array[1][0][0],16);
-            ts.array[1].pop();
-            transform.convertToTsLSamples(metric,ts,'count');
-            assert.strictEqual(ts.array[1][0][0],2);
-            ts.array[1].pop();
-            transform.convertToTsLSamples(metric,ts,'avg');
-            assert.strictEqual(ts.array[1][0][0],8);
+            transform.convertToTsLSamples(testCounterSample, ts);
+            assert.strictEqual(ts.u[1][0][0], 5);
+
+            let ts_sum = new wr.TimeSeries();
+            transform.convertToTsLSamples(testHistogramSample, ts_sum, 'sum');
+            assert.strictEqual(ts_sum.u[1][0][0], 16);
+            
+            let ts_count = new wr.TimeSeries();
+            transform.convertToTsLSamples(testHistogramSample, ts_count, 'count');
+            assert.strictEqual(ts_count.u[1][0][0], 2);
+            
+            let ts_avg = new wr.TimeSeries();
+            transform.convertToTsLSamples(testHistogramSample, ts_avg, 'avg');
+            assert.strictEqual(ts_avg.u[1][0][0], 8);
         });
     });
 
     describe('TestExport', function() {
-            this.timeout(25000)
-            it('Send() should success', async  () => {
-                function sleep(ms) {
-                    return new Promise(resolve => setTimeout(resolve, ms));
-                }
-                const collectorOptions = {
-                    url: 'https://localhost:5555',
-                    headers: {
-                        "Authorization":"Bearer token"
-                    }
-                };
-                const metricExporter = new rwexporter.RemoteWriteExporter(collectorOptions);
-                nock('https://localhost:5555')
-                    .post('/')
-                    .reply(200, {"message":"hello world"});
-                let response = util.send(metricExporter, rawMetricList);
-                await sleep(5000)
-                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/0/0")
+        it('should export metrics successfully', async () => {
+            // generate metrics
+            const requestCounter = meter.createCounter('randomMetric', {
+                description: 'random test counter',
             });
-            it('Send() should not retry', async  () => {
-                function sleep(ms) {
-                    return new Promise(resolve => setTimeout(resolve, ms));
-                }
-                const collectorOptions = {
-                    url: 'https://localhost:5555',
-                    headers: {
-                        "Authorization":"Bearer token"
-                    }                };
-                const metricExporter = new rwexporter.RemoteWriteExporter(collectorOptions);
-                nock('https://localhost:5555')
-                    .post('/')
-                    .reply(400, {"message":"hello world"});
-                let response = util.send(metricExporter, rawMetricList);
-                await sleep(5000)
-                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/0/0")
-                assert.strictEqual(response.attempts, 1)
-            });
-            it('Send() should retry', async  () => {
-                function sleep(ms) {
-                    return new Promise(resolve => setTimeout(resolve, ms));
-                }
-                const collectorOptions = {
-                    url: 'https://localhost:5555',
-                    headers: {
-                        "Authorization":"Bearer token"
-                    }                };
-                const metricExporter = new rwexporter.RemoteWriteExporter(collectorOptions);
-                nock('https://localhost:5555')
-                    .persist()
-                    .post('/')
-                    .reply(500, {"message":"hello world"});
-                let response = util.send(metricExporter, rawMetricList);
-                await sleep(12000);
-                // 3 attempts - 1 initial + 2 retries (total 3) (start from 0) [0,1,2]
-                assert.strictEqual(response.options.headers['logzio-shipper'],"nodejs-metrics/1.0.0/2/5");
-                assert.strictEqual(response.attempts,3);
-                // should drop 5 ts
-            });
-        });
+            const labels = {pid: "1", environment: 'staging'};
+            requestCounter.add(5, labels);
+            requestCounter.add(5, labels);
 
+            // verify details
+            const exporterSpy = sinon.spy(metricExporter, 'export');
+            await waitForNumberOfExports(exporterSpy, 1).catch(e => console.error(e));
+            const resourceMetrics = exporterSpy.args[0];
+            const firstResourceMetric = resourceMetrics[0];
+            const metric = firstResourceMetric.scopeMetrics[0].metrics[0];
+            const dp = metric.dataPoints[0];
+            assert.equal(metric.descriptor.name, "randomMetric");
+            assert.equal(metric.descriptor.type, "COUNTER");
+            assert.equal(metric.descriptor.description, "random test counter");
+            assert.equal(dp.attributes, labels);
+        });
+    });
 })
 
