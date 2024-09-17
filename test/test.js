@@ -25,7 +25,7 @@ describe('TestExporter', function(){
         const collectorOptions = {
             url: 'https://listener.logz.io:8053',
             headers: {
-                "Authorization": `Bearer ${process.env.METRIC_SHIPPING_TOKEN}`
+                "Authorization": `Bearer faketoken`
             }
         };
         metricExporter = new rwexporter.RemoteWriteExporter(collectorOptions);
@@ -56,6 +56,12 @@ describe('TestExporter', function(){
 
     describe('TestTransformTS', function () {        
         it('toTimeSeries()', async function () {
+            // Mock the HTTP request to the listener
+            nock('https://listener.logz.io:8053')
+            .persist()
+            .post('/')
+            .reply(200, "OK"); // This will always return a 200 status code
+            
             // generate metrics for function input
             const exporterSpy = sinon.spy(metricExporter, 'export');
             await testUtil.initTestRequest(meter, exporterSpy);
@@ -252,6 +258,12 @@ describe('TestExporter', function(){
 
     describe('TestExport', function() {
         it('should export metrics successfully', async () => {
+            // Mock the HTTP request to the listener
+            nock('https://listener.logz.io:8053')
+            .persist()
+            .post('/')
+            .reply(200, "OK"); // This will always return a 200 status code
+
             // generate metrics
             const requestCounter = meter.createCounter('randomMetric', {
                 description: 'random test counter',

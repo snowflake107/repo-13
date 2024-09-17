@@ -138,6 +138,8 @@ histogram.record(20), labels;
 
 ## Update log
 **0.5.0**
+
+Breaking changes:
 - Update dependencies versions
   - Upgrade to OTEL packages in version `1.26.0`
 - Update docs 
