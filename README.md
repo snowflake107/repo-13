@@ -27,6 +27,7 @@ Set the variables in the following code snippet:
 
 ```js
 const MeterProvider = require('@opentelemetry/sdk-metrics-base');
+const PeriodicExportingMetricReader = require('@opentelemetry/sdk-metrics-base');
 const sdk = require('logzio-nodejs-metrics-sdk');
 
 const collectorOptions = {
@@ -39,9 +40,14 @@ const collectorOptions = {
 const metricExporter = new sdk.RemoteWriteExporter(collectorOptions);
 
 // Initialize the meter provider
-const meter = new MeterProvider.MeterProvider({
-    exporter: metricExporter,
-    interval: 15000, // Push interval in seconds
+const meter = new MeterProvider({
+    readers: [
+        new PeriodicExportingMetricReader(
+            {
+                exporter: metricExporter, 
+                exportIntervalMillis: 1000
+            })
+        ],
 }).getMeter('example-exporter');
 
 // Create your first counter metric
@@ -84,9 +90,14 @@ const collectorOptions = {
 const metricExporter = new sdk.RemoteWriteExporter(collectorOptions);
 
 // Initialize the meter provider
-const meter = new MeterProvider.MeterProvider({
-    exporter: metricExporter,
-    interval: 15000, // Push interval in miliseconds
+const meter = new MeterProvider({
+    readers: [
+        new PeriodicExportingMetricReader(
+            {
+                exporter: metricExporter, 
+                exportIntervalMillis: 1000
+            })
+        ],
 }).getMeter('example-exporter');
 ```
 
@@ -127,6 +138,11 @@ histogram.record(20), labels;
 ```
 
 ## Update log
+**0.5.0**
+- Update dependencies versions
+  - Upgrade to OTEL packages in version `1.26.0`
+- Update docs 
+
 **0.4.0**
 
 Breaking changes:
