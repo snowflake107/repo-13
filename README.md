@@ -26,8 +26,7 @@ Set the variables in the following code snippet:
 | token                | Your Logz.io Prometheus Metrics account token.                                                                                                                                  |
 
 ```js
-const MeterProvider = require('@opentelemetry/sdk-metrics-base');
-const PeriodicExportingMetricReader = require('@opentelemetry/sdk-metrics-base');
+const { MeterProvider, PeriodicExportingMetricReader } = require('@opentelemetry/sdk-metrics');
 const sdk = require('logzio-nodejs-metrics-sdk');
 
 const collectorOptions = {
@@ -77,7 +76,7 @@ For more information, see the OpenTelemetry [documentation](https://github.com/o
 First Initialize the exporter and meter provider:
 
 ```js
-const MeterProvider = require('@opentelemetry/sdk-metrics-base');
+const { MeterProvider, PeriodicExportingMetricReader } = require('@opentelemetry/sdk-metrics');
 const sdk = require('logzio-nodejs-metrics-sdk');
 
 const collectorOptions = {
