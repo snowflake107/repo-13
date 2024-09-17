@@ -14,7 +14,7 @@ Node 14 or higher
 Install the package:
 
 ```
-npm install logzio-nodejs-metrics-sdk@0.4.0
+npm install logzio-nodejs-metrics-sdk@0.5.0
 npm install @opentelemetry/sdk-metrics-base@0.27.0
 ```
 
