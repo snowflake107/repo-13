@@ -5,7 +5,7 @@ This topic includes instructions on how to send custom metrics to Logz.io from y
 The included example uses the [OpenTelemetry JS SDK](https://github.com/open-telemetry/opentelemetry-js) and its based on [OpenTelemetry exporter collector proto](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-exporter-collector-proto).
 
 **Before you begin, you'll need**:
-Node 12 or higher
+Node 14 or higher
 
 **Note** This project works best with logzio as metrics backend, but its compatible with all backends that support `prometheuesrmotewrite` format
 
@@ -141,6 +141,7 @@ histogram.record(20), labels;
 - Update dependencies versions
   - Upgrade to OTEL packages in version `1.26.0`
 - Update docs 
+- Drop support for Nodejs `12.*`
 
 **0.4.0**
 
