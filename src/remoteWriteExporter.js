@@ -20,6 +20,7 @@ const otlpExporter = require("@opentelemetry/exporter-metrics-otlp-http");
 const types = require("./types");
 const remoteWriteExporterNodeBase = require("./remoteWriteExporterNodeBase");
 const DEFAULT_LISTENER_URL = 'https://listener.logz.io:8053';
+const ExportResultCode = '@opentelemetry/core';
 /**
  * Remote write Metric Exporter for Node with protobuf
  */
@@ -29,9 +30,7 @@ class RemoteWriteExporter extends remoteWriteExporterNodeBase.RemoteWriteExporte
         this.headers = config.headers;
         // Converts time to nanoseconds
         this._startTime = new Date().getTime() * 1000000;
-    }
-    convert(metrics) {
-        return otlpExporter.toOTLPExportMetricServiceRequest(metrics, this._startTime, this);
+        this._shutdown = false;
     }
     getDefaultUrl(config) {
         return typeof config.url === 'string'
@@ -40,5 +39,23 @@ class RemoteWriteExporter extends remoteWriteExporterNodeBase.RemoteWriteExporte
     getServiceClientType() {
         return types.ServiceClientType.METRICS;
     }
+
+    export(metrics, resultCallback) {
+        if (this._shutdown) {
+            setImmediate(resultCallback, { code: ExportResultCode.FAILED });
+            return;
+        }
+        return this.send(metrics, resultCallback);
+    }
+
+    forceFlush() {
+        return Promise.resolve();
+    }
+
+    shutdown() {
+        this._shutdown = true;
+        return this.forceFlush();
+    }
+
 }
 exports.RemoteWriteExporter = RemoteWriteExporter;

@@ -6,59 +6,35 @@ function attachSample(s, samples, metric_type = 'reg'){
         sample.setValue(s.value);
     }
     else if (metric_type == 'sum') {
-        sample.setValue(s.sum);
+        sample.setValue(s.value.sum);
     }
     else if (metric_type == 'count') {
-        sample.setValue(s.count);
+        sample.setValue(s.value.count);
     }
     else if (metric_type == 'avg') {
-        sample.setValue(s.sum/s.count);
+        sample.setValue(s.value.sum/s.value.count);
     }
     samples.push(sample)
 }
 
 function attachLabel(l, labels){
-    let label = new wr.Label();
-    label.setName(l.key);
-    label.setValue(l.value);
-    labels.push(label)
+    let label;
+    
+    Object.entries(l).forEach(([key, value]) => {
+        label = new wr.Label();
+        label.setName(key);
+        label.setValue(value);
+        labels.push(label);
+    })
 }
 
 function convertToTsLSamples(metric, ts, metric_type = 'reg'){
     const samples = []
-    if ('intSum' in metric){
-        metric.intSum.dataPoints.forEach((s) => {
-            attachSample(s, samples)
-        })
-    }
-    else if ('doubleSum' in metric){
-        metric.doubleSum.dataPoints.forEach((s) => {
-            attachSample(s, samples)
-        })
-    }
-    else if ('intGauge' in metric){
-        metric.intGauge.dataPoints.forEach((s) => {
-            attachSample(s, samples)
-        })
-    }
-    else if ('doubleGauge' in metric){
-        metric.doubleGauge.dataPoints.forEach((s) => {
-            attachSample(s, samples)
-        })
-    }
-    else if ('intHistogram' in metric){
-        metric.intHistogram.dataPoints.forEach((s) => {
-            attachSample(s, samples, metric_type)
-        })
-    }
-    else if ('doubleHistogram' in metric){
-        metric.doubleHistogram.dataPoints.forEach((s) => {
-            attachSample(s, samples, metric_type)
-        })
-    }
-    else {
-        throw new Error('Metric type is not supported')
-    }
+
+    metric.dataPoints.forEach((dp) => {
+        attachSample(dp, samples, metric_type);
+    });
+
     samples.forEach((s) => {
         ts.addSamples(s);
     })
@@ -72,52 +48,17 @@ function convertToTsLabels(metric, ts, attributes ,name){
     name_label.setValue(name);
     labels.push(name_label);
     // add attributes labels
-    attributes.forEach((att) => {
+    Object.entries(attributes).forEach(([key, value]) => {
         let att_label = new wr.Label();
-        att_label.setName(att.key);
-        att_label.setValue(att.value.stringValue);
+        att_label.setName(key);
+        att_label.setValue(value);
         labels.push(att_label);
     })
     // add metric labels
-    if ('intSum' in metric){
-        let metric_labels = metric.intSum.dataPoints[0].labels;
-        metric_labels.forEach((l) => {
-            attachLabel(l, labels);
-        })
-    }
-    else if ('doubleSum' in metric){
-        let metric_labels = metric.doubleSum.dataPoints[0].labels;
-        metric_labels.forEach((l) => {
-            attachLabel(l, labels);
-        })
-    }
-    else if ('intGauge' in metric){
-        let metric_labels = metric.intGauge.dataPoints[0].labels;
-        metric_labels.forEach((l) => {
-            attachLabel(l, labels);
-        })
-    }
-    else if ('doubleGauge' in metric){
-        let metric_labels = metric.doubleGauge.dataPoints[0].labels;
-        metric_labels.forEach((l) => {
-            attachLabel(l, labels);
-        })
-    }
-    else if ('intHistogram' in metric){
-        let metric_labels = metric.intHistogram.dataPoints[0].labels;
-        metric_labels.forEach((l) => {
-            attachLabel(l, labels);
-        })
-    }
-    else if ('doubleHistogram' in metric){
-        let metric_labels = metric.doubleHistogram.dataPoints[0].labels;
-        metric_labels.forEach((l) => {
-            attachLabel(l, labels);
-        })
-    }
-    else {
-        throw new Error('Metric type is not supported')
-    }
+    metric.dataPoints.forEach((dp) => {
+        metric_labels = dp.attributes;
+        attachLabel(metric_labels, labels);
+    });
     labels.forEach((l) => {
         ts.addLabels(l);
     })
@@ -138,44 +79,43 @@ function checkNestedObjectByKeyValue(obj, objKey, objValue) {
 
 function toTimeSeries(otel_request) {
     const write_request = new wr.WriteRequest();
-    const resources = otel_request['resourceMetrics'];
-    resources.forEach((_resource) => {
-        const _attributes = _resource.resource.attributes;
-        _resource.instrumentationLibraryMetrics.forEach((ilm) => {
-            let _metrics = ilm.metrics;
-            _metrics.forEach((_metric) => {
-                if (checkNestedObjectByKeyValue(_metric,'isMonotonic', true)) {
-                    let _ts = new wr.TimeSeries();
-                    convertToTsLabels(_metric, _ts, _attributes, _metric.name + "_total");
-                    convertToTsLSamples(_metric, _ts);
-                    write_request.addTimeseries(_ts);
-                }
-                // Histogram metric
-                else if ('doubleHistogram' in _metric || 'intHistogram' in _metric) {
-                    let metric_type = (('doubleHistogram' in _metric) ? 'doubleHistogram' : 'intHistogram');
-                    // Sum metric
-                    let _ts_sum = new wr.TimeSeries();
-                    convertToTsLabels(_metric, _ts_sum, _attributes, `${_metric.name}_sum`);
-                    convertToTsLSamples(_metric, _ts_sum, 'sum');
-                    write_request.addTimeseries(_ts_sum);
-                    // Count metric
-                    let _ts_count = new wr.TimeSeries();
-                    convertToTsLabels(_metric, _ts_count, _attributes, `${_metric.name}_count`);
-                    convertToTsLSamples(_metric, _ts_count, 'count');
-                    write_request.addTimeseries(_ts_count);
-                    // Average metric
-                    let _ts_avg = new wr.TimeSeries();
-                    convertToTsLabels(_metric, _ts_avg, _attributes, `${_metric.name}_avg`);
-                    convertToTsLSamples(_metric, _ts_avg, 'avg');
-                    write_request.addTimeseries(_ts_avg);
-                }
-                else {
-                    let _ts = new wr.TimeSeries();
-                    convertToTsLabels(_metric, _ts, _attributes, _metric.name);
-                    convertToTsLSamples(_metric, _ts);
-                    write_request.addTimeseries(_ts);
-                }
-            })
+    const scopeMetrics = otel_request.scopeMetrics;
+    const attributes = otel_request.resource._attributes;
+
+    scopeMetrics.forEach((scopeMetric) => {
+        const metrics = scopeMetric.metrics;
+        metrics.forEach((metric) => {
+
+            if (checkNestedObjectByKeyValue(metric,'isMonotonic', true)) {
+                let _ts = new wr.TimeSeries();
+                convertToTsLabels(metric, _ts, attributes, metric.descriptor.name + "_total");
+                convertToTsLSamples(metric, _ts);
+                write_request.addTimeseries(_ts);
+            }
+            // Histogram metric
+            else if (metric.descriptor.type === 'HISTOGRAM') {
+                // Sum metric
+                let _ts_sum = new wr.TimeSeries();
+                convertToTsLabels(metric, _ts_sum, attributes, `${metric.descriptor.name}_sum`);
+                convertToTsLSamples(metric, _ts_sum, 'sum');
+                write_request.addTimeseries(_ts_sum);
+                // Count metric
+                let _ts_count = new wr.TimeSeries();
+                convertToTsLabels(metric, _ts_count, attributes, `${metric.descriptor.name}_count`);
+                convertToTsLSamples(metric, _ts_count, 'count');
+                write_request.addTimeseries(_ts_count);
+                // Average metric
+                let _ts_avg = new wr.TimeSeries();
+                convertToTsLabels(metric, _ts_avg, attributes, `${metric.descriptor.name}_avg`);
+                convertToTsLSamples(metric, _ts_avg, 'avg');
+                write_request.addTimeseries(_ts_avg);
+            }
+            else {
+                let _ts = new wr.TimeSeries();
+                convertToTsLabels(metric, _ts, attributes, metric.descriptor.name);
+                convertToTsLSamples(metric, _ts);
+                write_request.addTimeseries(_ts);
+            }
         })
     })
     return write_request;

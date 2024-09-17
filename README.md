@@ -5,7 +5,7 @@ This topic includes instructions on how to send custom metrics to Logz.io from y
 The included example uses the [OpenTelemetry JS SDK](https://github.com/open-telemetry/opentelemetry-js) and its based on [OpenTelemetry exporter collector proto](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-exporter-collector-proto).
 
 **Before you begin, you'll need**:
-Node 12 or higher
+Node 14 or higher
 
 **Note** This project works best with logzio as metrics backend, but its compatible with all backends that support `prometheuesrmotewrite` format
 
@@ -26,7 +26,7 @@ Set the variables in the following code snippet:
 | token                | Your Logz.io Prometheus Metrics account token.                                                                                                                                  |
 
 ```js
-const MeterProvider = require('@opentelemetry/sdk-metrics-base');
+const { MeterProvider, PeriodicExportingMetricReader } = require('@opentelemetry/sdk-metrics');
 const sdk = require('logzio-nodejs-metrics-sdk');
 
 const collectorOptions = {
@@ -39,9 +39,14 @@ const collectorOptions = {
 const metricExporter = new sdk.RemoteWriteExporter(collectorOptions);
 
 // Initialize the meter provider
-const meter = new MeterProvider.MeterProvider({
-    exporter: metricExporter,
-    interval: 15000, // Push interval in seconds
+const meter = new MeterProvider({
+    readers: [
+        new PeriodicExportingMetricReader(
+            {
+                exporter: metricExporter, 
+                exportIntervalMillis: 1000
+            })
+        ],
 }).getMeter('example-exporter');
 
 // Create your first counter metric
@@ -71,7 +76,7 @@ For more information, see the OpenTelemetry [documentation](https://github.com/o
 First Initialize the exporter and meter provider:
 
 ```js
-const MeterProvider = require('@opentelemetry/sdk-metrics-base');
+const { MeterProvider, PeriodicExportingMetricReader } = require('@opentelemetry/sdk-metrics');
 const sdk = require('logzio-nodejs-metrics-sdk');
 
 const collectorOptions = {
@@ -84,9 +89,14 @@ const collectorOptions = {
 const metricExporter = new sdk.RemoteWriteExporter(collectorOptions);
 
 // Initialize the meter provider
-const meter = new MeterProvider.MeterProvider({
-    exporter: metricExporter,
-    interval: 15000, // Push interval in miliseconds
+const meter = new MeterProvider({
+    readers: [
+        new PeriodicExportingMetricReader(
+            {
+                exporter: metricExporter, 
+                exportIntervalMillis: 1000
+            })
+        ],
 }).getMeter('example-exporter');
 ```
 
@@ -127,6 +137,14 @@ histogram.record(20), labels;
 ```
 
 ## Update log
+**0.5.0**
+
+Breaking changes:
+- Update dependencies versions
+  - Upgrade to OTEL packages in version `1.26.0`
+- Update docs 
+- Drop support for Nodejs `12.*`
+
 **0.4.0**
 
 Breaking changes:

@@ -17,12 +17,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RemoteWriteExporterNodeBase = void 0;
 const api_1 = require("@opentelemetry/api");
-const otlpExporter = require("@opentelemetry/exporter-trace-otlp-http");
+const otlpExporter = require("@opentelemetry/otlp-exporter-base");
 /**
  * Remote wrote Metric Exporter abstract base class
  */
 class RemoteWriteExporterNodeBase extends otlpExporter.OTLPExporterNodeBase {
-    _sendPromise(objects, onSuccess, onError) {
+    _sendPromise(objects, onSuccess, onError = console.error) {
         const promise = new Promise(resolve => {
             const _onSuccess = () => {
                 onSuccess();
@@ -51,7 +51,7 @@ class RemoteWriteExporterNodeBase extends otlpExporter.OTLPExporterNodeBase {
             onInit(this, config);
         });
     }
-    send(objects, onSuccess, onError) {
+    send(objects, onSuccess = () => {}, onError = console.error) {
         if (this._isShutdown) {
             api_1.diag.debug('Shutdown already started. Cannot send objects');
             return;

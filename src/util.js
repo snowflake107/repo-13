@@ -21,6 +21,7 @@ const SnappyJS = require('snappyjs');
 const transform = require('./transformTs');
 const logger = require('./logging').logger
 const axios = require('axios');
+const { version } = require('../package.json');
 let lost = 0;
 
 let ExportRequestProto;
@@ -96,8 +97,7 @@ function axiosRetry({
 }
 
 function makeWriteRequest(collector, objects) {
-    const serviceRequest = collector.convert(objects);
-    const writeRequest = transform.toTimeSeries(serviceRequest);
+    const writeRequest = transform.toTimeSeries(objects);
     return writeRequest;
 }
 
@@ -112,7 +112,7 @@ function getRequestHeaders(baseHeaders, attempts) {
         "Content-Encoding": "snappy",
         "Content-Type": "application/x-protobuf",
         "X-Prometheus-Remote-Write-Version": "0.1.0",
-        "logzio-shipper": `nodejs-metrics/1.0.0/${attempts}/${lost}`,
+        "User-Agent": `nodejs-metrics/${version}/${attempts}/${lost}`,
     };
     const headers = {...rawHeaders, ...baseHeaders}
     return headers;
@@ -125,12 +125,12 @@ function send(collector, objects) {
         status: -1,
     };
     const writeRequest = makeWriteRequest(collector, objects);
-    if (!(writeRequest && writeRequest.wrappers_)) {
+    if (!(writeRequest && writeRequest.f)) {
         // no data
         logger.log({level: 'info', message: 'No timeseries to send'});
         return;
     }
-    const timeSeriesCount = writeRequest.wrappers_["1"].length;
+    const timeSeriesCount = writeRequest.f["1"].length;
     if (0 < timeSeriesCount) {
         logger.log({level: 'info', message: `Sending bulk of ${timeSeriesCount} timeseries`});
 
