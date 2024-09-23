@@ -158,7 +158,7 @@ app.frontegg.com/name: {{ include "name" . }}-hp
 {{/* validations */}}
 {{- define "validate.role.bindings" }}
 {{- $rolekind := (.Values.role.kind | lower) }}
-{{- if and (ne $rolekind "role") (ne $rolekind "clusterrole") }}
-{{- fail ".Values.role.kind must be role/rolebinding" }}
+{{- if and (ne .Values.role.kind "Role") (ne .Values.role.kind "ClusterRole") }}
+{{- fail ".Values.role.kind must be Role/ClusterRole" }}
 {{- end }}
 {{- end }}

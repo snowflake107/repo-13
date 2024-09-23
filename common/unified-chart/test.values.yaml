@@ -250,7 +250,7 @@ serviceAccount:
 
 role:
   enabled: true
-  kind: clusterrole
+  kind: ClusterRole
   namespace: ""
   annotations:
     my/cool: annotation

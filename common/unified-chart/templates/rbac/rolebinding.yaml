@@ -2,17 +2,16 @@
 {{- if .Values.rolebinding.enabled }}
 {{- $values := .Values -}}
 {{- with .Values.rolebinding }}
-{{- $rolekind := ($values.role.kind | lower) }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: {{ eq $rolekind "role" | ternary "rolebinding" "clusterrolebinding"  }}
+kind: {{ eq $values.role.kind "Role" | ternary "RoleBinding" "ClusterRoleBinding"  }}
 metadata:
   name: {{ include "name" $top }}
   {{- with .annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- if eq $rolekind "role" }}
+  {{- if eq $values.role.kind "Role" }}
   namespace: {{ required ".Values.rolebinding.namespace requried" .namespace }}
   {{- end }}
   labels:
