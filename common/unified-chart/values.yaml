@@ -317,6 +317,16 @@ serviceAccount:
   annotations: {}
   nameOverride: ""
 
+role:
+  enabled: false
+  kind: role
+  namespace: ""
+  rules: []
+
+rolebinding:
+  enabled: false
+  namespace: ""
+
 linkerd:
   enabled: false
   annotations:

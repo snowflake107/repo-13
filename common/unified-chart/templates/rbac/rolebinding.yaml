@@ -1,0 +1,29 @@
+{{- $top := . }}
+{{- if .Values.rolebinding.enabled }}
+{{- $values := .Values -}}
+{{- with .Values.rolebinding }}
+{{- $rolekind := ($values.role.kind | lower) }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: {{ eq $rolekind "role" | ternary "rolebinding" "clusterrolebinding"  }}
+metadata:
+  name: {{ include "name" $top }}
+  {{- with .annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if eq $rolekind "role" }}
+  namespace: {{ required ".Values.rolebinding.namespace requried" .namespace }}
+  {{- end }}
+  labels:
+    {{- include "labels" $top | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: {{ $values.role.kind }}
+  name: {{ include "name" $top }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "name" $top }}
+    namespace: {{ $.Release.Namespace }}
+{{- end }}
+{{- end }}
