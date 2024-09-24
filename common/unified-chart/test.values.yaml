@@ -79,6 +79,9 @@ ingresses:
 
 web:
   enabled: true
+  env:
+    - name: SOME_WEB_VAR
+      value: some_web_value
   service:
     ports:
       - port: 8080
@@ -116,6 +119,9 @@ web:
 
 hp:
   enabled: true
+  env:
+    - name: SOME_HP_VAR
+      value: some_hp_value
   service:
     labels:
       monitoring-metrics: enabled
@@ -133,12 +139,12 @@ hp:
     enabled: true
     scaledObject:
       enabled: true
-  env:
-    - name: SOME_ENV
-      value: some_val
 
 worker:
   enabled: true
+  env:
+    - name: SOME_WORKER_VAR
+      value: some_worker_value
   service:
     labels:
       monitoring-metrics: enabled
@@ -146,9 +152,6 @@ worker:
       - port: 80
         targetPort: 3000
         name: access-port
-  env:
-    - name: SOME_ENV
-      value: some_val
   labels:
     scrape-for-metrics: enabled
   nodeSelector:
