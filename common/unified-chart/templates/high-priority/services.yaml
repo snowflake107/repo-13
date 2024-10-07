@@ -1,21 +1,19 @@
+{{- $top := . -}}
 {{- $values := .Values -}}
-{{- if $values.hp.enabled }}
-{{- if $values.argoRollouts.enabled }}
+{{- if .Values.argoRollouts.progressiveDelivery.enabled }}
+{{- range $type := tuple "canary" "stable" }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "hp.name" . }}
+  name: {{ include "hp.name" $top }}-{{ $type }}
   labels:
-    {{- include "hp.labels" . | nindent 4 }}
+    {{- include "hp.labels" $top | nindent 4 }}
     {{- with $values.hp.service.labels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-    {{- if $values.hp.service.scrape }}
-    {{- include "scrape.labels" . | nindent 4 }}
-    {{- end }}
 spec:
-  type: {{ $values.hp.service.type | default "ClusterIP" }}
+  type: {{ $values.hp.service.type }}
   ports:
     {{- range $values.hp.service.ports }}
     - port: {{ required ".Values.hp.service.ports[*].port number is required" .port }}
@@ -24,6 +22,7 @@ spec:
       name: {{ .name | default "http" }}
     {{- end }}
   selector:
-    {{- include "hp.selector.labels" . | nindent 4 }}
+    {{- include "hp.selector.labels" $top | nindent 4 }}
 {{- end }}
 {{- end }}
+
