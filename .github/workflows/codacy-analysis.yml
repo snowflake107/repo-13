@@ -260,7 +260,7 @@ jobs:
         verbose: true
     - continue-on-error: true
       name: Upload SARIF results file
-      uses: github/codeql-action/upload-sarif@v2
+      uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: results.sarif
     - name: after
