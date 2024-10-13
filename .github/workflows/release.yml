@@ -272,13 +272,13 @@ jobs:
         '
     - continue-on-error: true
       name: Cache the Go Build Cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         key: ${{ runner.os }}-build-${{ github.sha }}-${{ hashFiles('**/go.sum') }}
         path: ${{ steps.go.outputs.build-cache }}
     - continue-on-error: true
       name: Cache Go Dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         key: ${{ runner.os }}-mod-${{ github.sha }}-${{ hashFiles('**/go.sum') }}
         path: ${{ steps.go.outputs.mod-cache }}
