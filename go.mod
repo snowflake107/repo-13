@@ -9,8 +9,8 @@ require (
 	github.com/Azure/go-autorest/autorest v0.11.20
 	github.com/Azure/go-autorest/autorest/adal v0.9.16
 	github.com/Azure/go-autorest/autorest/to v0.4.0
-	github.com/akamai/AkamaiOPEN-edgegrid-golang v1.1.1
 	github.com/GoogleCloudPlatform/k8s-config-connector v1.59.0
+	github.com/akamai/AkamaiOPEN-edgegrid-golang v1.1.1
 	github.com/alecthomas/assert v0.0.0-20170929043011-405dbfeb8e38 // indirect
 	github.com/alecthomas/colour v0.1.0 // indirect
 	github.com/alecthomas/kingpin v2.2.5+incompatible
@@ -70,7 +70,7 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/api v0.58.0
 	gopkg.in/ini.v1 v1.62.0 // indirect
-	gopkg.in/ns1/ns1-go.v2 v2.0.0-20190322154155-0dafb5275fd1
+	gopkg.in/ns1/ns1-go.v2 v2.12.1
 	gopkg.in/yaml.v2 v2.4.0
 	istio.io/api v0.0.0-20210128181506-0c4b8e54850f
 	istio.io/client-go v0.0.0-20210128182905-ee2edd059e02
