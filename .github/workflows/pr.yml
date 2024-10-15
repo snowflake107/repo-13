@@ -258,7 +258,7 @@ jobs:
       name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
     - continue-on-error: true
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION  }}
     - continue-on-error: true
