@@ -263,7 +263,7 @@ jobs:
         SONATYPE_KEY: ${{ secrets.SONATYPE_KEY }}
         SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
       name: Build and publish artifacts
-      uses: gradle/gradle-build-action@v2
+      uses: gradle/gradle-build-action@v3
       with:
         arguments: assemble publishToSonatype closeAndReleaseSonatypeStagingRepository
     - continue-on-error: true

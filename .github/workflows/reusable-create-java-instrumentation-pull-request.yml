@@ -267,7 +267,7 @@ jobs:
       run: ./.github/scripts/update-sdk-version.sh $VERSION
     - continue-on-error: true
       name: Update license report
-      uses: gradle/gradle-build-action@v2
+      uses: gradle/gradle-build-action@v3
       with:
         arguments: generateLicenseReport
     - continue-on-error: true

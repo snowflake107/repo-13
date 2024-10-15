@@ -270,7 +270,7 @@ jobs:
         SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
       if: ${{ github.ref_name == 'main' && github.repository == 'open-telemetry/opentelemetry-java'
         }}
-      uses: gradle/gradle-build-action@v2
+      uses: gradle/gradle-build-action@v3
       with:
         arguments: assemble publishToSonatype
     - name: after
