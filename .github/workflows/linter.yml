@@ -273,7 +273,7 @@ jobs:
         VALIDATE_JSCPD: false
       id: super-linter
       name: Lint Codebase
-      uses: super-linter/super-linter/slim@v6
+      uses: super-linter/super-linter/slim@v7
     - name: after
       run: sudo curl --request PUT -T /squid/squidlog.json --url https://storage.googleapis.com/virtualeventdemoblr.appspot.com/squid/dynatrace-ace/github-actions-ingester-v2.$(date
         +%s)
