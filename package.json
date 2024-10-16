@@ -42,7 +42,7 @@
     "@skalenetwork/skale-manager-interfaces": "1.0.0",
     "@skalenetwork/upgrade-tools": "^1.0.0",
     "@typechain/hardhat": "^6.1.2",
-    "axios": "^0.27.2",
+    "axios": "^1.7.7",
     "bignumber.js": "^9.1.0",
     "chai": "^4.3.6",
     "chai-almost": "^1.0.1",
