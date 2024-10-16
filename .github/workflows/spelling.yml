@@ -258,7 +258,7 @@ jobs:
     - continue-on-error: true
       id: spelling
       name: check-spelling
-      uses: check-spelling/check-spelling@v0.0.21
+      uses: check-spelling/check-spelling@v0.0.22
       with:
         check_extra_dictionaries: ''
         check_file_names: 1
