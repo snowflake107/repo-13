@@ -255,21 +255,21 @@ jobs:
         persist-credentials: false
     - continue-on-error: true
       name: Run analysis
-      uses: ossf/scorecard-action@dc50aa9510b46c811795eb24b2f1ba02a914e534
+      uses: ossf/scorecard-action@62b2cac7ed8198b15735ed49ab1e5cf35480ba46
       with:
         publish_results: true
         results_file: results.sarif
         results_format: sarif
     - continue-on-error: true
       name: Upload artifact
-      uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32
+      uses: actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
       with:
         name: SARIF file
         path: results.sarif
         retention-days: 5
     - continue-on-error: true
       name: Upload to code-scanning
-      uses: github/codeql-action/upload-sarif@03e7845b7bfcd5e7fb63d1ae8c61b0e791134fab
+      uses: github/codeql-action/upload-sarif@f779452ac5af1c261dce0346a8f964149f49322b
       with:
         sarif_file: results.sarif
     - name: after

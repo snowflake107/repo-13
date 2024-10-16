@@ -268,7 +268,7 @@ jobs:
     - continue-on-error: true
       if: success() || failure()
       name: Store test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: test-results
         path: target/surefire-reports/*.xml
