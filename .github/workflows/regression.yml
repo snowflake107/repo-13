@@ -284,7 +284,7 @@ jobs:
         '
     - continue-on-error: true
       name: Download submission metadata
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: vector-submission-metadata
         path: ${{ runner.temp }}/
@@ -311,7 +311,7 @@ jobs:
         issue-number: ${{ needs.compute-metadata.outputs.pr-number }}
     - continue-on-error: true
       name: Upload regression report to artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: capture-artifacts
         path: ${{ runner.temp }}/outputs/*
@@ -1203,7 +1203,7 @@ jobs:
         '
     - continue-on-error: true
       name: Download submission metadata
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: vector-submission-metadata
         path: ${{ runner.temp }}/
@@ -2115,7 +2115,7 @@ jobs:
         \ ${{ github.workspace }}/regression/ \\\n  --warmup-seconds ${{ env.SMP_WARMUP_SECONDS\
         \ }} \\\n  --submission-metadata ${{ runner.temp }}/submission-metadata\n"
     - continue-on-error: true
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: vector-submission-metadata
         path: ${{ runner.temp }}/submission-metadata
@@ -2421,7 +2421,7 @@ jobs:
         sudo sh -c ''echo 1 > /proc/sys/net/ipv4/ip_forward'''
     - continue-on-error: true
       name: Download baseline image
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: baseline-image
     - continue-on-error: true
@@ -2710,7 +2710,7 @@ jobs:
         sudo sh -c ''echo 1 > /proc/sys/net/ipv4/ip_forward'''
     - continue-on-error: true
       name: Download comparison image
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: comparison-image
     - continue-on-error: true
