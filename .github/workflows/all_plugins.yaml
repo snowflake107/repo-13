@@ -255,7 +255,7 @@ jobs:
         cache: true
         channel: stable
     - continue-on-error: true
-      uses: bluefireteam/melos-action@dd3c344d731938d2ab2567a261f54a19a68b5f6a
+      uses: bluefireteam/melos-action@be64ed744ff5651ee3e5355041cf2f1495eae87c
       with:
         melos-version: 3.0.1
     - continue-on-error: true
@@ -515,7 +515,7 @@ jobs:
         cache: true
         channel: stable
     - continue-on-error: true
-      uses: bluefireteam/melos-action@dd3c344d731938d2ab2567a261f54a19a68b5f6a
+      uses: bluefireteam/melos-action@be64ed744ff5651ee3e5355041cf2f1495eae87c
       with:
         melos-version: 3.0.1
     - continue-on-error: true
@@ -781,7 +781,7 @@ jobs:
       uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
     - continue-on-error: true
       name: Install Melos
-      uses: bluefireteam/melos-action@dd3c344d731938d2ab2567a261f54a19a68b5f6a
+      uses: bluefireteam/melos-action@be64ed744ff5651ee3e5355041cf2f1495eae87c
       with:
         melos-version: 3.0.1
         run-bootstrap: false
@@ -1042,7 +1042,7 @@ jobs:
         cache: true
         channel: stable
     - continue-on-error: true
-      uses: bluefireteam/melos-action@dd3c344d731938d2ab2567a261f54a19a68b5f6a
+      uses: bluefireteam/melos-action@be64ed744ff5651ee3e5355041cf2f1495eae87c
       with:
         melos-version: 3.0.1
     - continue-on-error: true
@@ -1334,7 +1334,7 @@ jobs:
         cache: true
         channel: stable
     - continue-on-error: true
-      uses: bluefireteam/melos-action@dd3c344d731938d2ab2567a261f54a19a68b5f6a
+      uses: bluefireteam/melos-action@be64ed744ff5651ee3e5355041cf2f1495eae87c
       with:
         melos-version: 3.0.1
     - continue-on-error: true
@@ -1595,7 +1595,7 @@ jobs:
         cache: true
         channel: stable
     - continue-on-error: true
-      uses: bluefireteam/melos-action@dd3c344d731938d2ab2567a261f54a19a68b5f6a
+      uses: bluefireteam/melos-action@be64ed744ff5651ee3e5355041cf2f1495eae87c
       with:
         melos-version: 3.0.1
     - continue-on-error: true
@@ -1855,7 +1855,7 @@ jobs:
         cache: true
         channel: stable
     - continue-on-error: true
-      uses: bluefireteam/melos-action@dd3c344d731938d2ab2567a261f54a19a68b5f6a
+      uses: bluefireteam/melos-action@be64ed744ff5651ee3e5355041cf2f1495eae87c
       with:
         melos-version: 3.0.1
     - continue-on-error: true
